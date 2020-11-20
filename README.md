@@ -1,30 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![Contentstack](https://camo.githubusercontent.com/d24f513afa94a4a762533d54a0f590300dbd0413/68747470733a2f2f7777772e636f6e74656e74737461636b2e636f6d2f646f63732f7374617469632f696d616765732f636f6e74656e74737461636b2e706e67)](https://www.contentstack.com/)
 
-## Getting Started
 
-First, run the development server:
+# Build Website using Next.js and Contentstack
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+About Contentstack: Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+About this project: Create a professional website using Next.js and Contentstack.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Learn More
+## Live Demo
 
-To learn more about Next.js, take a look at the following resources:
+You can check the [live demo](https://contentstack-nextjs-starter-app.vercel.app) to get first-hand experience of the website.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Tutorial
 
-## Deploy on Vercel
+We have created an in-depth tutorial on how you can create your application using Contentstack Javascript SDK. By following the steps given in the tutorial, you will be able to initialise and fetch entries from Contentstack though provided Javascript SDK.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[Build Website using Next.js and Contentstack](https://www.contentstack.com/docs/example-apps/build-a-website-using-next-js-and-contentstack)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Documentation
+
+Read Contentstack [docs](https://www.contentstack.com/docs/)
+
+Learn about [Next.js](https://learnnextjs.com/)
+
+
+
+
+
+
+
+
+
