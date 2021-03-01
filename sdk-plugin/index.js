@@ -45,12 +45,30 @@ export default {
         );
     });
   },
-  getSpecificEntry(ctUid, entryUrl, ref, locale) {
+  getSpecificEntryWithRef(ctUid, entryUrl, ref, locale) {
     return new Promise((resolve, reject) => {
       const blogQuery = Stack.ContentType(ctUid)
         .Query()
         .language(locale)
         .includeReference(ref)
+        .includeOwner()
+        .toJSON();
+      const data = blogQuery.where("url", `${entryUrl}`).find();
+      data.then(
+        (result) => {
+          resolve(result[0]);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    });
+  },
+  getSpecificEntry(ctUid, entryUrl, locale) {
+    return new Promise((resolve, reject) => {
+      const blogQuery = Stack.ContentType(ctUid)
+        .Query()
+        .language(locale)
         .includeOwner()
         .toJSON();
       const data = blogQuery.where("url", `${entryUrl}`).find();

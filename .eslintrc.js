@@ -20,10 +20,13 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    "react/prefer-stateless-function":[0, { "ignorePureComponents": true }],
+    "react/prop-types": [0],
     'func-names': ['error', 'never'],
     quotes: 'off',
     'prettier/prettier': 'off',
     'prop-types': 'off',
     'react/destructuring-assignment': 'off',
+    'eslint-disable-next-line jsx-a11y/anchor-is-valid':'off',
   },
 };

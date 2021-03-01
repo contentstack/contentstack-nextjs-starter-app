@@ -1,71 +1,25 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
-/* eslint-disable react/no-danger */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import Stack from "../sdk-plugin/index";
 import Layout from "../components/layout";
 
-class Contact extends React.Component {
-  render() {
-    console.log(this.props);
-    return (
-      <Layout
-        header={this.props.header}
-        footer={this.props.footer}
-        seo={this.props.result.seo}
-      >
-        <div className="contact-us">
-          <div className="max-width flex padding-both tall">
-            <div className="col-half">
-              <h2>{this.props.result.title}</h2>
-              {this.props.result.page_components.map((component) => {
-                if (component.rich_text) {
-                  return (
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: `${component.rich_text.rte}`,
-                      }}
-                    />
-                  );
-                }
-                if (component.contact_details) {
-                  return (
-                    <div className="address-block padding-bottom">
-                      <h3>Address</h3>
-                      <p>{component.contact_details.address}</p>
-                      <p className="phone">
-                        <a href="tel:Phone">
-                          {component.contact_details.phone}
-                        </a>
-                      </p>
-                      <p className="email">
-                        <a href="mailto:Email">
-                          {component.contact_details.email}
-                        </a>
-                      </p>
-                    </div>
-                  );
-                }
-              })}
-            </div>
-            <div className="col-half">
-              <div className="contact-form" />
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
+import RenderComponents from "../components/render-components";
+
+export default function Contact(props) {
+  const { header, footer, result } = props;
+  return (
+    <Layout header={header} footer={footer} seo={result.seo}>
+      {result.page_components && (
+        <RenderComponents pageComponents={result.page_components} />
+      )}
+    </Layout>
+  );
 }
-export default Contact;
 export async function getServerSideProps(context) {
   try {
-    const result = await Stack.getSpecificEntry(
+    const result = await Stack.getSpecificEntryWithRef(
       "page",
       context.resolvedUrl,
-      "related_pages",
+      ["page_components.from_blog.featured_blogs"],
       "en-us",
     );
     const header = await Stack.getEntryWithRef(
@@ -82,6 +36,7 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
+    console.error(error);
     return { notFound: true };
   }
 }

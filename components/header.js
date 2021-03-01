@@ -1,37 +1,49 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-lone-blocks */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for */
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import ReactHtmlParser from "react-html-parser";
 
-class Header extends React.Component {
-  render() {
-    console.log(this.props.header);
-    return (
-      <header>
-        <div className="max-width">
-          <div className="wrapper-logo">
-            <a href="/" title="Contentstack">
-              <img
-                className="logo"
-                src={this.props.header.logo.url}
-                alt={this.props.header.logo.filename}
-              />
-            </a>
-          </div>
-          <nav>
-            <ul>
-              {this.props.header.navigation_menu.map(list => (
-                <li key={list.label}>
-                  <Link href={list.page_reference[0].url}>{list.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+export default function Header(props) {
+  const { header } = props;
+  const router = useRouter();
+  return (
+    <header className="header">
+      {header.notification_bar.show_announcement ? (
+        <div className="note-div">
+          {ReactHtmlParser(header.notification_bar.announcement_text)}
         </div>
-      </header>
-    );
-  }
+      ) : (
+        ""
+      )}
+      <div className="max-width header-div">
+        <div className="wrapper-logo">
+          <Link href="/" className="logo-tag" title="Contentstack">
+            <img
+              className="logo"
+              src={header.logo.url}
+              alt="Contentstack logo"
+            />
+          </Link>
+        </div>
+        <input className="menu-btn" type="checkbox" id="menu-btn" />
+        <label className="menu-icon" htmlFor="menu-btn">
+          <span className="navicon" />
+        </label>
+        <nav className="menu">
+          <ul className="nav-ul header-ul">
+            {header.navigation_menu?.map(list => (
+              <li key={list.label} className="nav-li">
+                <Link href={list.page_reference[0].url}>
+                  <a className={router.pathname === list.page_reference[0].url ? "active" : ""}>{list.label}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+  );
 }
-export default Header;

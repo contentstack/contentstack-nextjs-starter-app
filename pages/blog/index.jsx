@@ -1,85 +1,92 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable one-var */
+/* eslint-disable prefer-const */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-// import Img from "next/image";
+
+import moment from "moment";
+import Link from "next/link";
+
+import ReactHtmlParser from "react-html-parser";
 import Stack from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
-import Banner from "../../components/banner";
 
-function dateSetter(params) {
-  const date = new Date(params);
-  const yy = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
-  const mm = new Intl.DateTimeFormat("en", { month: "short" }).format(date);
-  const dd = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(date);
-  return `${mm}-${dd}-${yy}`;
-}
+import RenderComponents from "../../components/render-components";
+import ArchiveRelative from "../../components/archive-relative";
 
-class Blog extends React.Component {
-  render() {
-    console.log(this.props);
-    return (
-      <Layout
-        header={this.props.header}
-        footer={this.props.footer}
-        seo={this.props.blog.seo}
-      >
-        <Banner
-          title={this.props.blog.title}
-          hero_banner={this.props.blog.page_components[0].hero_banner}
-          short
-        />
-        <div className="max-width blog-roll padding-top">
-          {this.props.blogList.map(post => (
-            <a
-              className="blog-entry padding-bottom"
-              href={`/blog${post.url}`}
-              key={post.title}
-            >
-              <div className="thumb">
-                <img
-                  src="https://via.placeholder.com/200x140"
-                  alt="Blog Title"
-                />
-                {/* <Img src="https://via.placeholder.com/200x140" alt="Blog Title" /> */}
-              </div>
-              <div className="content">
-                <div className="inner">
-                  <h3>{post.title}</h3>
-                  <cite>
-                    <span className="date">{dateSetter(post.date)}</span>
-                    <span className="author">{post.author[0].title}</span>
-                  </cite>
-                  <div
-                    className="description"
-                    dangerouslySetInnerHTML={{
-                      __html: `${post.body.slice(0, 180)}....`,
-                    }}
+export default function Blog(props) {
+  const {
+    archived, blog, blogList, header, footer,
+  } = props;
+  return (
+    <Layout header={header} footer={footer} seo={blog.seo}>
+      {blog.page_components && (
+        <RenderComponents pageComponents={blog.page_components} blogsPage />
+      )}
+
+      <div className="blog-container">
+        <div className="blog-column-left">
+          {blogList?.map((bloglist, index) => (
+            <div className="blog-list" key={index}>
+              {bloglist.featured_image && (
+              <Link href={bloglist.url}>
+                <a>
+                  <img
+                    alt="blog img"
+                    className="blog-list-img"
+                    src={bloglist.featured_image.url}
                   />
-                  <p className="cta">Read More</p>
-                </div>
+                </a>
+              </Link>
+              )}
+              <div className="blog-content">
+                {bloglist.title && (
+                <Link href={bloglist.url}>
+                  <h3>{bloglist.title}</h3>
+                </Link>
+                )}
+                <p>
+                  {moment(bloglist.date).format("ddd, MMM D YYYY")}
+                  ,
+                  {" "}
+                  <strong>{bloglist.author[0].title}</strong>
+                </p>
+                {bloglist.body
+                    && ReactHtmlParser(bloglist.body.slice(0, 300))}
+                {bloglist.url ? (
+                  <Link href={bloglist.url}>
+                    <a>
+                      <span>{"Read more -->"}</span>
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </div>
-            </a>
+            </div>
           ))}
         </div>
-      </Layout>
-    );
-  }
+        <div className="blog-column-right">
+          {blog.page_components[1].widget && (
+            <h2>
+              {blog.page_components[1].widget.title_h2}
+              {' '}
+            </h2>
+          )}
+          <ArchiveRelative blogs={archived} />
+        </div>
+      </div>
+    </Layout>
+  );
 }
 
-export default Blog;
 export async function getServerSideProps(context) {
-  console.log(context);
   try {
     const blog = await Stack.getSpecificEntry(
       "page",
       context.resolvedUrl,
-      "related_pages",
       "en-us",
     );
-    const blogList = await Stack.getEntryWithRef(
+    const result = await Stack.getEntryWithRef(
       "blog_post",
       ["author", "related_post"],
       "en-us",
@@ -90,15 +97,26 @@ export async function getServerSideProps(context) {
       "en-us",
     );
     const footer = await Stack.getEntry("footer", "en-us");
+    let archived = [],
+      blogList = [];
+    result[0].forEach((blogs) => {
+      if (blogs.is_archived) {
+        archived.push(blogs);
+      } else {
+        blogList.push(blogs);
+      }
+    });
     return {
       props: {
         header: header[0][0],
         footer: footer[0][0],
         blog: blog[0],
-        blogList: blogList[0],
+        blogList,
+        archived,
       },
     };
   } catch (error) {
+    console.error(error);
     return { notFound: true };
   }
 }

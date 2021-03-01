@@ -1,56 +1,24 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
-/* eslint-disable max-len */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable no-console */
 import React from "react";
 import Stack from "../sdk-plugin/index";
 import Layout from "../components/layout";
-import Banner from "../components/banner";
-import Section from "../components/section";
+import RenderComponents from "../components/render-components";
 
-class About extends React.Component {
-  render() {
-    console.log(this.props);
-    return (
-      <Layout
-        header={this.props.header}
-        footer={this.props.footer}
-        seo={this.props.result.seo}
-      >
-        {this.props.result.page_components.map((component) => {
-          if (component.hero_banner) {
-            return (
-              <Banner
-                hero_banner={component.hero_banner}
-                title={this.props.result.title}
-                short
-              />
-            );
-          } if (component.section) {
-            return (
-              <Section
-                section={component.section}
-                relatedPages={this.props.result.related_pages}
-              />
-            );
-          }
-        })}
-
-
-      </Layout>
-    );
-  }
+export default function About(props) {
+  const { header, footer, result } = props;
+  return (
+    <Layout header={header} footer={footer} seo={result.seo}>
+      {result.page_components && (
+        <RenderComponents pageComponents={result.page_components} about />
+      )}
+    </Layout>
+  );
 }
-export default About;
 
 export async function getServerSideProps(context) {
   try {
     const result = await Stack.getSpecificEntry(
       "page",
       context.resolvedUrl,
-      "related_pages",
       "en-us",
     );
     const header = await Stack.getEntryWithRef(
@@ -67,6 +35,7 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
+    console.error(error);
     return { notFound: true };
   }
 }

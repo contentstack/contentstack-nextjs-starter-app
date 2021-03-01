@@ -1,8 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
 import React from "react";
 import Head from "next/head";
 import Header from "./header";
@@ -15,7 +11,11 @@ class Layout extends React.Component {
       for (const key in seo) {
         if (key !== "enable_search_indexing") {
           metaArr.push(
-            <meta name={key.includes("meta_") ? key.split("meta_")[1] : key} content={seo[key]} key={key} />,
+            <meta
+              name={key.includes("meta_") ? key.split("meta_")[1] : key}
+              content={seo[key]}
+              key={key}
+            />,
           );
         }
       }
@@ -31,10 +31,12 @@ class Layout extends React.Component {
             crossOrigin="anonymous"
           />
           <title>Contentstack-Starter-App</title>
-          {this.props.seo && this.props.seo.enable_search_indexing ? metaData(this.props.seo) : null}
+          {this.props.seo && this.props.seo.enable_search_indexing
+            ? metaData(this.props.seo)
+            : null}
         </Head>
         {this.props.header ? <Header header={this.props.header} /> : ""}
-        <main>{this.props.children}</main>
+        <main className="mainClass">{this.props.children}</main>
         {this.props.footer ? <Footer footer={this.props.footer} /> : ""}
       </>
     );

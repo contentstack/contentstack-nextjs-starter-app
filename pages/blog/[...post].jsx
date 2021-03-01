@@ -1,79 +1,52 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable no-unreachable */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import moment from "moment";
+import ReactHtmlParser from "react-html-parser";
 import Stack from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
-import RelatedLinks from "../../components/relatedLinks";
 
-function dateSetter(params) {
-  const date = new Date(params);
-  const yy = new Intl.DateTimeFormat("en", { year: "numeric" }).format(date);
-  const mm = new Intl.DateTimeFormat("en", { month: "short" }).format(date);
-  const dd = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(date);
-  return `${mm}-${dd}-${yy}`;
-}
+import RenderComponents from "../../components/render-components";
+import ArchiveRelative from "../../components/archive-relative";
 
-class BlogPost extends React.Component {
-  render() {
-    console.log(this.props);
-    return (
-      <Layout
-        header={this.props.header}
-        footer={this.props.footer}
-        seo={this.props.result.seo}
-      >
-        <div className="blog-post">
-          <div className="max-width flex padding-both tall">
-            <div className="col-quarter">
-              <div className="page-thumb padding-bottom">
-                <img
-                  src="https://via.placeholder.com/200x140"
-                  alt="Blog Title"
-                />
-              </div>
-            </div>
-            <div className="col-half">
-              <h2>{this.props.result.title}</h2>
-              <p className="blog-meta">
-                <span className="date">
-                  {dateSetter(this.props.result.date)}
-                </span>
-                <span className="author">
-                  {this.props.result.author[0].title}
-                </span>
-              </p>
-              <div
-                className="blog-content"
-                dangerouslySetInnerHTML={{
-                  __html: `${this.props.result.body}`,
-                }}
-              />
-            </div>
-            <div className="col-quarter">
-              <div className="padding-left">
-                {this.props.result.related_post ? (
-                  <RelatedLinks relatedPages={this.props.result.related_post} />
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
+export default function BlogPost(props) {
+  const {
+    header, banner, footer, result,
+  } = props;
+  return (
+    <Layout header={header} footer={footer} seo={result.seo}>
+      {banner.page_components && (
+        <RenderComponents pageComponents={banner.page_components} blogsPage />
+      )}
+      <div className="blog-container">
+        <div className="blog-detail">
+          <h2>{result.title ? result.title : ""}</h2>
+          <p>
+            {moment(result.date).format("ddd, MMM D YYYY")}
+            ,
+            {" "}
+            <strong>{result.author[0].title}</strong>
+          </p>
+          {ReactHtmlParser(result.body)}
+        </div>
+        <div className="blog-column-right">
+          <div className="related-post">
+            {banner.page_components[2].widget && (
+              <h2>{banner.page_components[2].widget.title_h2}</h2>
+            )}
+            {result.related_post && (
+              <ArchiveRelative blogs={result.related_post} />
+            )}
           </div>
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
-export default BlogPost;
 export async function getServerSideProps(context) {
-  console.log(context, context.resolvedUrl.split("/blog")[1]);
   try {
-    const blog = await Stack.getSpecificEntry(
+    const banner = await Stack.getSpecificEntry("page", "/blog", "en-us");
+    const blog = await Stack.getSpecificEntryWithRef(
       "blog_post",
-      context.resolvedUrl.split("/blog")[1],
+      context.resolvedUrl,
       ["author", "related_post"],
       "en-us",
     );
@@ -88,9 +61,11 @@ export async function getServerSideProps(context) {
         header: header[0][0],
         footer: footer[0][0],
         result: blog[0],
+        banner: banner[0],
       },
     };
   } catch (error) {
+    console.error(error);
     return { notFound: true };
   }
 }
