@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React from "react";
 
 import Section from "./section";
@@ -7,10 +8,11 @@ import CardSection from "./card-section";
 import TeamSection from "./team-section";
 import BlogSection from "./blog-section";
 import SectionBucket from "./section-bucket";
+import AboutSectionBucket from "./about-section-bucket";
 import SectionWithEmbedObject from "./section-with-embed-object";
 
 export default function RenderComponents(props) {
-  const { pageComponents, blogsPage } = props;
+  const { pageComponents, blogsPage, about } = props;
   return (
     <>
       {pageComponents?.map((component, key) => {
@@ -23,7 +25,7 @@ export default function RenderComponents(props) {
           ) : (
             <HeroBanner
               hero_banner={component.hero_banner}
-              title={props.about ? "about" : "home"}
+              title={about ? "about" : "home"}
               key={`component-${key}`}
             />
           );
@@ -34,7 +36,12 @@ export default function RenderComponents(props) {
           );
         }
         if (component.section_with_buckets) {
-          return (
+          return about ? (
+            <AboutSectionBucket
+              sectionWithBuckets={component.section_with_buckets}
+              key={`component-${key}`}
+            />
+          ) : (
             <SectionBucket
               section={component.section_with_buckets}
               key={`component-${key}`}
@@ -46,7 +53,7 @@ export default function RenderComponents(props) {
             <BlogSection blogs={component.from_blog} key={`component-${key}`} />
           );
         }
-        if (component["section_with_cards"]) {
+        if (component.section_with_cards) {
           return (
             <CardSection
               cards={component.section_with_cards.cards}
@@ -54,7 +61,7 @@ export default function RenderComponents(props) {
             />
           );
         }
-        if (component["section_with_embed_object"]) {
+        if (component.section_with_embed_object) {
           return (
             <SectionWithEmbedObject
               embedObject={component.section_with_embed_object}
@@ -62,18 +69,10 @@ export default function RenderComponents(props) {
             />
           );
         }
-        if (component["our_team"]) {
+        if (component.our_team) {
           return (
             <TeamSection
               ourTeam={component.our_team}
-              key={`component-${key}`}
-            />
-          );
-        }
-        if (component["section_with_buckets"]) {
-          return (
-            <AboutSectionBucket
-              sectionWithBuckets={component.section_with_buckets}
               key={`component-${key}`}
             />
           );
