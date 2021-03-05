@@ -75,7 +75,6 @@ nav ul li a {
 
 header {
   background: #fff;
-  height: 100px;
   position: sticky;
   top: 0;
   z-index: 9;
@@ -100,7 +99,9 @@ header nav {
   flex: 1 1 100%;
   text-align: right;
 }
-
+.header-div{
+  height: 70px;
+}
 .header-ul {
   overflow: hidden;
 }
@@ -620,6 +621,13 @@ footer a {
 /* ========================== */
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .header{
+    height: 70px;
+    background-color: #fff;
+  }
+  .header-div{
+    height: auto;
+  }
   .footer-div {
     flex-direction: column;
   }

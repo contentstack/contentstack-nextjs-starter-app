@@ -12,8 +12,8 @@ export default function Footer(props) {
           <Link href="/" className="logo-tag">
             <img
               src={footer.logo.url}
-              alt="contentstack logo"
-              title="contentstack"
+              alt={footer.title}
+              title={footer.title}
               className="logo footer-logo"
             />
           </Link>
@@ -37,7 +37,7 @@ export default function Footer(props) {
                 title={social.link.title}
                 key={social.link.title}
               >
-                <img src={social.icon.url} />
+                {social.icon && <img src={social.icon.url} alt={social.link.title} />}
               </a>
             ))}
           </div>

@@ -24,7 +24,8 @@ export default function Header(props) {
             <img
               className="logo"
               src={header.logo.url}
-              alt="Contentstack logo"
+              alt={header.title}
+              title={header.title}
             />
           </Link>
         </div>
