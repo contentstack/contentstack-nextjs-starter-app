@@ -4,10 +4,7 @@ const Stack = contentstack.Stack({
   api_key: process.env.API_KEY,
   delivery_token: process.env.DELIVERY_TOKEN,
   environment: process.env.ENVIRONMENT,
-  region:
-    process.env.CONTENTSTACK_REGION !== "us"
-      ? process.env.CONTENTSTACK_REGION
-      : "us",
+  region: process.env.REGION ? process.env.REGION : "us",
 });
 
 if (process.env.CUSTOM_HOST) {
@@ -29,7 +26,7 @@ export default {
           },
           (error) => {
             reject(error);
-          },
+          }
         );
     });
   },
@@ -46,7 +43,7 @@ export default {
           },
           (error) => {
             reject(error);
-          },
+          }
         );
     });
   },
@@ -65,7 +62,7 @@ export default {
         },
         (error) => {
           reject(error);
-        },
+        }
       );
     });
   },
@@ -83,7 +80,7 @@ export default {
         },
         (error) => {
           reject(error);
-        },
+        }
       );
     });
   },
