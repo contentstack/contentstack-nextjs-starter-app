@@ -26,7 +26,7 @@ export default {
           },
           (error) => {
             reject(error);
-          }
+          },
         );
     });
   },
@@ -43,7 +43,7 @@ export default {
           },
           (error) => {
             reject(error);
-          }
+          },
         );
     });
   },
@@ -62,7 +62,7 @@ export default {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   },
@@ -80,7 +80,7 @@ export default {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   },
