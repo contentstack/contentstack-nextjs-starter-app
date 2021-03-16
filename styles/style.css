@@ -99,9 +99,11 @@ header nav {
   flex: 1 1 100%;
   text-align: right;
 }
-.header-div{
+
+.header-div {
   height: 70px;
 }
+
 .header-ul {
   overflow: hidden;
 }
@@ -450,6 +452,8 @@ footer a {
 }
 
 .mission-icon {
+  height: 50px;
+  margin-top: 12px;
   display: inline-block;
   padding-right: 32px;
 }
@@ -621,11 +625,11 @@ footer a {
 /* ========================== */
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
-  .header{
+  .header {
     height: 70px;
     background-color: #fff;
   }
-  .header-div{
+  .header-div {
     height: auto;
   }
   .footer-div {
@@ -735,7 +739,7 @@ footer a {
   nav ul li {
     padding: 15px 0;
   }
-  h1 h2 h3{
+  h1 h2 h3 {
     font-weight: bold;
     letter-spacing: 0.1px;
   }
@@ -846,6 +850,11 @@ footer a {
     text-align: left;
     flex-wrap: wrap;
   }
+
+  .content-section{
+    margin: 12px;
+  }
+
   .featured-blog>img {
     width: 100%;
   }
