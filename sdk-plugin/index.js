@@ -11,12 +11,11 @@ if (process.env.CUSTOM_HOST) {
   Stack.setHost(process.env.CUSTOM_HOST);
 }
 export default {
-  getEntryWithRef(ctUid, ref, locale) {
+  getEntry(contentTypeUid, referenceFieldPath) {
     return new Promise((resolve, reject) => {
-      Stack.ContentType(ctUid)
-        .Query()
-        .language(locale)
-        .includeReference(ref)
+      const query = Stack.ContentType(contentTypeUid).Query();
+      if (referenceFieldPath) query.includeReference(referenceFieldPath);
+      query
         .includeOwner()
         .toJSON()
         .find()
@@ -30,49 +29,11 @@ export default {
         );
     });
   },
-  getEntry(ctUid, locale) {
+  getEntryByUrl(contentTypeUid, entryUrl, referenceFieldPath) {
     return new Promise((resolve, reject) => {
-      Stack.ContentType(ctUid)
-        .Query()
-        .language(locale)
-        .toJSON()
-        .find()
-        .then(
-          (result) => {
-            resolve(result);
-          },
-          (error) => {
-            reject(error);
-          },
-        );
-    });
-  },
-  getSpecificEntryWithRef(ctUid, entryUrl, ref, locale) {
-    return new Promise((resolve, reject) => {
-      const blogQuery = Stack.ContentType(ctUid)
-        .Query()
-        .language(locale)
-        .includeReference(ref)
-        .includeOwner()
-        .toJSON();
-      const data = blogQuery.where("url", `${entryUrl}`).find();
-      data.then(
-        (result) => {
-          resolve(result[0]);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-    });
-  },
-  getSpecificEntry(ctUid, entryUrl, locale) {
-    return new Promise((resolve, reject) => {
-      const blogQuery = Stack.ContentType(ctUid)
-        .Query()
-        .language(locale)
-        .includeOwner()
-        .toJSON();
+      const blogQuery = Stack.ContentType(contentTypeUid).Query();
+      if (referenceFieldPath) blogQuery.includeReference(referenceFieldPath);
+      blogQuery.includeOwner().toJSON();
       const data = blogQuery.where("url", `${entryUrl}`).find();
       data.then(
         (result) => {

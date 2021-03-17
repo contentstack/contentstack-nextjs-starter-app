@@ -16,17 +16,15 @@ export default function About(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const result = await Stack.getSpecificEntry(
+    const result = await Stack.getEntryByUrl(
       "page",
       context.resolvedUrl,
-      "en-us",
     );
-    const header = await Stack.getEntryWithRef(
+    const header = await Stack.getEntry(
       "header",
       "navigation_menu.page_reference",
-      "en-us",
     );
-    const footer = await Stack.getEntry("footer", "en-us");
+    const footer = await Stack.getEntry("footer");
     return {
       props: {
         header: header[0][0],

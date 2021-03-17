@@ -43,19 +43,17 @@ export default function BlogPost(props) {
 }
 export async function getServerSideProps(context) {
   try {
-    const banner = await Stack.getSpecificEntry("page", "/blog", "en-us");
-    const blog = await Stack.getSpecificEntryWithRef(
+    const banner = await Stack.getEntryByUrl("page", "/blog");
+    const blog = await Stack.getEntryByUrl(
       "blog_post",
       context.resolvedUrl,
       ["author", "related_post"],
-      "en-us",
     );
-    const header = await Stack.getEntryWithRef(
+    const header = await Stack.getEntry(
       "header",
       "navigation_menu.page_reference",
-      "en-us",
     );
-    const footer = await Stack.getEntry("footer", "en-us");
+    const footer = await Stack.getEntry("footer");
     return {
       props: {
         header: header[0][0],

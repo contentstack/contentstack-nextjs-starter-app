@@ -28,21 +28,21 @@ export default function Blog(props) {
           {blogList?.map((bloglist, index) => (
             <div className="blog-list" key={index}>
               {bloglist.featured_image && (
-              <Link href={bloglist.url}>
-                <a>
-                  <img
-                    alt="blog img"
-                    className="blog-list-img"
-                    src={bloglist.featured_image.url}
-                  />
-                </a>
-              </Link>
+                <Link href={bloglist.url}>
+                  <a>
+                    <img
+                      alt="blog img"
+                      className="blog-list-img"
+                      src={bloglist.featured_image.url}
+                    />
+                  </a>
+                </Link>
               )}
               <div className="blog-content">
                 {bloglist.title && (
-                <Link href={bloglist.url}>
-                  <h3>{bloglist.title}</h3>
-                </Link>
+                  <Link href={bloglist.url}>
+                    <h3>{bloglist.title}</h3>
+                  </Link>
                 )}
                 <p>
                   {moment(bloglist.date).format("ddd, MMM D YYYY")}
@@ -50,8 +50,7 @@ export default function Blog(props) {
                   {" "}
                   <strong>{bloglist.author[0].title}</strong>
                 </p>
-                {bloglist.body
-                    && ReactHtmlParser(bloglist.body.slice(0, 300))}
+                {bloglist.body && ReactHtmlParser(bloglist.body.slice(0, 300))}
                 {bloglist.url ? (
                   <Link href={bloglist.url}>
                     <a>
@@ -81,22 +80,19 @@ export default function Blog(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const blog = await Stack.getSpecificEntry(
+    const blog = await Stack.getEntryByUrl(
       "page",
       context.resolvedUrl,
-      "en-us",
     );
-    const result = await Stack.getEntryWithRef(
+    const result = await Stack.getEntry(
       "blog_post",
       ["author", "related_post"],
-      "en-us",
     );
-    const header = await Stack.getEntryWithRef(
+    const header = await Stack.getEntry(
       "header",
       "navigation_menu.page_reference",
-      "en-us",
     );
-    const footer = await Stack.getEntry("footer", "en-us");
+    const footer = await Stack.getEntry("footer");
     let archived = [],
       blogList = [];
     result[0].forEach((blogs) => {
