@@ -11,6 +11,13 @@ if (process.env.CUSTOM_HOST) {
   Stack.setHost(process.env.CUSTOM_HOST);
 }
 export default {
+  /**
+   *
+   * fetches all the entries from specific content-type
+   * @param {* content-type uid} contentTypeUid
+   * @param {* reference field name} referenceFieldPath
+   *
+   */
   getEntry(contentTypeUid, referenceFieldPath) {
     return new Promise((resolve, reject) => {
       const query = Stack.ContentType(contentTypeUid).Query();
@@ -29,6 +36,15 @@ export default {
         );
     });
   },
+
+  /**
+   *fetches specific entry from a content-type
+   *
+   * @param {* content-type uid} contentTypeUid
+   * @param {* url for entry to be fetched} entryUrl
+   * @param {* reference field name} referenceFieldPath
+   * @returns
+   */
   getEntryByUrl(contentTypeUid, entryUrl, referenceFieldPath) {
     return new Promise((resolve, reject) => {
       const blogQuery = Stack.ContentType(contentTypeUid).Query();
