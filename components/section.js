@@ -5,9 +5,9 @@ import Link from "next/link";
 class Section extends React.Component {
   render() {
     const { section } = this.props;
-    function contentSection() {
+    function contentSection(key) {
       return (
-        <div className="home-content">
+        <div className="home-content" key={key}>
           {section.title_h2 && <h2>{section.title_h2}</h2>}
           {section.description && <p>{section.description}</p>}
           {section.call_to_action.title
@@ -24,16 +24,16 @@ class Section extends React.Component {
       );
     }
 
-    function imageContent() {
+    function imageContent(key) {
       return (
-        <img src={section.image.url} alt={section.image.filename} />
+        <img src={section.image.url} alt={section.image.filename} key={key} />
       );
     }
     return (
       <div className="home-advisor-section">
         {section.image_alignment === "Left"
-          ? [imageContent(), contentSection()]
-          : [contentSection(), imageContent()]}
+          ? [imageContent("key-image"), contentSection("key-contentstection")]
+          : [contentSection("key-contentstection"), imageContent("key-image")]}
       </div>
     );
   }

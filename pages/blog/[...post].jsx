@@ -41,19 +41,20 @@ export default function BlogPost(props) {
     </Layout>
   );
 }
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ params }) {
+  // console.log(context.params);
+  // console.log(context.req.fullPath);
   try {
     const banner = await Stack.getEntryByUrl("page", "/blog");
-    const blog = await Stack.getEntryByUrl(
-      "blog_post",
-      context.resolvedUrl,
-      ["author", "related_post"],
-    );
     const header = await Stack.getEntry(
       "header",
       "navigation_menu.page_reference",
     );
     const footer = await Stack.getEntry("footer");
+    const blog = await Stack.getEntryByUrl("blog_post", `/blog/${params.post}`, [
+      "author",
+      "related_post",
+    ]);
     return {
       props: {
         header: header[0][0],
@@ -63,7 +64,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.error(error);
     return { notFound: true };
   }
 }
