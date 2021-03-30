@@ -42,7 +42,6 @@ export default function BlogPost(props) {
   );
 }
 export async function getServerSideProps({ params }) {
-
   try {
     const banner = await Stack.getEntryByUrl("page", "/blog");
     const header = await Stack.getEntry(

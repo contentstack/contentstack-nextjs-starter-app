@@ -24,13 +24,25 @@ class Layout extends React.Component {
     return (
       <>
         <Head>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
+            href="https://fonts.googleapis.com/css?family=Inter&amp;display=swap"
             rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-            crossOrigin="anonymous"
           />
-          <title>Contentstack-Starter-App</title>
+          <meta
+            name="application-name"
+            content="Contentstack-Nextjs-Starter-App"
+          />
+          <meta charset="utf-8" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,minimum-scale=1"
+          />
+          <link rel="manifest" href="/manifest.json" />
+          <link href="/favicon.ico" rel="icon" type="image/ico" sizes="16x16" />
+          <meta name="theme-color" content="#317EFB" />
+          <title>Contentstack-Nextjs-Starter-App</title>
           {this.props.seo && this.props.seo.enable_search_indexing
             ? metaData(this.props.seo)
             : null}

@@ -15,7 +15,7 @@ export default function TeamSection(props) {
             <img alt={employee.image.filename} src={employee.image.url} />
             )}
             <div className="team-details">
-              {employee.name && <h4>{employee.name}</h4>}
+              {employee.name && <h3>{employee.name}</h3>}
               {employee.designation && <p>{employee.designation}</p>}
             </div>
           </div>
