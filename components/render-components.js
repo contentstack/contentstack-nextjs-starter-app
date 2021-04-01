@@ -9,7 +9,7 @@ import TeamSection from "./team-section";
 import BlogSection from "./blog-section";
 import SectionBucket from "./section-bucket";
 import AboutSectionBucket from "./about-section-bucket";
-import SectionWithEmbedObject from "./section-with-embed-object";
+import SectionWithHtmlCode from "./section-with-html-code";
 
 export default function RenderComponents(props) {
   const { pageComponents, blogsPage, about } = props;
@@ -61,10 +61,10 @@ export default function RenderComponents(props) {
             />
           );
         }
-        if (component.section_with_embed_object) {
+        if (component.section_with_html_code) {
           return (
-            <SectionWithEmbedObject
-              embedObject={component.section_with_embed_object}
+            <SectionWithHtmlCode
+              embedCode={component.section_with_html_code}
               key={`component-${key}`}
             />
           );
