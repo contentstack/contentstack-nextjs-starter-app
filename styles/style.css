@@ -261,6 +261,7 @@ footer a {
 
 .blog-content {
   width: 60%;
+  padding: 15px;
 }
 
 .blog-column-left .blog-content a {
@@ -271,10 +272,6 @@ footer a {
 
 .blog-detail {
   width: 690px;
-}
-
-.blog-content {
-  padding: 15px;
 }
 
 /* home page */
