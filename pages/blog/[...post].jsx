@@ -17,7 +17,7 @@ export default function BlogPost(props) {
         <RenderComponents
           pageComponents={banner.page_components}
           blogsPage
-          contentTypeUid="page"
+          contentTypeUid="blog_post"
           entryUid={result.uid}
           locale={result.locale}
         />
