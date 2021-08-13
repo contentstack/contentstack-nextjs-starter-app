@@ -11,7 +11,7 @@
   "dependencies": {
     "contentstack": "^3.11.0",
     "moment": "^2.29.1",
-    "next": "10.0.0",
+    "next": "11.1.0",
     "next-pwa": "^5.0.6",
     "nprogress": "^0.2.0",
     "react": "17.0.1",
