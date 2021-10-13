@@ -7,7 +7,7 @@ import React from "react";
 import moment from "moment";
 import Link from "next/link";
 
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 import Stack from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
 
@@ -19,7 +19,7 @@ export default function Blog(props) {
     archived, blog, blogList, header, footer,
   } = props;
   return (
-    <Layout header={header} footer={footer} seo={blog.seo}>
+    <Layout header={header} footer={footer} page={blog} blogpost={blogList}>
       {blog.page_components && (
         <RenderComponents
           pageComponents={blog.page_components}
@@ -57,7 +57,7 @@ export default function Blog(props) {
                   {" "}
                   <strong>{bloglist.author[0].title}</strong>
                 </p>
-                {bloglist.body && ReactHtmlParser(bloglist.body.slice(0, 300))}
+                {bloglist.body && parse(bloglist.body.slice(0, 300))}
                 {bloglist.url ? (
                   <Link href={bloglist.url}>
                     <a>

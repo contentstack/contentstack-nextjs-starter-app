@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 import Stack from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
 
@@ -12,7 +12,7 @@ export default function BlogPost(props) {
     header, banner, footer, result,
   } = props;
   return (
-    <Layout header={header} footer={footer} seo={result.seo}>
+    <Layout header={header} footer={footer} page={banner} blogpost={result}>
       {banner.page_components && (
         <RenderComponents
           pageComponents={banner.page_components}
@@ -31,7 +31,7 @@ export default function BlogPost(props) {
             {" "}
             <strong>{result.author[0].title}</strong>
           </p>
-          {ReactHtmlParser(result.body)}
+          {parse(result.body)}
         </div>
         <div className="blog-column-right">
           <div className="related-post">

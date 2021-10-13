@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 import React from "react";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 export default function AboutSectionBucket(props) {
   const { sectionWithBuckets } = props;
@@ -13,7 +12,7 @@ export default function AboutSectionBucket(props) {
 
         <div className="mission-section-content">
           {bucket.title_h3 && <h3>{bucket.title_h3}</h3>}
-          {bucket.description && ReactHtmlParser(bucket.description)}
+          {bucket.description && parse(bucket.description)}
         </div>
       </div>
     );

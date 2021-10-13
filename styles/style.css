@@ -104,6 +104,14 @@ header nav {
   height: 70px;
 }
 
+.devtools {
+  float: right;
+  position: relative;
+  bottom: 23px;
+  right: 2%;
+  cursor: pointer;
+}
+
 .header-ul {
   overflow: hidden;
 }
@@ -188,10 +196,13 @@ footer a {
 .primary-btn {
   background: #715cdd;
   color: #fff;
+  cursor: pointer;
 }
 
 .primary-btn:hover {
-  cursor: pointer;
+  background: #715cdd;
+  color: #fff;
+  font-weight: 600;
 }
 
 .secondary-btn {
@@ -847,11 +858,9 @@ footer a {
     text-align: left;
     flex-wrap: wrap;
   }
-
-  .content-section{
+  .content-section {
     margin: 12px;
   }
-
   .featured-blog>img {
     width: 100%;
   }
