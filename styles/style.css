@@ -5,7 +5,7 @@ body {
   line-height: 22px;
 }
 
-h1, h2, h3 {
+h1, h2, h3 h4 {
   font-weight: bold;
   letter-spacing: 0.2px;
 }
@@ -20,7 +20,7 @@ body h2 {
   line-height: 34px;
 }
 
-body h3 {
+body h3, h4 {
   font-size: 18px;
   line-height: 24px;
 }
@@ -109,7 +109,6 @@ header nav {
   position: relative;
   bottom: 23px;
   right: 2%;
-  cursor: pointer;
 }
 
 .header-ul {
@@ -747,7 +746,7 @@ footer a {
   nav ul li {
     padding: 15px 0;
   }
-  h1 h2 h3 {
+  h1 h2 h3 h4 {
     font-weight: bold;
     letter-spacing: 0.1px;
   }
@@ -979,7 +978,7 @@ footer a {
     line-height: 24px;
     letter-spacing: 0.1px;
   }
-  body h3 {
+  body h3,body h4 {
     font-weight: bold;
     font-size: 14px;
     line-height: 24px;
