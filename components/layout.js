@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React from "react";
 import Head from "next/head";
 import Header from "./header";
@@ -11,8 +12,8 @@ class Layout extends React.Component {
     } = this.props;
 
     const jsonObj = { header, footer };
-    jsonObj.page = page || null;
-    jsonObj.blog_post = blogpost || null;
+    page && (jsonObj.page = page);
+    blogpost && (jsonObj.blog_post = blogpost);
 
     function metaData(seo) {
       const metaArr = [];

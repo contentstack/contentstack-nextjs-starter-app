@@ -33,15 +33,6 @@ const DevTools = ({ response }) => (
             </pre>
           ) : ''}
         </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn primary-btn"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-        </div>
       </div>
     </div>
   </div>

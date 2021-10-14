@@ -18,8 +18,9 @@ export default function Blog(props) {
   const {
     archived, blog, blogList, header, footer,
   } = props;
+  const list = blogList.concat(archived);
   return (
-    <Layout header={header} footer={footer} page={blog} blogpost={blogList}>
+    <Layout header={header} footer={footer} page={blog} blogpost={list}>
       {blog.page_components && (
         <RenderComponents
           pageComponents={blog.page_components}
