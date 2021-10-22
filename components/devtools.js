@@ -29,7 +29,7 @@ const DevTools = ({ response }) => (
         <div className="modal-body">
           {response ? (
             <pre id="jsonViewer">
-              {response && <DynamicReactJson src={response} collapsed />}
+              {response && <DynamicReactJson src={response} collapsed name="response" enableClipboard={false} />}
             </pre>
           ) : ''}
         </div>

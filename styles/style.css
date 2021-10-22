@@ -109,6 +109,7 @@ header nav {
   position: relative;
   bottom: 23px;
   right: 2%;
+  cursor: pointer;
 }
 
 .header-ul {
