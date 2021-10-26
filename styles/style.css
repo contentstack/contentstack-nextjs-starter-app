@@ -210,10 +210,19 @@ footer a {
   color: #715cdd;
 }
 
+.secondary-btn:hover{
+  color: #715cdd;
+  font-weight: bold;
+}
+
 .tertiary-btn {
   background: #ffffff;
   color: #715cdd;
   font-weight: bold;
+}
+
+.tertiary-btn:hover{
+  color: #5c49be;
 }
 
 .text-field textarea {
