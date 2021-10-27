@@ -5,7 +5,7 @@ body {
   line-height: 22px;
 }
 
-h1, h2, h3 h4 {
+h1, h2, h3, h4 {
   font-weight: bold;
   letter-spacing: 0.2px;
 }
@@ -164,7 +164,7 @@ footer a {
   height: 400px;
 }
 
-.blog-roll .blog-entry {
+.blog-roll, .blog-entry {
   font-size: 0.9em;
 }
 
@@ -210,7 +210,7 @@ footer a {
   color: #715cdd;
 }
 
-.secondary-btn:hover{
+.secondary-btn:hover {
   color: #715cdd;
   font-weight: bold;
 }
@@ -221,7 +221,7 @@ footer a {
   font-weight: bold;
 }
 
-.tertiary-btn:hover{
+.tertiary-btn:hover {
   color: #5c49be;
 }
 
@@ -236,8 +236,7 @@ footer a {
 /* Blog list section */
 
 .blog-container {
-  margin: 0 auto;
-  margin-top: 53px;
+  margin: 53px auto 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -273,6 +272,10 @@ footer a {
 
 .blog-column-right {
   width: 360px;
+}
+
+.blog-column-right a:hover {
+  color: #222222;
 }
 
 .blog-content h3 {
@@ -461,7 +464,7 @@ footer a {
 
 .mission-content-section {
   display: flex;
-  width: 350px;
+  width: 380px;
 }
 
 .mission-icon, .mission-section-content {
@@ -477,10 +480,6 @@ footer a {
 
 .mission-section-content {
   display: inline-block;
-}
-
-.mission-content-section {
-  width: 380px;
 }
 
 .mission-content-top {
@@ -540,13 +539,6 @@ footer a {
 
 /* contact page */
 
-.contact-page-section, .contact-maps-section {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 45px 0;
-}
-
 .contact-page-content {
   width: 50%;
   padding-top: 55px;
@@ -589,6 +581,7 @@ footer a {
 
 .contact-maps-content {
   margin-top: 70px;
+  width: 50%;
 }
 
 /* blog list */
@@ -629,10 +622,6 @@ footer a {
 
 .maps-details img {
   max-width: 100%;
-}
-
-.contact-maps-content {
-  width: 50%;
 }
 
 /* ========================== */
@@ -827,9 +816,6 @@ footer a {
     padding: 17px;
     height: fit-content;
   }
-  .blog-list {
-    display: contents;
-  }
   .blog-content {
     width: auto;
   }
@@ -945,12 +931,10 @@ footer a {
   }
   .maps-details {
     width: auto;
+    overflow: hidden;
   }
   .contact-maps-content {
     width: auto;
-  }
-  .maps-details {
-    overflow: hidden;
   }
 }
 
@@ -988,7 +972,7 @@ footer a {
     line-height: 24px;
     letter-spacing: 0.1px;
   }
-  body h3,body h4 {
+  body h3, body h4 {
     font-weight: bold;
     font-size: 14px;
     line-height: 24px;
