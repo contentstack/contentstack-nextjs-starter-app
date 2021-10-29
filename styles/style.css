@@ -347,7 +347,6 @@ footer a {
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  margin-top: 21px;
   margin: 63px;
   flex-wrap: wrap;
 }
