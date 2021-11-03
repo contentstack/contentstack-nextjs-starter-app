@@ -107,9 +107,13 @@ header nav {
 .devtools {
   float: right;
   position: relative;
-  bottom: 23px;
-  right: 2%;
+  bottom: 30px;
+  right: 1%;
   cursor: pointer;
+}
+
+.devtools img{
+  width: 28px;
 }
 
 .header-ul {
@@ -621,6 +625,15 @@ footer a {
 
 .maps-details img {
   max-width: 100%;
+}
+
+.modal {
+  overflow: hidden;
+}
+
+.modal-body {
+  height:38rem;
+  overflow: auto;
 }
 
 /* ========================== */
@@ -1157,3 +1170,22 @@ footer a {
     margin-left: 23px;
   }
 }
+
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e0e2e8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eee;
+}
+
+/* scroll end */

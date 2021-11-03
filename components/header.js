@@ -9,14 +9,17 @@ export default function Header(props) {
   return (
     <header className="header">
       <div className="note-div">
-        {header.notification_bar.show_announcement
-          && parse(header.notification_bar.announcement_text)}
+        {header.notification_bar.show_announcement ? (
+          parse(header.notification_bar.announcement_text)
+        ) : (
+          <div style={{ visibility: "hidden" }}>Devtools section</div>
+        )}
         <span
           className="devtools"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
-          <i className="fas fa-tools fa-lg" />
+          <img src="/devtools.gif" alt="dev tools icon" title="json preview" />
         </span>
       </div>
       <div className="max-width header-div">
@@ -39,7 +42,15 @@ export default function Header(props) {
             {header.navigation_menu?.map((list) => (
               <li key={list.label} className="nav-li">
                 <Link href={list.page_reference[0].url}>
-                  <a className={router.pathname === list.page_reference[0].url ? "active" : ""}>{list.label}</a>
+                  <a
+                    className={
+                      router.pathname === list.page_reference[0].url
+                        ? "active"
+                        : ""
+                    }
+                  >
+                    {list.label}
+                  </a>
                 </Link>
               </li>
             ))}
