@@ -6,7 +6,7 @@ import RenderComponents from "../components/render-components";
 export default function About(props) {
   const { header, footer, result } = props;
   return (
-    <Layout header={header} footer={footer} seo={result.seo}>
+    <Layout header={header} footer={footer} page={result}>
       {result.page_components && (
         <RenderComponents
           pageComponents={result.page_components}

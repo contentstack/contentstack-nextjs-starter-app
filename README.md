@@ -1,4 +1,4 @@
-[![Contentstack](https://camo.githubusercontent.com/d24f513afa94a4a762533d54a0f590300dbd0413/68747470733a2f2f7777772e636f6e74656e74737461636b2e636f6d2f646f63732f7374617469632f696d616765732f636f6e74656e74737461636b2e706e67)](https://www.contentstack.com/)
+[![Contentstack Logo](/public/contentstack-readme-logo.png)](https://www.contentstack.com/)
 
 
 # Build a Starter Website with Next.js and Contentstack

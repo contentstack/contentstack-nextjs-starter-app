@@ -1,11 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prefer-stateless-function */
-/* eslint-disable no-undef */
-/* eslint-disable react/no-array-index-key */
 import React from "react";
 import Link from "next/link";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 class BlogSection extends React.Component {
   render() {
@@ -34,7 +29,7 @@ class BlogSection extends React.Component {
               )}
               <div className="featured-content">
                 {blog.title && <h3>{blog.title}</h3>}
-                {blog.body && ReactHtmlParser(blog.body.slice(0, 300))}
+                {blog.body && parse(blog.body.slice(0, 300))}
                 {blog.url && (
                   <Link href={blog.url} passHref>
                     <a className="blogpost-readmore">{"Read More -->"}</a>

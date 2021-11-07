@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/no-array-index-key */
 import React from "react";
 
 import Section from "./section";

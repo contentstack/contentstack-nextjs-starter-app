@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 import Link from "next/link";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 export default function Footer(props) {
   const { footer } = props;
@@ -21,7 +20,7 @@ export default function Footer(props) {
         <div className="col-half">
           <nav>
             <ul className="nav-ul">
-              {footer.navigation.link?.map(menu => (
+              {footer.navigation.link?.map((menu) => (
                 <li className="footer-nav-li" key={menu.title}>
                   <Link href={menu.href}>{menu.title}</Link>
                 </li>
@@ -31,7 +30,7 @@ export default function Footer(props) {
         </div>
         <div className="col-quarter social-link">
           <div className="social-nav">
-            {footer.social.social_share?.map(social => (
+            {footer.social.social_share?.map((social) => (
               <a
                 href={social.link.href}
                 title={social.link.title}
@@ -44,7 +43,7 @@ export default function Footer(props) {
         </div>
       </div>
       <div className="copyright">
-        {footer.copyright && ReactHtmlParser(footer.copyright)}
+        {footer.copyright && parse(footer.copyright)}
       </div>
     </footer>
   );

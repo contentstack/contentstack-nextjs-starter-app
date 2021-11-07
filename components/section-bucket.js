@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 class SectionBucket extends React.Component {
   render() {
@@ -17,7 +17,7 @@ class SectionBucket extends React.Component {
               {bucket.icon && <img src={bucket.icon.url} alt="bucket icon" />}
 
               {bucket.title_h3 ? <h3>{bucket.title_h3}</h3> : ""}
-              {bucket.description && ReactHtmlParser(bucket.description)}
+              {bucket.description && parse(bucket.description)}
               {bucket.call_to_action.title ? (
                 <Link
                   href={
