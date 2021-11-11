@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Link from "next/link";
-import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 
 export default function ArchiveRelative(props) {
   const { blogs } = props;
@@ -12,7 +11,7 @@ export default function ArchiveRelative(props) {
           <a>
             <div>
               <h4>{blog.title}</h4>
-              {ReactHtmlParser(blog.body.slice(0, 80))}
+              {parse(blog.body.slice(0, 80))}
             </div>
           </a>
         </Link>

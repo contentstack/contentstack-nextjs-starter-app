@@ -1,11 +1,20 @@
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-unused-expressions */
 import React from "react";
 import Head from "next/head";
 import Header from "./header";
 import Footer from "./footer";
+import DevTools from "./devtools";
 
 class Layout extends React.Component {
   render() {
+    const {
+      header, footer, page, blogpost, children,
+    } = this.props;
+
+    const jsonObj = { header, footer };
+    page && (jsonObj.page = page);
+    blogpost && (jsonObj.blog_post = blogpost);
+
     function metaData(seo) {
       const metaArr = [];
       for (const key in seo) {
@@ -29,6 +38,24 @@ class Layout extends React.Component {
             href="https://fonts.googleapis.com/css?family=Inter&amp;display=swap"
             rel="stylesheet"
           />
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+            integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          />
+          <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossOrigin="anonymous"
+          />
+          <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossOrigin="anonymous"
+          />
           <meta
             name="application-name"
             content="Contentstack-Nextjs-Starter-App"
@@ -44,13 +71,16 @@ class Layout extends React.Component {
           <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png" />
           <meta name="theme-color" content="#317EFB" />
           <title>Contentstack-Nextjs-Starter-App</title>
-          {this.props.seo && this.props.seo.enable_search_indexing
-            ? metaData(this.props.seo)
+          {page.seo && page.seo.enable_search_indexing
+            ? metaData(page.seo)
             : null}
         </Head>
-        {this.props.header ? <Header header={this.props.header} /> : ""}
-        <main className="mainClass">{this.props.children}</main>
-        {this.props.footer ? <Footer footer={this.props.footer} /> : ""}
+        {header ? <Header header={header} /> : ""}
+        <main className="mainClass">
+          {children}
+          {Object.keys(jsonObj).length && <DevTools response={jsonObj} />}
+        </main>
+        {footer ? <Footer footer={footer} /> : ""}
       </>
     );
   }
