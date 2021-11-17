@@ -1,7 +1,7 @@
 {
   "name": "contentstack-nextjs-starter-app",
   "description": "A starter app for Contentstack and Nextjs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "author": "Contentstack",
   "scripts": {
