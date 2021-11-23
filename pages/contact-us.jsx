@@ -21,14 +21,21 @@ export default function Contact(props) {
 }
 export async function getServerSideProps(context) {
   try {
-    const result = await Stack.getEntryByUrl("page", context.resolvedUrl, [
-      "page_components.from_blog.featured_blogs",
-    ]);
-    const header = await Stack.getEntry(
-      "header",
-      "navigation_menu.page_reference",
-    );
-    const footer = await Stack.getEntry("footer");
+    const result = await Stack.getEntryByUrl({
+      contentTypeUid: "page",
+      entryUrl: context.resolvedUrl,
+      referenceFieldPath: ["page_components.from_blog.featured_blogs"],
+      jsonRtePath: ["page_components.section_with_html_code.description"],
+    });
+    const header = await Stack.getEntry({
+      contentTypeUid: "header",
+      referenceFieldPath: ["navigation_menu.page_reference"],
+      jsonRtePath: ["notification_bar.announcement_text"],
+    });
+    const footer = await Stack.getEntry({
+      contentTypeUid: "footer",
+      jsonRtePath: ["copyright"],
+    });
     return {
       props: {
         header: header[0][0],

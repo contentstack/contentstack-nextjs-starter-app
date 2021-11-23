@@ -29,7 +29,7 @@ class BlogSection extends React.Component {
               )}
               <div className="featured-content">
                 {blog.title && <h3>{blog.title}</h3>}
-                {blog.body && parse(blog.body.slice(0, 300))}
+                {typeof blog.body === "string" && parse(blog.body.slice(0, 300))}
                 {blog.url && (
                   <Link href={blog.url} passHref>
                     <a className="blogpost-readmore">{"Read More -->"}</a>
