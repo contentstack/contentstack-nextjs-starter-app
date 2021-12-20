@@ -17,7 +17,7 @@ class SectionBucket extends React.Component {
               {bucket.icon && <img src={bucket.icon.url} alt="bucket icon" />}
 
               {bucket.title_h3 ? <h3>{bucket.title_h3}</h3> : ""}
-              {bucket.description && parse(bucket.description)}
+              {typeof bucket.description === "string" && parse(bucket.description)}
               {bucket.call_to_action.title ? (
                 <Link
                   href={

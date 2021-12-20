@@ -12,7 +12,7 @@ export default function AboutSectionBucket(props) {
 
         <div className="mission-section-content">
           {bucket.title_h3 && <h3>{bucket.title_h3}</h3>}
-          {bucket.description && parse(bucket.description)}
+          {typeof bucket.description === "string" && parse(bucket.description)}
         </div>
       </div>
     );
