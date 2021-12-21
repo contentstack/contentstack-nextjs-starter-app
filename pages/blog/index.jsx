@@ -58,7 +58,8 @@ export default function Blog(props) {
                   {" "}
                   <strong>{bloglist.author[0].title}</strong>
                 </p>
-                {bloglist.body && parse(bloglist.body.slice(0, 300))}
+                {typeof bloglist.body === "string"
+                  && parse(bloglist.body.slice(0, 300))}
                 {bloglist.url ? (
                   <Link href={bloglist.url}>
                     <a>
@@ -88,16 +89,24 @@ export default function Blog(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const blog = await Stack.getEntryByUrl("page", context.resolvedUrl);
-    const result = await Stack.getEntry("blog_post", [
-      "author",
-      "related_post",
-    ]);
-    const header = await Stack.getEntry(
-      "header",
-      "navigation_menu.page_reference",
-    );
-    const footer = await Stack.getEntry("footer");
+    const blog = await Stack.getEntryByUrl({
+      contentTypeUid: "page",
+      entryUrl: context.resolvedUrl,
+    });
+    const result = await Stack.getEntry({
+      contentTypeUid: "blog_post",
+      referenceFieldPath: ["author", "related_post"],
+      jsonRtePath: ["body"],
+    });
+    const header = await Stack.getEntry({
+      contentTypeUid: "header",
+      referenceFieldPath: ["navigation_menu.page_reference"],
+      jsonRtePath: ["notification_bar.announcement_text"],
+    });
+    const footer = await Stack.getEntry({
+      contentTypeUid: "footer",
+      jsonRtePath: ["copyright"],
+    });
     let archived = [],
       blogList = [];
     result[0].forEach((blogs) => {

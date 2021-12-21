@@ -9,9 +9,10 @@ export default function Header(props) {
   return (
     <header className="header">
       <div className="note-div">
-        {header.notification_bar.show_announcement ? (
-          parse(header.notification_bar.announcement_text)
-        ) : (
+        {header.notification_bar.show_announcement ? typeof header.notification_bar.announcement_text === "string"
+          && (
+            parse(header.notification_bar.announcement_text)
+          ) : (
           <div style={{ visibility: "hidden" }}>Devtools section</div>
         )}
         <span

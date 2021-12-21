@@ -43,7 +43,7 @@ export default function Footer(props) {
         </div>
       </div>
       <div className="copyright">
-        {footer.copyright && parse(footer.copyright)}
+        {typeof footer.copyright === "string" && parse(footer.copyright)}
       </div>
     </footer>
   );

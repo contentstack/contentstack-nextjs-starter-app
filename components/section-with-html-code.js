@@ -7,10 +7,10 @@ export default function SectionWithHtmlCode(props) {
       <div className="contact-page-section max-width">
         <div className="contact-page-content">
           {embedCode.title && <h1>{embedCode.title}</h1>}
-          {embedCode.description && parse(embedCode.description)}
+          {typeof embedCode.description === "string" && parse(embedCode.description)}
         </div>
         <div className="contact-page-form">
-          {embedCode.html_code
+          {typeof embedCode.html_code === "string"
             && parse(embedCode.html_code)}
         </div>
       </div>
@@ -19,7 +19,7 @@ export default function SectionWithHtmlCode(props) {
   return (
     <div className="contact-maps-section max-width">
       <div className="maps-details">
-        {parse(embedCode.html_code)}
+        {typeof embedCode.html_code === "string" && parse(embedCode.html_code)}
       </div>
       <div className="contact-maps-content">
         {embedCode.title ? (
@@ -27,7 +27,7 @@ export default function SectionWithHtmlCode(props) {
         ) : (
           ""
         )}
-        {embedCode.description && parse(embedCode.description)}
+        {typeof embedCode.description === "string" && parse(embedCode.description)}
       </div>
     </div>
   );
