@@ -1,19 +1,42 @@
-import * as contentstack from "contentstack";
-import * as Utils from "@contentstack/utils";
+import * as contentstack from 'contentstack';
+import * as Utils from '@contentstack/utils';
+
+import ContentstackLivePreview from '@contentstack/live-preview-utils';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+const envConfig = process.env.CONTENTSTACK_API_KEY
+  ? process.env
+  : publicRuntimeConfig;
 
 const Stack = contentstack.Stack({
-  api_key: process.env.CONTENTSTACK_API_KEY,
-  delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN,
-  environment: process.env.CONTENTSTACK_ENVIRONMENT,
-  region: process.env.CONTENTSTACK_REGION ? process.env.CONTENTSTACK_REGION : "us",
+  api_key: envConfig.CONTENTSTACK_API_KEY,
+  delivery_token: envConfig.CONTENTSTACK_DELIVERY_TOKEN,
+  environment: envConfig.CONTENTSTACK_ENVIRONMENT,
+  region: envConfig.CONTENTSTACK_REGION ? envConfig.CONTENTSTACK_REGION : 'us',
+  live_preview: {
+    enable: true,
+    management_token: envConfig.CONTENTSTACK_MANAGEMENT_TOKEN,
+    host: envConfig.CONTENTSTACK_API_HOST,
+    ssr: true,
+  },
+  stackDetails: {
+    apiKey: envConfig.CONTENTSTACK_API_KEY,
+    environment: envConfig.CONTENTSTACK_ENVIRONMENT,
+  },
+  clientUrlParams: {
+    protocol: 'https',
+    host: envConfig.CONTENTSTACK_APP_HOST,
+    port: 443,
+  },
 });
 
-if (process.env.CONTENTSTACK_CUSTOM_HOST) {
-  Stack.setHost(process.env.CONTENTSTACK_CUSTOM_HOST);
-}
+Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
+ContentstackLivePreview.init(Stack, {enable:true});
+
+export const onEntryChange = ContentstackLivePreview.onEntryChange;
 
 const renderOption = {
-  ["span"]: (node, next) => {
+  ['span']: (node, next) => {
     return next(node.children);
   },
 };
@@ -66,7 +89,7 @@ export default {
       const blogQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) blogQuery.includeReference(referenceFieldPath);
       blogQuery.includeOwner().toJSON();
-      const data = blogQuery.where("url", `${entryUrl}`).find();
+      const data = blogQuery.where('url', `${entryUrl}`).find();
       data.then(
         (result) => {
           jsonRtePath &&
@@ -78,6 +101,7 @@ export default {
           resolve(result[0]);
         },
         (error) => {
+          console.error(error);
           reject(error);
         }
       );

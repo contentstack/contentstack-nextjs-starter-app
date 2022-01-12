@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 class Section extends React.Component {
   render() {
@@ -7,32 +7,43 @@ class Section extends React.Component {
     function contentSection(key) {
       return (
         <div className="home-content" key={key}>
-          {section.title_h2 && <h2>{section.title_h2}</h2>}
-          {section.description && <p>{section.description}</p>}
-          {section.call_to_action.title
-          && section.call_to_action.href ? (
-            <Link
-              href={section.call_to_action.href}
-            >
-              <a className="btn secondary-btn">{section.call_to_action.title}</a>
+          {section.title_h2 && (
+            <h2 {...section.$?.title_h2}>{section.title_h2}</h2>
+          )}
+          {section.description && (
+            <p {...section.$?.description}>{section.description}</p>
+          )}
+          {section.call_to_action.title && section.call_to_action.href ? (
+            <Link href={section.call_to_action.href}>
+              <a
+                className="btn secondary-btn"
+                {...section.call_to_action.$?.title}
+              >
+                {section.call_to_action.title}
+              </a>
             </Link>
-            ) : (
-              ""
-            )}
+          ) : (
+            ''
+          )}
         </div>
       );
     }
 
     function imageContent(key) {
       return (
-        <img src={section.image.url} alt={section.image.filename} key={key} />
+        <img
+          src={section.image.url}
+          alt={section.image.filename}
+          {...section.image.$?.url}
+          key={key}
+        />
       );
     }
     return (
       <div className="home-advisor-section">
-        {section.image_alignment === "Left"
-          ? [imageContent("key-image"), contentSection("key-contentstection")]
-          : [contentSection("key-contentstection"), imageContent("key-image")]}
+        {section.image_alignment === 'Left'
+          ? [imageContent('key-image'), contentSection('key-contentstection')]
+          : [contentSection('key-contentstection'), imageContent('key-image')]}
       </div>
     );
   }

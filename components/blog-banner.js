@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function BlogBanner(props) {
   const { blog_banner } = props;
@@ -6,11 +6,18 @@ export default function BlogBanner(props) {
     <div className="blog-page-banner">
       <div className="blog-page-content">
         {blog_banner.banner_title && (
-          <h1 className="hero-title">{blog_banner.banner_title}</h1>
+          <h1 {...blog_banner.$?.banner_title} className="hero-title">
+            {blog_banner.banner_title}
+          </h1>
         )}
 
         {blog_banner.banner_description && (
-          <p className="hero-description">{blog_banner.banner_description}</p>
+          <p
+            {...blog_banner.$?.banner_description}
+            className="hero-description"
+          >
+            {blog_banner.banner_description}
+          </p>
         )}
       </div>
     </div>

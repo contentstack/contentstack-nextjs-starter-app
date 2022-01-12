@@ -1,19 +1,52 @@
-import React from "react";
-import Stack from "../sdk-plugin/index";
+import React, { useState, useEffect } from "react";
+import { addEditableTags } from '@contentstack/utils';
+import { onEntryChange } from "../sdk-plugin/index";
 import Layout from "../components/layout";
 import RenderComponents from "../components/render-components";
+import { getHeaderRes, getFooterRes, getAboutRes } from '../helper/index';
 
 export default function About(props) {
-  const { header, footer, result } = props;
+  const {
+    header, footer, result, entryUrl,
+  } = props;
+
+  const [getHeader, setHeader] = useState(header);
+  const [getFooter, setFooter] = useState(footer);
+  const [getEntry, setEntry] = useState(result);
+
+  async function fetchData() {
+    try {
+      console.info("fetching live preview data...");
+      const entryRes = await getAboutRes(entryUrl);
+      const headerRes = await getHeaderRes();
+      const footerRes = await getFooterRes();
+      setHeader(headerRes);
+      setFooter(footerRes);
+      setEntry(entryRes);
+      addEditableTags(entryRes, 'page', true);
+      addEditableTags(headerRes, 'header', true);
+      addEditableTags(footerRes, 'footer', true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    onEntryChange(() => {
+      console.info("Enabling Live Preview!!");
+      return fetchData();
+    });
+  }, []);
+
   return (
-    <Layout header={header} footer={footer} page={result}>
-      {result.page_components && (
+    <Layout header={getHeader} footer={getFooter} page={getEntry}>
+      {getEntry.page_components && (
         <RenderComponents
-          pageComponents={result.page_components}
+          pageComponents={getEntry.page_components}
           about
           contentTypeUid="page"
-          entryUid={result.uid}
-          locale={result.locale}
+          entryUid={getEntry.uid}
+          locale={getEntry.locale}
         />
       )}
     </Layout>
@@ -22,25 +55,15 @@ export default function About(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const result = await Stack.getEntryByUrl({
-      contentTypeUid: "page",
-      entryUrl: context.resolvedUrl,
-      jsonRtePath: ["page_components.section_with_buckets.buckets.description"],
-    });
-    const header = await Stack.getEntry({
-      contentTypeUid: "header",
-      referenceFieldPath: ["navigation_menu.page_reference"],
-      jsonRtePath: ["notification_bar.announcement_text"],
-    });
-    const footer = await Stack.getEntry({
-      contentTypeUid: "footer",
-      jsonRtePath: ["copyright"],
-    });
+    const entryRes = await getAboutRes(context.resolvedUrl);
+    const headerRes = await getHeaderRes();
+    const footerRes = await getFooterRes();
     return {
       props: {
-        header: header[0][0],
-        footer: footer[0][0],
-        result: result[0],
+        entryUrl: context.resolvedUrl,
+        result: entryRes,
+        header: headerRes,
+        footer: footerRes,
       },
     };
   } catch (error) {

@@ -1,39 +1,68 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable one-var */
-/* eslint-disable prefer-const */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { addEditableTags } from '@contentstack/utils';
 import moment from "moment";
 import Link from "next/link";
-
 import parse from "html-react-parser";
-import Stack from "../../sdk-plugin/index";
+import { onEntryChange } from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
-
 import RenderComponents from "../../components/render-components";
+import {
+  getHeaderRes, getFooterRes, getBlogListBannerRes, getBlogListRes,
+} from '../../helper/index';
+
 import ArchiveRelative from "../../components/archive-relative";
 
 export default function Blog(props) {
   const {
-    archived, blog, blogList, header, footer,
+    archived, blog, blogList, header, footer, entryUrl,
   } = props;
   const list = blogList.concat(archived);
+
+  const [getHeader, setHeader] = useState(header);
+  const [getFooter, setFooter] = useState(footer);
+  const [getArchived, setArchived] = useState(archived);
+  const [getList, setList] = useState(blogList);
+  const [getBanner, setBanner] = useState(blog);
+
+  async function fetchData() {
+    try {
+      console.info("fetching live preview data...");
+      const bannerRes = await getBlogListBannerRes(entryUrl);
+      const headerRes = await getHeaderRes();
+      const footerRes = await getFooterRes();
+      setHeader(headerRes);
+      setFooter(footerRes);
+      setBanner(bannerRes);
+      addEditableTags(bannerRes, 'page', true);
+      addEditableTags(headerRes, 'header', true);
+      addEditableTags(footerRes, 'footer', true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    onEntryChange(() => {
+      console.info("Enabling Live Preview!!");
+      return fetchData();
+    });
+  }, []);
+
   return (
-    <Layout header={header} footer={footer} page={blog} blogpost={list}>
-      {blog.page_components && (
+    <Layout header={getHeader} footer={getFooter} page={getBanner} blogpost={list}>
+      {getBanner.page_components && (
         <RenderComponents
-          pageComponents={blog.page_components}
+          pageComponents={getBanner.page_components}
           blogsPage
           contentTypeUid="page"
-          entryUid={blog.uid}
-          locale={blog.locale}
+          entryUid={getBanner.uid}
+          locale={getBanner.locale}
         />
       )}
 
       <div className="blog-container">
         <div className="blog-column-left">
-          {blogList?.map((bloglist, index) => (
+          {getList?.map((bloglist, index) => (
             <div className="blog-list" key={index}>
               {bloglist.featured_image && (
                 <Link href={bloglist.url}>
@@ -74,13 +103,13 @@ export default function Blog(props) {
           ))}
         </div>
         <div className="blog-column-right">
-          {blog.page_components[1].widget && (
+          {getBanner.page_components[1].widget && (
             <h2>
-              {blog.page_components[1].widget.title_h2}
+              {getBanner.page_components[1].widget.title_h2}
               {' '}
             </h2>
           )}
-          <ArchiveRelative blogs={archived} />
+          <ArchiveRelative blogs={getArchived} />
         </div>
       </div>
     </Layout>
@@ -89,27 +118,13 @@ export default function Blog(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const blog = await Stack.getEntryByUrl({
-      contentTypeUid: "page",
-      entryUrl: context.resolvedUrl,
-    });
-    const result = await Stack.getEntry({
-      contentTypeUid: "blog_post",
-      referenceFieldPath: ["author", "related_post"],
-      jsonRtePath: ["body"],
-    });
-    const header = await Stack.getEntry({
-      contentTypeUid: "header",
-      referenceFieldPath: ["navigation_menu.page_reference"],
-      jsonRtePath: ["notification_bar.announcement_text"],
-    });
-    const footer = await Stack.getEntry({
-      contentTypeUid: "footer",
-      jsonRtePath: ["copyright"],
-    });
-    let archived = [],
-      blogList = [];
-    result[0].forEach((blogs) => {
+    const blog = await getBlogListBannerRes(context.resolvedUrl);
+    const result = await getBlogListRes();
+    const header = await getHeaderRes();
+    const footer = await getFooterRes();
+    const archived = [];
+    const blogList = [];
+    result.forEach((blogs) => {
       if (blogs.is_archived) {
         archived.push(blogs);
       } else {
@@ -118,9 +133,10 @@ export async function getServerSideProps(context) {
     });
     return {
       props: {
-        header: header[0][0],
-        footer: footer[0][0],
-        blog: blog[0],
+        entryUrl: context.resolvedUrl,
+        header,
+        footer,
+        blog,
         blogList,
         archived,
       },
