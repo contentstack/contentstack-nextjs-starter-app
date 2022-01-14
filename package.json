@@ -8,17 +8,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages/**/*.js components/**/*.js"
+    "lint": "eslint pages/**/*.js templates/**/*.js"
   },
   "dependencies": {
     "@contentstack/live-preview-utils": "^1.0.1",
     "@contentstack/utils": "^1.1.1",
     "contentstack": "^3.15.0",
-    "html-react-parser": "^1.4.5",
-    "json-viewer-js": "^1.0.7",
+    "html-react-parser": "^1.4.0",
     "moment": "^2.29.1",
-    "next": "^12.0.7",
-    "next-pwa": "^5.4.4",
+    "next": "^11.1.2",
+    "next-pwa": "^5.3.1",
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -34,7 +33,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
-    "prettier": "^2.5.1",
+    "prettier": "^2.4.1",
     "prettier-eslint": "^13.0.0"
   }
 }

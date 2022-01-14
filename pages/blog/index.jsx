@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { addEditableTags } from '@contentstack/utils';
 import moment from "moment";
 import Link from "next/link";
 import parse from "html-react-parser";

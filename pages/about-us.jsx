@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { addEditableTags } from '@contentstack/utils';
 import { onEntryChange } from "../sdk-plugin/index";
 import Layout from "../components/layout";
 import RenderComponents from "../components/render-components";
