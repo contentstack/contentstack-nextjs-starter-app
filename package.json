@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages/**/*.js templates/**/*.js"
+    "lint": "eslint pages/**/*.js"
   },
   "dependencies": {
     "@contentstack/live-preview-utils": "^1.0.1",
