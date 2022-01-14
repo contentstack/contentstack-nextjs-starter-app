@@ -10,7 +10,6 @@ export default function Footer(props) {
         <div className="col-quarter">
           <Link href="/" className="logo-tag">
             <img
-              {...footer.logo.$?.url}
               src={footer.logo.url}
               alt={footer.title}
               title={footer.title}
@@ -23,7 +22,7 @@ export default function Footer(props) {
             <ul className="nav-ul">
               {footer.navigation.link?.map((menu) => (
                 <li className="footer-nav-li" key={menu.title}>
-                  <Link href={menu.href} {...menu.$?.title}>
+                  <Link href={menu.href}>
                     {menu.title}
                   </Link>
                 </li>
@@ -38,13 +37,11 @@ export default function Footer(props) {
                 href={social.link.href}
                 title={social.link.title}
                 key={social.link.title}
-                {...social.icon.$?.url}
               >
                 {social.icon && (
                   <img
                     src={social.icon.url}
                     alt={social.link.title}
-                    {...footer.$?.copyright}
                   />
                 )}
               </a>

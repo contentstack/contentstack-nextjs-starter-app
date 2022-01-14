@@ -1,4 +1,4 @@
-@import "./json-preivew.css";
+@import "./json-preview.css";
 @import "./tool-tip.css";
 
 body {
@@ -653,7 +653,11 @@ footer a {
   border-radius: 10px;
 }
 
-.modal-dialog{
+.modal-content {
+  border: 0;
+}
+
+.modal-dialog {
   max-width: 680px;
 }
 
@@ -1054,6 +1058,13 @@ footer a {
   .contact-maps-content {
     width: auto;
   }
+
+  .json-preview {
+    position: absolute;
+    top: 3.3rem;
+    right: 2.5rem;
+  }
+
 }
 
 /* ========================== */
@@ -1338,10 +1349,10 @@ footer a {
 
 /* json preview css*/
 
-.object-key{
+.object-key {
   color: #C8501E;
 }
 
-.string-value{
+.string-value {
   color: #5d9ccb;
 }

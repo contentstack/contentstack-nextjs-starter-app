@@ -1,41 +1,77 @@
-import React from "react";
-import moment from "moment";
-import parse from "html-react-parser";
-import Stack from "../../sdk-plugin/index";
-import Layout from "../../components/layout";
+import React, {useEffect, useState} from 'react';
+import moment from 'moment';
+import parse from 'html-react-parser';
+import Layout from '../../components/layout';
+import {
+  getHeaderRes,
+  getFooterRes,
+  getBlogPostRes,
+  getBlogBannerRes,
+} from '../../helper/index';
+import { onEntryChange } from '../../sdk-plugin/index';
 
-import RenderComponents from "../../components/render-components";
-import ArchiveRelative from "../../components/archive-relative";
+import RenderComponents from '../../components/render-components';
+import ArchiveRelative from '../../components/archive-relative';
 
 export default function BlogPost(props) {
-  const { header, banner, footer, result } = props;
+  const { header, banner, footer, result, entryUrl } = props;
+
+  const [getHeader, setHeader] = useState(header);
+  const [getFooter, setFooter] = useState(footer);
+  const [getEntry, setEntry] = useState(result);
+  const [getBanner, setBanner] = useState(banner);
+
+  async function fetchData() {
+    try {
+      console.info("fetching live preview data...");
+      const entryRes = await getBlogPostRes(entryUrl);
+      const headerRes = await getHeaderRes();
+      const footerRes = await getFooterRes();
+      const bannerRes = await getBlogBannerRes("/blog");
+      setHeader(headerRes);
+      setFooter(footerRes);
+      setEntry(entryRes);
+      setBanner(bannerRes)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    onEntryChange(() => {
+      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === "true") {
+        return fetchData();
+      }
+    });
+  }, []);
+
   return (
-    <Layout header={header} footer={footer} page={banner} blogpost={result}>
+    <Layout header={getHeader} footer={getFooter} page={getBanner} blogpost={getEntry}>
       {banner.page_components && (
         <RenderComponents
-          pageComponents={banner.page_components}
+          pageComponents={getBanner?.page_components}
           blogsPage
-          contentTypeUid="blog_post"
-          entryUid={result.uid}
-          locale={result.locale}
+          contentTypeUid='blog_post'
+          entryUid={getEntry.uid}
+          locale={getEntry.locale}
         />
       )}
-      <div className="blog-container">
-        <div className="blog-detail">
-          <h2>{result.title ? result.title : ""}</h2>
+      <div className='blog-container'>
+        <div className='blog-detail'>
+          <h2>{getEntry.title ? getEntry.title : ''}</h2>
           <p>
-            {moment(result.date).format("ddd, MMM D YYYY")},{" "}
-            <strong>{result.author[0].title}</strong>
+            {moment(getEntry.date).format('ddd, MMM D YYYY')},{' '}
+            <strong>{getEntry.author[0].title}</strong>
           </p>
-          {typeof result.body === "string" && parse(result.body)}
+          {typeof getEntry.body === 'string' && parse(getEntry.body)}
         </div>
-        <div className="blog-column-right">
-          <div className="related-post">
-            {banner.page_components[2].widget && (
-              <h2>{banner.page_components[2].widget.title_h2}</h2>
+        <div className='blog-column-right'>
+          <div className='related-post'>
+            {getBanner?.page_components[2].widget && (
+              <h2>{getBanner.page_components[2].widget.title_h2}</h2>
             )}
-            {result.related_post && (
-              <ArchiveRelative blogs={result.related_post} />
+            {getEntry?.related_post && (
+              <ArchiveRelative blogs={getEntry?.related_post} />
             )}
           </div>
         </div>
@@ -45,31 +81,17 @@ export default function BlogPost(props) {
 }
 export async function getServerSideProps({ params }) {
   try {
-    const banner = await Stack.getEntryByUrl({
-      contentTypeUid: "page",
-      entryUrl: "/blog",
-    });
-    const blog = await Stack.getEntryByUrl({
-      contentTypeUid: "blog_post",
-      entryUrl: `/blog/${params.post}`,
-      referenceFieldPath: ["author", "related_post"],
-      jsonRtePath: ["body", "related_post.body"],
-    });
-    const header = await Stack.getEntry({
-      contentTypeUid: "header",
-      referenceFieldPath: ["navigation_menu.page_reference"],
-      jsonRtePath: ["notification_bar.announcement_text"],
-    });
-    const footer = await Stack.getEntry({
-      contentTypeUid: "footer",
-      jsonRtePath: ["copyright"],
-    });
+    const banner = await getBlogBannerRes('/blog');
+    const blog = await getBlogPostRes(`/blog/${params.post}`);
+    const header = await getHeaderRes();
+    const footer = await getFooterRes();
     return {
       props: {
-        header: header[0][0],
-        footer: footer[0][0],
-        result: blog[0],
-        banner: banner[0],
+        entryUrl: `/blog/${params.post}`,
+        header,
+        footer,
+        result: blog,
+        banner,
       },
     };
   } catch (error) {

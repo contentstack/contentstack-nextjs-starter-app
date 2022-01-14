@@ -12,11 +12,12 @@ export default function Header(props) {
     <header className="header">
       <div
         className="note-div"
-        {...header.notification_bar.$?.announcement_text}
       >
         {header.notification_bar.show_announcement ? typeof header.notification_bar.announcement_text === "string"
           && (
-            parse(header.notification_bar.announcement_text)
+            <div>
+              {parse(header.notification_bar.announcement_text)}
+            </div>
           ) : null}
       </div>
       <div className="max-width header-div">
@@ -27,7 +28,6 @@ export default function Header(props) {
               src={header.logo.url}
               alt={header.title}
               title={header.title}
-              {...header.logo.$?.url}
             />
           </Link>
         </div>
@@ -46,7 +46,6 @@ export default function Header(props) {
                         ? "active"
                         : ""
                     }
-                    {...list.$?.label}
                   >
                     {list.label}
                   </a>

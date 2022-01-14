@@ -6,7 +6,6 @@ const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
 function filterObject(inputObject) {
   const unWantedProps = [
-    'uid',
     '_version',
     'ACL',
     '_in_progress',
@@ -70,6 +69,7 @@ const DevTools = ({ response }) => {
                 content={forceUpdate === 0 ? 'Copy' : 'Copied'}
                 direction="top"
                 dynamic
+                delay={200}
                 status={forceUpdate}
               >
                 <img src="/copy.svg" alt="copy icon" />

@@ -8,7 +8,6 @@ export default function AboutSectionBucket(props) {
       <div className="mission-content-section" key={index}>
         {bucket.icon && (
           <img
-            {...bucket.icon.$?.url}
             className="mission-icon"
             src={bucket.icon.url}
             alt="art work"
@@ -17,10 +16,10 @@ export default function AboutSectionBucket(props) {
 
         <div className="mission-section-content">
           {bucket.title_h3 && (
-            <h3 {...bucket.$?.title_h3}>{bucket.title_h3}</h3>
+            <h3>{bucket.title_h3}</h3>
           )}
           {typeof bucket.description === 'string' && (
-            <div {...bucket.$?.description}>
+            <div>
               {' '}
               {parse(bucket.description)}
             </div>
@@ -34,7 +33,7 @@ export default function AboutSectionBucket(props) {
     <div className="member-main-section">
       <div className="member-head">
         {sectionWithBuckets.title_h2 && (
-          <h2 {...sectionWithBuckets.$?.title_h2}>
+          <h2>
             {sectionWithBuckets.title_h2}
           </h2>
         )}

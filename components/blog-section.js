@@ -8,15 +8,10 @@ class BlogSection extends React.Component {
     return (
       <div className="community-section">
         <div className="community-head">
-          {fromBlog.title_h2 && (
-            <h2 {...fromBlog.$?.title_h2}>{fromBlog.title_h2}</h2>
-          )}
+          {fromBlog.title_h2 && <h2>{fromBlog.title_h2}</h2>}
           {fromBlog.view_articles && (
             <Link href={fromBlog.view_articles.href}>
-              <a
-                className="btn secondary-btn article-btn"
-                {...fromBlog.view_articles.$?.title}
-              >
+              <a className="btn secondary-btn article-btn">
                 {fromBlog.view_articles.title}
               </a>
             </Link>
@@ -30,13 +25,12 @@ class BlogSection extends React.Component {
                   src={blog.featured_image.url}
                   alt={blog.featured_image.filename}
                   className="blog-post-img"
-                  {...blog.featured_image.$?.url}
                 />
               )}
               <div className="featured-content">
-                {blog.title && <h3 {...blog.$?.title}>{blog.title}</h3>}
+                {blog.title && <h3>{blog.title}</h3>}
                 {typeof blog.body === 'string' && (
-                  <div {...blog.$?.body}>{parse(blog.body.slice(0, 300))}</div>
+                  <div>{parse(blog.body.slice(0, 300))}</div>
                 )}
                 {blog.url && (
                   <Link href={blog.url} passHref>

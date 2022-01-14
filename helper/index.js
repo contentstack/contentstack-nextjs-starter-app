@@ -58,18 +58,10 @@ export const getBlogListRes = async () => {
   return response[0];
 };
 
-export const getBlogListBannerRes = async (entryUrl) => {
+export const getBlogBannerRes = async (entryUrl) => {
   const response = await Stack.getEntryByUrl({
     contentTypeUid: 'page',
     entryUrl,
-  });
-  return response[0];
-};
-
-export const getBlogBannerRes = async () => {
-  const response = await Stack.getEntryByUrl({
-    contentTypeUid: 'page',
-    entryUrl: '/blog',
   });
   return response[0];
 };

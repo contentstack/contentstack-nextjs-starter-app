@@ -7,7 +7,7 @@ import { onEntryChange } from "../../sdk-plugin/index";
 import Layout from "../../components/layout";
 import RenderComponents from "../../components/render-components";
 import {
-  getHeaderRes, getFooterRes, getBlogListBannerRes, getBlogListRes,
+  getHeaderRes, getFooterRes, getBlogBannerRes, getBlogListRes,
 } from '../../helper/index';
 
 import ArchiveRelative from "../../components/archive-relative";
@@ -27,15 +27,12 @@ export default function Blog(props) {
   async function fetchData() {
     try {
       console.info("fetching live preview data...");
-      const bannerRes = await getBlogListBannerRes(entryUrl);
+      const bannerRes = await getBlogBannerRes(entryUrl);
       const headerRes = await getHeaderRes();
       const footerRes = await getFooterRes();
       setHeader(headerRes);
       setFooter(footerRes);
       setBanner(bannerRes);
-      addEditableTags(bannerRes, 'page', true);
-      addEditableTags(headerRes, 'header', true);
-      addEditableTags(footerRes, 'footer', true);
     } catch (error) {
       console.error(error);
     }
@@ -43,8 +40,9 @@ export default function Blog(props) {
 
   useEffect(() => {
     onEntryChange(() => {
-      console.info("Enabling Live Preview!!");
-      return fetchData();
+      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === "true") {
+        return fetchData();
+      }
     });
   }, []);
 
@@ -118,7 +116,7 @@ export default function Blog(props) {
 
 export async function getServerSideProps(context) {
   try {
-    const blog = await getBlogListBannerRes(context.resolvedUrl);
+    const blog = await getBlogBannerRes(context.resolvedUrl);
     const result = await getBlogListRes();
     const header = await getHeaderRes();
     const footer = await getFooterRes();

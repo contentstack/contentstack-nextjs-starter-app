@@ -23,9 +23,6 @@ export default function About(props) {
       setHeader(headerRes);
       setFooter(footerRes);
       setEntry(entryRes);
-      addEditableTags(entryRes, 'page', true);
-      addEditableTags(headerRes, 'header', true);
-      addEditableTags(footerRes, 'footer', true);
     } catch (error) {
       console.error(error);
     }
@@ -33,8 +30,9 @@ export default function About(props) {
 
   useEffect(() => {
     onEntryChange(() => {
-      console.info("Enabling Live Preview!!");
-      return fetchData();
+      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW) {
+        return fetchData();
+      }
     });
   }, []);
 

@@ -9,7 +9,9 @@ const envConfig = process.env.CONTENTSTACK_API_KEY
   : publicRuntimeConfig;
 
 const Stack = contentstack.Stack({
-  api_key: envConfig.CONTENTSTACK_API_KEY,
+  api_key: envConfig.CONTENTSTACK_API_KEY
+    ? envConfig.CONTENTSTACK_API_KEY
+    : envConfig.NEXT_PUBLIC_CONTENTSTACK_API_KEY,
   delivery_token: envConfig.CONTENTSTACK_DELIVERY_TOKEN,
   environment: envConfig.CONTENTSTACK_ENVIRONMENT,
   region: envConfig.CONTENTSTACK_REGION ? envConfig.CONTENTSTACK_REGION : 'us',
@@ -31,7 +33,7 @@ const Stack = contentstack.Stack({
 });
 
 Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
-ContentstackLivePreview.init(Stack, {enable:true});
+ContentstackLivePreview.init(Stack, { enable: true, debug: true });
 
 export const onEntryChange = ContentstackLivePreview.onEntryChange;
 
