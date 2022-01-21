@@ -4,12 +4,11 @@ import * as Utils from "@contentstack/utils";
 const Stack = contentstack.Stack({
   api_key: process.env.CONTENTSTACK_API_KEY,
   delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN,
-  environment: process.env.CONTENTSTACK_ENVIRONMENT,
-  region: process.env.CONTENTSTACK_REGION ? process.env.CONTENTSTACK_REGION : "us",
+  environment: process.env.CONTENTSTACK_ENVIRONMENT
 });
 
-if (process.env.CONTENTSTACK_CUSTOM_HOST) {
-  Stack.setHost(process.env.CONTENTSTACK_CUSTOM_HOST);
+if (process.env.CONTENTSTACK_API_HOST) {
+  Stack.setHost(process.env.CONTENTSTACK_API_HOST);
 }
 
 const renderOption = {
