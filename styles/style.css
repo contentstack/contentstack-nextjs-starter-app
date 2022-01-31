@@ -675,10 +675,6 @@ footer a {
   overflow: auto;
 }
 
-.modal-header {
-  height: 0.51rem 1rem;
-}
-
 .modal-footer {
   padding: .61rem .75rem;
 }

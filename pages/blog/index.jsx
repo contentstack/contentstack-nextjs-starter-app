@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
-import moment from "moment";
-import Link from "next/link";
-import parse from "html-react-parser";
-import { onEntryChange } from "../../sdk-plugin/index";
-import Layout from "../../components/layout";
-import RenderComponents from "../../components/render-components";
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import Link from 'next/link';
+import parse from 'html-react-parser';
+import { onEntryChange } from '../../sdk-plugin/index';
+import Layout from '../../components/layout';
+import RenderComponents from '../../components/render-components';
 import {
-  getHeaderRes, getFooterRes, getBlogBannerRes, getBlogListRes,
+  getHeaderRes,
+  getFooterRes,
+  getBlogBannerRes,
+  getBlogListRes,
 } from '../../helper/index';
 
-import ArchiveRelative from "../../components/archive-relative";
+import ArchiveRelative from '../../components/archive-relative';
 
 export default function Blog(props) {
   const {
@@ -25,7 +28,7 @@ export default function Blog(props) {
 
   async function fetchData() {
     try {
-      console.info("fetching live preview data...");
+      console.info('fetching live preview data...');
       const bannerRes = await getBlogBannerRes(entryUrl);
       const headerRes = await getHeaderRes();
       const footerRes = await getFooterRes();
@@ -38,15 +41,16 @@ export default function Blog(props) {
   }
 
   useEffect(() => {
-    onEntryChange(() => {
-      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === "true") {
-        return fetchData();
-      }
-    });
+    onEntryChange(() => fetchData());
   }, []);
 
   return (
-    <Layout header={getHeader} footer={getFooter} page={getBanner} blogpost={list}>
+    <Layout
+      header={getHeader}
+      footer={getFooter}
+      page={getBanner}
+      blogpost={list}
+    >
       {getBanner.page_components && (
         <RenderComponents
           pageComponents={getBanner.page_components}
@@ -79,21 +83,21 @@ export default function Blog(props) {
                   </Link>
                 )}
                 <p>
-                  {moment(bloglist.date).format("ddd, MMM D YYYY")}
+                  {moment(bloglist.date).format('ddd, MMM D YYYY')}
                   ,
-                  {" "}
+                  {' '}
                   <strong>{bloglist.author[0].title}</strong>
                 </p>
-                {typeof bloglist.body === "string"
+                {typeof bloglist.body === 'string'
                   && parse(bloglist.body.slice(0, 300))}
                 {bloglist.url ? (
                   <Link href={bloglist.url}>
                     <a>
-                      <span>{"Read more -->"}</span>
+                      <span>{'Read more -->'}</span>
                     </a>
                   </Link>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             </div>

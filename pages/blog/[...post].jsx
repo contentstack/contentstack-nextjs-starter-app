@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import Layout from '../../components/layout';
@@ -14,7 +14,9 @@ import RenderComponents from '../../components/render-components';
 import ArchiveRelative from '../../components/archive-relative';
 
 export default function BlogPost(props) {
-  const { header, banner, footer, result, entryUrl } = props;
+  const {
+    header, banner, footer, result, entryUrl,
+  } = props;
 
   const [getHeader, setHeader] = useState(header);
   const [getFooter, setFooter] = useState(footer);
@@ -23,50 +25,53 @@ export default function BlogPost(props) {
 
   async function fetchData() {
     try {
-      console.info("fetching live preview data...");
+      console.info('fetching live preview data...');
       const entryRes = await getBlogPostRes(entryUrl);
       const headerRes = await getHeaderRes();
       const footerRes = await getFooterRes();
-      const bannerRes = await getBlogBannerRes("/blog");
+      const bannerRes = await getBlogBannerRes('/blog');
       setHeader(headerRes);
       setFooter(footerRes);
       setEntry(entryRes);
-      setBanner(bannerRes)
+      setBanner(bannerRes);
     } catch (error) {
       console.error(error);
     }
   }
 
   useEffect(() => {
-    onEntryChange(() => {
-      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === "true") {
-        return fetchData();
-      }
-    });
+    onEntryChange(() => fetchData());
   }, []);
 
   return (
-    <Layout header={getHeader} footer={getFooter} page={getBanner} blogpost={getEntry}>
+    <Layout
+      header={getHeader}
+      footer={getFooter}
+      page={getBanner}
+      blogpost={getEntry}
+    >
       {banner.page_components && (
         <RenderComponents
           pageComponents={getBanner?.page_components}
           blogsPage
-          contentTypeUid='blog_post'
+          contentTypeUid="blog_post"
           entryUid={getEntry.uid}
           locale={getEntry.locale}
         />
       )}
-      <div className='blog-container'>
-        <div className='blog-detail'>
+      <div className="blog-container">
+        <div className="blog-detail">
           <h2>{getEntry.title ? getEntry.title : ''}</h2>
           <p>
-            {moment(getEntry.date).format('ddd, MMM D YYYY')},{' '}
+            {moment(getEntry.date).format('ddd, MMM D YYYY')}
+            ,
+            {' '}
             <strong>{getEntry.author[0].title}</strong>
           </p>
           {typeof getEntry.body === 'string' && parse(getEntry.body)}
         </div>
-        <div className='blog-column-right'>
-          <div className='related-post'>
+        <div className="blog-column-right">
+          <div className="related-post">
             {getBanner?.page_components[2].widget && (
               <h2>{getBanner.page_components[2].widget.title_h2}</h2>
             )}

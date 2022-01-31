@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { onEntryChange } from "../sdk-plugin/index";
-import Layout from "../components/layout";
-import RenderComponents from "../components/render-components";
+import React, { useState, useEffect } from 'react';
+import { onEntryChange } from '../sdk-plugin/index';
+import Layout from '../components/layout';
+import RenderComponents from '../components/render-components';
 import { getHeaderRes, getFooterRes, getContactRes } from '../helper/index';
 
 export default function Contact(props) {
@@ -15,7 +15,7 @@ export default function Contact(props) {
 
   async function fetchData() {
     try {
-      console.info("fetching live preview data...");
+      console.info('fetching live preview data...');
       const entryRes = await getContactRes(entryUrl);
       const headerRes = await getHeaderRes();
       const footerRes = await getFooterRes();
@@ -28,11 +28,7 @@ export default function Contact(props) {
   }
 
   useEffect(() => {
-    onEntryChange(() => {
-      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW) {
-        return fetchData();
-      }
-    });
+    onEntryChange(() => fetchData());
   }, []);
 
   return (

@@ -3,6 +3,7 @@ import * as Utils from '@contentstack/utils';
 
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
 import getConfig from 'next/config';
+
 const { publicRuntimeConfig } = getConfig();
 const envConfig = process.env.CONTENTSTACK_API_KEY
   ? process.env
@@ -32,15 +33,17 @@ const Stack = contentstack.Stack({
   },
 });
 
-Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
-ContentstackLivePreview.init(Stack, { enable: true, debug: true });
+if (envConfig.CONTENTSTACK_API_HOST) {
+  Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
+}
+ContentstackLivePreview.init(Stack, {
+  enable: envConfig.CONTENTSTACK_LIVE_PREVIEW,
+});
 
-export const onEntryChange = ContentstackLivePreview.onEntryChange;
+export const { onEntryChange } = ContentstackLivePreview;
 
 const renderOption = {
-  ['span']: (node, next) => {
-    return next(node.children);
-  },
+  span: (node, next) => next(node.children),
 };
 
 export default {
@@ -62,8 +65,8 @@ export default {
         .find()
         .then(
           (result) => {
-            jsonRtePath &&
-              Utils.jsonToHTML({
+            jsonRtePath
+              && Utils.jsonToHTML({
                 entry: result,
                 paths: jsonRtePath,
                 renderOption,
@@ -72,7 +75,7 @@ export default {
           },
           (error) => {
             reject(error);
-          }
+          },
         );
     });
   },
@@ -86,7 +89,9 @@ export default {
    * @param {* Json RTE path} jsonRtePath
    * @returns
    */
-  getEntryByUrl({ contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath }) {
+  getEntryByUrl({
+    contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath,
+  }) {
     return new Promise((resolve, reject) => {
       const blogQuery = Stack.ContentType(contentTypeUid).Query();
       if (referenceFieldPath) blogQuery.includeReference(referenceFieldPath);
@@ -94,8 +99,8 @@ export default {
       const data = blogQuery.where('url', `${entryUrl}`).find();
       data.then(
         (result) => {
-          jsonRtePath &&
-            Utils.jsonToHTML({
+          jsonRtePath
+            && Utils.jsonToHTML({
               entry: result,
               paths: jsonRtePath,
               renderOption,
@@ -105,7 +110,7 @@ export default {
         (error) => {
           console.error(error);
           reject(error);
-        }
+        },
       );
     });
   },

@@ -15,15 +15,13 @@ export default function Home(props) {
 
   async function fetchData() {
     try {
-      if (process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        console.info('fetching live preview data...');
-        const entryRes = await getHomeRes(entryUrl);
-        const headerRes = await getHeaderRes();
-        const footerRes = await getFooterRes();
-        setHeader(headerRes);
-        setFooter(footerRes);
-        setEntry(entryRes);
-      }
+      console.info('fetching live preview data...');
+      const entryRes = await getHomeRes(entryUrl);
+      const headerRes = await getHeaderRes();
+      const footerRes = await getFooterRes();
+      setHeader(headerRes);
+      setFooter(footerRes);
+      setEntry(entryRes);
     } catch (error) {
       console.error(error);
     }
@@ -35,7 +33,7 @@ export default function Home(props) {
 
   return (
     <Layout header={getHeader} footer={getFooter} page={result}>
-      {getEntry.page_components && (
+      {getEntry?.page_components && (
         <RenderComponents
           pageComponents={getEntry.page_components}
           contentTypeUid="page"
