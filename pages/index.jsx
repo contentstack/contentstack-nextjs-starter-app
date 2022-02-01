@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import getConfig from 'next/config';
 import { onEntryChange } from '../sdk-plugin/index';
 import Layout from '../components/layout';
 import RenderComponents from '../components/render-components';
@@ -8,7 +9,7 @@ export default function Home(props) {
   const {
     header, footer, result, entryUrl,
   } = props;
-
+  const { CONTENTSTACK_LIVE_PREVIEW } = getConfig().publicRuntimeConfig;
   const [getHeader, setHeader] = useState(header);
   const [getFooter, setFooter] = useState(footer);
   const [getEntry, setEntry] = useState(result);
@@ -28,7 +29,9 @@ export default function Home(props) {
   }
 
   useEffect(() => {
-    onEntryChange(fetchData);
+    onEntryChange(() => {
+      if (CONTENTSTACK_LIVE_PREVIEW === 'true') fetchData();
+    });
   }, []);
 
   return (

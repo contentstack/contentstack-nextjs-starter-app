@@ -20,24 +20,19 @@ const Stack = contentstack.Stack({
     enable: true,
     management_token: envConfig.CONTENTSTACK_MANAGEMENT_TOKEN,
     host: envConfig.CONTENTSTACK_API_HOST,
-    ssr: true,
-  },
-  stackDetails: {
-    apiKey: envConfig.CONTENTSTACK_API_KEY,
-    environment: envConfig.CONTENTSTACK_ENVIRONMENT,
-  },
-  clientUrlParams: {
-    protocol: 'https',
-    host: envConfig.CONTENTSTACK_APP_HOST,
-    port: 443,
   },
 });
 
 if (envConfig.CONTENTSTACK_API_HOST) {
   Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
 }
-ContentstackLivePreview.init(Stack, {
-  enable: envConfig.CONTENTSTACK_LIVE_PREVIEW,
+
+ContentstackLivePreview.init({
+  stackSdk: Stack,
+  clientUrlParams: {
+    host: envConfig.CONTENTSTACK_APP_HOST,
+  },
+  ssr: false,
 });
 
 export const { onEntryChange } = ContentstackLivePreview;

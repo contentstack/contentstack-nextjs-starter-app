@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import getConfig from 'next/config';
 import moment from 'moment';
 import Link from 'next/link';
 import parse from 'html-react-parser';
@@ -19,7 +20,7 @@ export default function Blog(props) {
     archived, blog, blogList, header, footer, entryUrl,
   } = props;
   const list = blogList.concat(archived);
-
+  const { CONTENTSTACK_LIVE_PREVIEW } = getConfig().publicRuntimeConfig;
   const [getHeader, setHeader] = useState(header);
   const [getFooter, setFooter] = useState(footer);
   const [getArchived, setArchived] = useState(archived);
@@ -41,7 +42,9 @@ export default function Blog(props) {
   }
 
   useEffect(() => {
-    onEntryChange(() => fetchData());
+    onEntryChange(() => {
+      if (CONTENTSTACK_LIVE_PREVIEW === 'true') fetchData();
+    });
   }, []);
 
   return (

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import getConfig from 'next/config';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import Layout from '../../components/layout';
@@ -17,7 +18,7 @@ export default function BlogPost(props) {
   const {
     header, banner, footer, result, entryUrl,
   } = props;
-
+  const { CONTENTSTACK_LIVE_PREVIEW } = getConfig().publicRuntimeConfig;
   const [getHeader, setHeader] = useState(header);
   const [getFooter, setFooter] = useState(footer);
   const [getEntry, setEntry] = useState(result);
@@ -40,7 +41,9 @@ export default function BlogPost(props) {
   }
 
   useEffect(() => {
-    onEntryChange(() => fetchData());
+    onEntryChange(() => {
+      if (CONTENTSTACK_LIVE_PREVIEW === 'true') fetchData();
+    });
   }, []);
 
   return (
