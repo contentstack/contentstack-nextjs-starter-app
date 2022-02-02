@@ -2,26 +2,23 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
+import Tooltip from "./tool-tip";
 
 export default function Header(props) {
   const { header } = props;
   const router = useRouter();
+
   return (
     <header className="header">
-      <div className="note-div">
+      <div
+        className="note-div"
+      >
         {header.notification_bar.show_announcement ? typeof header.notification_bar.announcement_text === "string"
           && (
-            parse(header.notification_bar.announcement_text)
-          ) : (
-          <div style={{ visibility: "hidden" }}>Devtools section</div>
-        )}
-        <span
-          className="devtools"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-        >
-          <img src="/devtools.gif" alt="dev tools icon" title="json preview" />
-        </span>
+            <div>
+              {parse(header.notification_bar.announcement_text)}
+            </div>
+          ) : null}
       </div>
       <div className="max-width header-div">
         <div className="wrapper-logo">
@@ -57,6 +54,17 @@ export default function Header(props) {
             ))}
           </ul>
         </nav>
+
+        <div className="json-preview">
+          <Tooltip content="JSON Preview" direction="top">
+            <span
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              <img src="/json.svg" alt="JSON Preview icon" />
+            </span>
+          </Tooltip>
+        </div>
       </div>
     </header>
   );

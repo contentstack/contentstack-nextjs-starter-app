@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import parse from "html-react-parser";
+import React from 'react';
+import Link from 'next/link';
+import parse from 'html-react-parser';
 
 export default function Footer(props) {
   const { footer } = props;
@@ -22,7 +22,9 @@ export default function Footer(props) {
             <ul className="nav-ul">
               {footer.navigation.link?.map((menu) => (
                 <li className="footer-nav-li" key={menu.title}>
-                  <Link href={menu.href}>{menu.title}</Link>
+                  <Link href={menu.href}>
+                    {menu.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -36,14 +38,19 @@ export default function Footer(props) {
                 title={social.link.title}
                 key={social.link.title}
               >
-                {social.icon && <img src={social.icon.url} alt={social.link.title} />}
+                {social.icon && (
+                  <img
+                    src={social.icon.url}
+                    alt={social.link.title}
+                  />
+                )}
               </a>
             ))}
           </div>
         </div>
       </div>
       <div className="copyright">
-        {typeof footer.copyright === "string" && parse(footer.copyright)}
+        {typeof footer.copyright === 'string' && parse(footer.copyright)}
       </div>
     </footer>
   );
