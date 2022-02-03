@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import parse from "html-react-parser";
+import React from 'react';
+import Link from 'next/link';
+import parse from 'html-react-parser';
 
 class BlogSection extends React.Component {
   render() {
@@ -29,10 +29,12 @@ class BlogSection extends React.Component {
               )}
               <div className="featured-content">
                 {blog.title && <h3>{blog.title}</h3>}
-                {typeof blog.body === "string" && parse(blog.body.slice(0, 300))}
+                {typeof blog.body === 'string' && (
+                  <div>{parse(blog.body.slice(0, 300))}</div>
+                )}
                 {blog.url && (
                   <Link href={blog.url} passHref>
-                    <a className="blogpost-readmore">{"Read More -->"}</a>
+                    <a className="blogpost-readmore">{'Read More -->'}</a>
                   </Link>
                 )}
               </div>

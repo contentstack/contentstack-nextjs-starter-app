@@ -11,7 +11,7 @@ export default function ArchiveRelative(props) {
           <a>
             <div>
               <h4>{blog.title}</h4>
-              {typeof blog.body === "string" && parse(blog.body.slice(0, 80))}
+              {typeof blog.body === "string" && <div>{parse(blog.body.slice(0, 80))}</div>}
             </div>
           </a>
         </Link>
