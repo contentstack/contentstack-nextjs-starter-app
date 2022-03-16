@@ -44,7 +44,7 @@ export default function BlogPost(props) {
     onEntryChange(() => {
       if (CONTENTSTACK_LIVE_PREVIEW === 'true') fetchData();
     });
-  }, []);
+  }, [result]);
 
   return (
     <Layout
