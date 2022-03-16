@@ -17,6 +17,13 @@ export const getFooterRes = async () => {
   return response[0][0];
 };
 
+export const getAllEntries =async () =>{
+  const response = await Stack.getEntry({
+    contentTypeUid:'page'
+  })
+  return response[0]
+}
+
 export const getHomeRes = async (entryUrl) => {
   const response = await Stack.getEntryByUrl({
     contentTypeUid: 'page',
