@@ -16,15 +16,13 @@ import {
 import ArchiveRelative from '../../components/archive-relative';
 
 export default function Blog(props) {
-  const {
-    archived, blog, blogList, header, footer, entryUrl,
-  } = props;
+  const { archived, blog, blogList, header, footer, entryUrl } = props;
   const list = blogList.concat(archived);
   const { CONTENTSTACK_LIVE_PREVIEW } = getConfig().publicRuntimeConfig;
   const [getHeader, setHeader] = useState(header);
   const [getFooter, setFooter] = useState(footer);
-  const [getArchived, setArchived] = useState(archived);
-  const [getList, setList] = useState(blogList);
+  const [getArchived] = useState(archived);
+  const [getList] = useState(blogList);
   const [getBanner, setBanner] = useState(blog);
 
   async function fetchData() {
@@ -58,41 +56,41 @@ export default function Blog(props) {
         <RenderComponents
           pageComponents={getBanner.page_components}
           blogsPage
-          contentTypeUid="page"
+          contentTypeUid='page'
           entryUid={getBanner.uid}
           locale={getBanner.locale}
         />
       )}
 
-      <div className="blog-container">
-        <div className="blog-column-left">
+      <div className='blog-container'>
+        <div className='blog-column-left'>
           {getList?.map((bloglist, index) => (
-            <div className="blog-list" key={index}>
+            <div className='blog-list' key={index}>
               {bloglist.featured_image && (
                 <Link href={bloglist.url}>
                   <a>
                     <img
-                      alt="blog img"
-                      className="blog-list-img"
+                      alt='blog img'
+                      className='blog-list-img'
                       src={bloglist.featured_image.url}
                     />
                   </a>
                 </Link>
               )}
-              <div className="blog-content">
+              <div className='blog-content'>
                 {bloglist.title && (
                   <Link href={bloglist.url}>
-                    <h3>{bloglist.title}</h3>
+                    <a>
+                      <h3>{bloglist.title}</h3>
+                    </a>
                   </Link>
                 )}
                 <p>
-                  {moment(bloglist.date).format('ddd, MMM D YYYY')}
-                  ,
-                  {' '}
+                  {moment(bloglist.date).format('ddd, MMM D YYYY')},{' '}
                   <strong>{bloglist.author[0].title}</strong>
                 </p>
-                {typeof bloglist.body === 'string'
-                  && parse(bloglist.body.slice(0, 300))}
+                {typeof bloglist.body === 'string' &&
+                  parse(bloglist.body.slice(0, 300))}
                 {bloglist.url ? (
                   <Link href={bloglist.url}>
                     <a>
@@ -106,12 +104,9 @@ export default function Blog(props) {
             </div>
           ))}
         </div>
-        <div className="blog-column-right">
+        <div className='blog-column-right'>
           {getBanner.page_components[1].widget && (
-            <h2>
-              {getBanner.page_components[1].widget.title_h2}
-              {' '}
-            </h2>
+            <h2>{getBanner.page_components[1].widget.title_h2} </h2>
           )}
           <ArchiveRelative blogs={getArchived} />
         </div>

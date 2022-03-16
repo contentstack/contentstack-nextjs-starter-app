@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages/**/*.js"
+    "lint": "eslint pages/**/*.jsx"
   },
   "dependencies": {
     "@contentstack/live-preview-utils": "^1.0.1",
@@ -24,7 +24,7 @@
     "react-json-view": "^1.21.3"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "eslint": "^8.10.0",
     "eslint-config-next": "^12.1.0"
   }
 }
