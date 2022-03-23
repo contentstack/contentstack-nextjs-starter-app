@@ -1,7 +1,7 @@
 {
   "name": "contentstack-nextjs-starter-app",
   "description": "A starter app for Contentstack and Nextjs",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "private": true,
   "author": "Contentstack",
   "scripts": {
@@ -21,7 +21,8 @@
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-json-view": "^1.21.3"
+    "react-json-view": "^1.21.3",
+    "react-loading-skeleton": "^3.0.3"
   },
   "devDependencies": {
     "eslint": "^8.10.0",
