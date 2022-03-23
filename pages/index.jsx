@@ -38,7 +38,6 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   try {
     const entryRes = await getPageRes(context.resolvedUrl);
-    // if (!entryRes) throw new Error('Status code 404');
     return {
       props: {
         entryUrl: context.resolvedUrl,
