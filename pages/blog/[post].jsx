@@ -94,6 +94,7 @@ export async function getServerSideProps({ params }) {
   try {
     const page = await getPageRes('/blog');
     const posts = await getBlogPostRes(`/blog/${params.post}`);
+    if (!page || !posts) throw new Error('404');
 
     return {
       props: {

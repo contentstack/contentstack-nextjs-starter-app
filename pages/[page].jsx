@@ -39,6 +39,7 @@ export async function getServerSideProps({params}) {
   try {
       const entryUrl = params.page.includes('/') ? params.page:`/${params.page}`
       const entryRes = await getPageRes(entryUrl);
+      if (!entryRes) throw new Error('404');
       return {
         props: {
           entryUrl: entryUrl,
