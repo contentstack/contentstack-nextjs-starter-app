@@ -1,32 +1,33 @@
-import React from "react";
+import React from 'react';
 
-import Section from "./section";
-import HeroBanner from "./hero-banner";
-import BlogBanner from "./blog-banner";
-import CardSection from "./card-section";
-import TeamSection from "./team-section";
-import BlogSection from "./blog-section";
-import SectionBucket from "./section-bucket";
-import AboutSectionBucket from "./about-section-bucket";
-import SectionWithHtmlCode from "./section-with-html-code";
+import Section from './section';
+import HeroBanner from './hero-banner';
+import BlogBanner from './blog-banner';
+import CardSection from './card-section';
+import TeamSection from './team-section';
+import BlogSection from './blog-section';
+import SectionBucket from './section-bucket';
+import AboutSectionBucket from './about-section-bucket';
+import SectionWithHtmlCode from './section-with-html-code';
 
 export default function RenderComponents(props) {
-  const {
-    pageComponents, blogsPage, about, entryUid, contentTypeUid, locale,
-  } = props;
+  const { pageComponents, blogPost, entryUid, contentTypeUid, locale } = props;
   return (
-    <div data-pageref={entryUid} data-contenttype={contentTypeUid} data-locale={locale}>
+    <div
+      data-pageref={entryUid}
+      data-contenttype={contentTypeUid}
+      data-locale={locale}
+    >
       {pageComponents?.map((component, key) => {
         if (component.hero_banner) {
-          return blogsPage ? (
+          return blogPost ? (
             <BlogBanner
-              blog_banner={component.hero_banner}
+              blogBanner={component.hero_banner}
               key={`component-${key}`}
             />
           ) : (
             <HeroBanner
-              hero_banner={component.hero_banner}
-              title={about ? "about" : "home"}
+              banner={component.hero_banner}
               key={`component-${key}`}
             />
           );
@@ -37,7 +38,7 @@ export default function RenderComponents(props) {
           );
         }
         if (component.section_with_buckets) {
-          return about ? (
+          return component.section_with_buckets.bucket_tabular ? (
             <AboutSectionBucket
               sectionWithBuckets={component.section_with_buckets}
               key={`component-${key}`}
@@ -51,7 +52,10 @@ export default function RenderComponents(props) {
         }
         if (component.from_blog) {
           return (
-            <BlogSection blogs={component.from_blog} key={`component-${key}`} />
+            <BlogSection
+              fromBlog={component.from_blog}
+              key={`component-${key}`}
+            />
           );
         }
         if (component.section_with_cards) {

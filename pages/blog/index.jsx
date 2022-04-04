@@ -1,38 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import getConfig from 'next/config';
-import moment from 'moment';
-import Link from 'next/link';
-import parse from 'html-react-parser';
-import { onEntryChange } from '../../sdk-plugin/index';
-import Layout from '../../components/layout';
+import { onEntryChange } from '../../contentstack-sdk';
+import BlogList from '../../components/blog-list';
 import RenderComponents from '../../components/render-components';
-import {
-  getHeaderRes,
-  getFooterRes,
-  getBlogBannerRes,
-  getBlogListRes,
-} from '../../helper/index';
+import { getPageRes, getBlogListRes } from '../../helper';
 
 import ArchiveRelative from '../../components/archive-relative';
+import Skeleton from 'react-loading-skeleton';
 
-export default function Blog(props) {
-  const { archived, blog, blogList, header, footer, entryUrl } = props;
-  const list = blogList.concat(archived);
-  const { CONTENTSTACK_LIVE_PREVIEW } = getConfig().publicRuntimeConfig;
-  const [getHeader, setHeader] = useState(header);
-  const [getFooter, setFooter] = useState(footer);
-  const [getArchived] = useState(archived);
-  const [getList] = useState(blogList);
-  const [getBanner, setBanner] = useState(blog);
-
+export default function Blog({ page, posts, archivePost, pageUrl }) {
+  const [getBanner, setBanner] = useState(page);
   async function fetchData() {
     try {
-      console.info('fetching live preview data...');
-      const bannerRes = await getBlogBannerRes(entryUrl);
-      const headerRes = await getHeaderRes();
-      const footerRes = await getFooterRes();
-      setHeader(headerRes);
-      setFooter(footerRes);
+      const bannerRes = await getPageRes(pageUrl);
+      if (!bannerRes) throw new Error('Status code 404');
       setBanner(bannerRes);
     } catch (error) {
       console.error(error);
@@ -40,104 +20,66 @@ export default function Blog(props) {
   }
 
   useEffect(() => {
-    onEntryChange(() => {
-      if (CONTENTSTACK_LIVE_PREVIEW === 'true') fetchData();
-    });
+    onEntryChange(() => fetchData());
   }, []);
-
   return (
-    <Layout
-      header={getHeader}
-      footer={getFooter}
-      page={getBanner}
-      blogpost={list}
-    >
-      {getBanner.page_components && (
+    <>
+      {getBanner.page_components ? (
         <RenderComponents
           pageComponents={getBanner.page_components}
-          blogsPage
+          blogPost
           contentTypeUid='page'
           entryUid={getBanner.uid}
           locale={getBanner.locale}
         />
+      ) : (
+        <Skeleton height={400} />
       )}
-
       <div className='blog-container'>
         <div className='blog-column-left'>
-          {getList?.map((bloglist, index) => (
-            <div className='blog-list' key={index}>
-              {bloglist.featured_image && (
-                <Link href={bloglist.url}>
-                  <a>
-                    <img
-                      alt='blog img'
-                      className='blog-list-img'
-                      src={bloglist.featured_image.url}
-                    />
-                  </a>
-                </Link>
-              )}
-              <div className='blog-content'>
-                {bloglist.title && (
-                  <Link href={bloglist.url}>
-                    <a>
-                      <h3>{bloglist.title}</h3>
-                    </a>
-                  </Link>
-                )}
-                <p>
-                  {moment(bloglist.date).format('ddd, MMM D YYYY')},{' '}
-                  <strong>{bloglist.author[0].title}</strong>
-                </p>
-                {typeof bloglist.body === 'string' &&
-                  parse(bloglist.body.slice(0, 300))}
-                {bloglist.url ? (
-                  <Link href={bloglist.url}>
-                    <a>
-                      <span>{'Read more -->'}</span>
-                    </a>
-                  </Link>
-                ) : (
-                  ''
-                )}
-              </div>
-            </div>
-          ))}
+          {posts ? (
+            posts.map((blogList, index) => (
+              <BlogList bloglist={blogList} key={index} />
+            ))
+          ) : (
+            <Skeleton height={400} width={400} count={3} />
+          )}
         </div>
         <div className='blog-column-right'>
-          {getBanner.page_components[1].widget && (
-            <h2>{getBanner.page_components[1].widget.title_h2} </h2>
+          {getBanner && getBanner.page_components[1].widget && (
+            <h2>{getBanner.page_components[1].widget.title_h2}</h2>
           )}
-          <ArchiveRelative blogs={getArchived} />
+          {archivePost ? (
+            <ArchiveRelative blogs={archivePost} />
+          ) : (
+            <Skeleton height={600} width={300} />
+          )}
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 
 export async function getServerSideProps(context) {
   try {
-    const blog = await getBlogBannerRes(context.resolvedUrl);
+    const page = await getPageRes(context.resolvedUrl);
     const result = await getBlogListRes();
-    const header = await getHeaderRes();
-    const footer = await getFooterRes();
-    const archived = [];
-    const blogList = [];
+
+    const archivePost = [];
+    const posts = [];
     result.forEach((blogs) => {
       if (blogs.is_archived) {
-        archived.push(blogs);
+        archivePost.push(blogs);
       } else {
-        blogList.push(blogs);
+        posts.push(blogs);
       }
     });
     return {
       props: {
-        entryUrl: context.resolvedUrl,
-        header,
-        footer,
-        blog,
-        blogList,
-        archived,
+        pageUrl: context.resolvedUrl,
+        page,
+        posts,
+        archivePost,
       },
     };
   } catch (error) {
