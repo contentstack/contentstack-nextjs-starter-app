@@ -27,6 +27,8 @@ We have created an in-depth tutorial on how you can create a Next.js starter web
 
 Read Contentstack [docs](https://www.contentstack.com/docs/)
 
+Region support [docs](https://www.contentstack.com/docs/developers/selecting-region-in-contentstack-starter-apps)
+
 Learn about [Next.js](https://learnnextjs.com/)
 
 
