@@ -1,8 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { SectionProps } from "../typescript/section";
 
-export default function Section({ section }) {
-  function contentSection(key) {
+export default function Section({ section }: {section : SectionProps}) {
+  function contentSection(key: any) {
     return (
       <div className='home-content' key={key}>
         {section.title_h2 && (
@@ -27,7 +28,7 @@ export default function Section({ section }) {
     );
   }
 
-  function imageContent(key) {
+  function imageContent(key: any) {
     return (
       <img
         {...section.image.$?.url}

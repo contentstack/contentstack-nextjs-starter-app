@@ -4,7 +4,7 @@ import Tooltip from './tool-tip';
 
 const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
 
-function filterObject(inputObject) {
+function filterObject(inputObject: any) {
   const unWantedProps = [
     '_version',
     'ACL',
@@ -26,11 +26,11 @@ function filterObject(inputObject) {
   return inputObject;
 }
 
-const DevTools = ({ response }) => {
+const DevTools = ({ response }: any) => {
   const filteredJson = filterObject(response);
   const [forceUpdate, setForceUpdate] = useState(0);
 
-  function copyObject(object) {
+  function copyObject(object: any) {
     navigator.clipboard.writeText(object);
     setForceUpdate(1);
   }
@@ -47,7 +47,7 @@ const DevTools = ({ response }) => {
       id="staticBackdrop"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
       role="dialog"

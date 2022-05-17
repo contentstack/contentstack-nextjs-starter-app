@@ -6,8 +6,11 @@ import { onEntryChange } from '../../contentstack-sdk';
 import Skeleton from 'react-loading-skeleton';
 import RenderComponents from '../../components/render-components';
 import ArchiveRelative from '../../components/archive-relative';
+import { Page, BlogPosts, PageUrl } from "../../typescript/pages";
 
-export default function BlogPost({ blogPost, page, pageUrl }) {
+
+export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPosts, page: Page, pageUrl: PageUrl}) {
+  
   const [getPost, setPost] = useState({ banner: page, post: blogPost });
   async function fetchData() {
     try {
@@ -90,7 +93,7 @@ export default function BlogPost({ blogPost, page, pageUrl }) {
     </>
   );
 }
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params }: any) {
   try {
     const page = await getPageRes('/blog');
     const posts = await getBlogPostRes(`/blog/${params.post}`);

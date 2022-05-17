@@ -1,4 +1,4 @@
-import Stack from '../contentstack-sdk/index';
+import Stack from '../contentstack-sdk';
 import { addEditableTags } from '@contentstack/utils';
 import getConfig from 'next/config';
 

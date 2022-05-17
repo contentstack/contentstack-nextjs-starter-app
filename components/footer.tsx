@@ -4,16 +4,18 @@ import parse from 'html-react-parser';
 import { onEntryChange } from '../contentstack-sdk';
 import { getFooterRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
+import { FooterProps, Entry, Links } from "../typescript/layout";
 
-export default function Footer({ footer, entries }) {
+export default function Footer({ footer, entries }: {footer: FooterProps, entries: Entry}) {
+
   const [getFooter, setFooter] = useState(footer);
-
-  function buildNavigation(ent, ft) {
+  
+  function buildNavigation(ent: Entry, ft: any) {
     let newFooter = { ...ft };
     if (ent.length !== newFooter.navigation.link.length) {
       ent.forEach((entry) => {
         const fFound = newFooter?.navigation.link.find(
-          (nlink) => nlink.title === entry.title
+          (nlink: Links) => nlink.title === entry.title
         );
         if (!fFound) {
           newFooter.navigation.link?.push({
@@ -29,7 +31,7 @@ export default function Footer({ footer, entries }) {
 
   async function fetchData() {
     try {
-      if (footer && entries != {}) {
+      if (footer && entries) {
         const footerRes = await getFooterRes();
         const newfooter = buildNavigation(entries, footerRes);
         setFooter(newfooter);

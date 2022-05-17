@@ -1,7 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import { BannerProps } from "../typescript/banner";
 
-export default function HeroBanner({ banner }) {
+export default function HeroBanner(props: BannerProps) {
+
+  const banner = props.banner;
+
   return (
     <div
       className='hero-banner'

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './header';
 import Footer from './footer';
 import DevTools from './devtools';
+import { HeaderProps, FooterProps, PageProps, Posts, ChilderenProps, Entry, Links } from "../typescript/layout";
 
 export default function Layout({
   header,
@@ -11,20 +12,21 @@ export default function Layout({
   blogList,
   entries,
   children,
-}) {
+}: { header: HeaderProps, footer: FooterProps, page: PageProps, blogPost: Posts, blogList: Posts, entries: Entry, children: ChilderenProps }) {
+
   const [getLayout, setLayout] = useState({ header, footer });
-  const jsonObj = { header, footer };
+  const jsonObj: any = { header, footer };
   page && (jsonObj.page = page);
   blogPost && (jsonObj.blog_post = blogPost);
   blogList && (jsonObj.blog_post = blogList);
 
-  function buildNavigation(ent, hd, ft) {
+  function buildNavigation(ent: Entry, hd: any, ft: any) {
     let newHeader = { ...hd };
     let newFooter = { ...ft };
     if (ent.length !== newHeader.navigation_menu.length) {
       ent.forEach((entry) => {
         const hFound = newHeader?.navigation_menu.find(
-          (navLink) => navLink.label === entry.title
+          (navLink: Links) => navLink.label === entry.title
         );
         if (!hFound) {
           newHeader.navigation_menu?.push({
@@ -36,7 +38,7 @@ export default function Layout({
           });
         }
         const fFound = newFooter?.navigation.link.find(
-          (nlink) => nlink.title === entry.title
+          (nlink: Links) => nlink.title === entry.title
         );
         if (!fFound) {
           newFooter.navigation.link?.push({
@@ -61,8 +63,10 @@ export default function Layout({
     <>
       {header ? <Header header={getLayout.header} entries={entries} /> : ''}
       <main className='mainClass'>
+        <>
         {children}
         {Object.keys(jsonObj).length && <DevTools response={jsonObj} />}
+        </>
       </main>
       {footer ? <Footer footer={getLayout.footer} entries={entries} /> : ''}
     </>

@@ -1,6 +1,7 @@
 import React from 'react';
+import {BannerProps} from '../typescript/blog';
 
-export default function BlogBanner({ blogBanner }) {
+export default function BlogBanner({ blogBanner }: {blogBanner : BannerProps}) {
   return (
     <div
       className='blog-page-banner'

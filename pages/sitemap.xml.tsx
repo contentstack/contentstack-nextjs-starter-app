@@ -1,14 +1,16 @@
-import { getAllEntries, getBlogListRes } from '../helper/index';
+import { getAllEntries, getBlogListRes } from '../helper';
+import { Context, Pages, PostPage } from "../typescript/pages";
 
 const Sitemap = () => {
   return null;
 };
 
-export const getServerSideProps = async ({ res }) => {
+export const getServerSideProps = async ({ res }: {res: Context}) => {
+
   const baseUrl = process.env.NEXT_PUBLIC_HOSTED_URL || 'http://localhost:3000';
 
-  let pages = await getAllEntries();
-  let posts = await getBlogListRes();
+  let pages: Pages = await getAllEntries();
+  let posts: PostPage = await getBlogListRes();
 
   const allPages = pages.map((page) => `${baseUrl}${page.url}`);
   const allPosts = posts.map((post) => `${baseUrl}${post.url}`);

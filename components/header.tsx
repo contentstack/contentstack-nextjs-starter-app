@@ -6,17 +6,19 @@ import Tooltip from './tool-tip';
 import { onEntryChange } from '../contentstack-sdk';
 import { getHeaderRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
+import { HeaderProps, Entry, Links } from "../typescript/layout";
 
-export default function Header({ header, entries }) {
+export default function Header({ header, entries }: {header: HeaderProps, entries: Entry}) {
+
   const router = useRouter();
   const [getHeader, setHeader] = useState(header);
 
-  function buildNavigation(ent, hd) {
+  function buildNavigation(ent: Entry, hd: any) {
     let newHeader={...hd};
     if (ent.length!== newHeader.navigation_menu.length) {
           ent.forEach((entry) => {
             const hFound = newHeader?.navigation_menu.find(
-              (navLink) => navLink.label === entry.title
+              (navLink: Links) => navLink.label === entry.title
             );
             if (!hFound) {
               newHeader.navigation_menu?.push({
@@ -34,7 +36,7 @@ export default function Header({ header, entries }) {
 
   async function fetchData() {
     try {
-      if (header && entries!=={}) {
+      if (header && entries) {
       const headerRes = await getHeaderRes();
       const newHeader = buildNavigation(entries,headerRes)
       setHeader(newHeader);
@@ -111,7 +113,7 @@ export default function Header({ header, entries }) {
         </nav>
 
         <div className='json-preview'>
-          <Tooltip content='JSON Preview' direction='top'>
+          <Tooltip content='JSON Preview' direction='top' dynamic={false} delay={200} status={0}>
             <span data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
               <img src='/json.svg' alt='JSON Preview icon' />
             </span>

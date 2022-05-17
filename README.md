@@ -28,12 +28,3 @@ We have created an in-depth tutorial on how you can create a Next.js starter web
 Read Contentstack [docs](https://www.contentstack.com/docs/)
 
 Learn about [Next.js](https://learnnextjs.com/)
-
-
-
-
-
-
-
-
-

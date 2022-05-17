@@ -1,8 +1,9 @@
 import React from 'react';
 import parse from 'html-react-parser';
+import { BucketProps, Bucket } from "../typescript/about-section-bucket";
 
-export default function AboutSectionBucket({ sectionWithBuckets }) {
-  function bucketContent(bucket, index) {
+export default function AboutSectionBucket({ sectionWithBuckets }: {sectionWithBuckets:BucketProps}) {
+  function bucketContent(bucket: Bucket, index: number) {
     return (
       <div className='mission-content-section' key={index}>
         {bucket.icon && (

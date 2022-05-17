@@ -2,11 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import Link from 'next/link';
+import { BloglistProps } from "../typescript/blog";
 
-function BlogList({ bloglist }) {
+function BlogList({ bloglist }: { bloglist: BloglistProps }) {
   let body = typeof bloglist.body === 'string' && bloglist.body.substr(0, 300);
-  const stringLength = body.lastIndexOf(' ');
-  body = `${body.substr(0, Math.min(body.length, stringLength))}...`;
+  const stringLength = (body as string).lastIndexOf(' ');
+  body = `${(body as string).substr(0, Math.min((body as string).length, stringLength))}...`;
   return (
     <div className='blog-list'>
       {bloglist.featured_image && (

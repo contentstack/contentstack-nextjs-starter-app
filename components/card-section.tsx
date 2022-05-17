@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { CardProps } from "../typescript/card";
 
-export default function CardSection({ cards }) {
+export default function CardSection({ cards }: CardProps) {
   return (
     <div className='demo-section'>
       {cards?.map((card, index) => (
