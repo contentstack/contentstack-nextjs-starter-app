@@ -1,6 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
-import { CardProps } from "../typescript/card";
+import { Action } from "../typescript/action";
+
+type AdditionalParam = {
+    title_h3: string;
+    description: string;
+  }
+  
+type Card = {
+    title_h3: string;
+    description: string;
+    call_to_action: Action;
+    $: AdditionalParam;
+  }
+  
+type CardProps = {
+    cards: [Card]
+  }
 
 export default function CardSection({ cards }: CardProps) {
   return (

@@ -10,7 +10,7 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
 
   const [getFooter, setFooter] = useState(footer);
   
-  function buildNavigation(ent: Entry, ft: any) {
+  function buildNavigation(ent: Entry, ft: FooterProps) {
     let newFooter = { ...ft };
     if (ent.length !== newFooter.navigation.link.length) {
       ent.forEach((entry) => {

@@ -1,7 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
-import {BlogListProps} from '../typescript/archive-relative';
+
+type AdditionalParam = {
+  title: string;
+  body: string;
+}
+
+type Blog = {
+  url: string;
+  body: string;
+  title: string;
+  $: AdditionalParam;
+}
+
+type BlogListProps = {
+  blogs: [Blog];
+}
 
 export default function ArchiveRelative({ blogs }: BlogListProps) {
   return (

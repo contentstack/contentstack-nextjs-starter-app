@@ -6,19 +6,19 @@ import Tooltip from './tool-tip';
 import { onEntryChange } from '../contentstack-sdk';
 import { getHeaderRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
-import { HeaderProps, Entry, Links } from "../typescript/layout";
+import { HeaderProps, Entry, NavLinks } from "../typescript/layout";
 
 export default function Header({ header, entries }: {header: HeaderProps, entries: Entry}) {
 
   const router = useRouter();
   const [getHeader, setHeader] = useState(header);
 
-  function buildNavigation(ent: Entry, hd: any) {
+  function buildNavigation(ent: Entry, hd: HeaderProps) {
     let newHeader={...hd};
     if (ent.length!== newHeader.navigation_menu.length) {
           ent.forEach((entry) => {
             const hFound = newHeader?.navigation_menu.find(
-              (navLink: Links) => navLink.label === entry.title
+              (navLink: NavLinks) => navLink.label === entry.title
             );
             if (!hFound) {
               newHeader.navigation_menu?.push({

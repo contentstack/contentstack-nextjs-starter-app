@@ -2,7 +2,7 @@ import { Component } from "../typescript/component";
 import { Image } from "../typescript/action";
 import { Entry, HeaderProps ,FooterProps } from "./layout";
 
-type Object = {
+type AdditionalParam = {
   title: string;
   title_h2: string;
   title_h3: string;
@@ -29,12 +29,12 @@ type Post = {
   title: string;
   date: string;
   author: [Author];
-  $: Object;
+  $: AdditionalParam;
 }
 
 type Author = {
   title: string;
-  $: Object;
+  $: AdditionalParam;
 }
 
 type PageProps = {
@@ -52,7 +52,7 @@ type Blog = {
   url: string;
   body: string;
   title: string;
-  $: Object;
+  $: AdditionalParam;
 }
 
 export type Props = {
@@ -105,5 +105,5 @@ export type BlogPosts = {
   seo: Seo;
   url: string;
   _owner: string;
-  $: Object;
+  $: AdditionalParam;
 }

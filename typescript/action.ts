@@ -1,4 +1,4 @@
-type Object = {
+type AdditionalParam = {
   url: string;
   title: {};
 }
@@ -6,11 +6,11 @@ type Object = {
 export type Action = {
     title: string;
     href: string;
-    $: Object;
+    $: AdditionalParam;
   }
 
 export type Image = {
     filename: string;
     url: string;
-    $: Object;
+    $: AdditionalParam;
   }

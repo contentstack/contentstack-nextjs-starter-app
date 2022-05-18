@@ -1,5 +1,22 @@
 import parse from 'html-react-parser';
-import { ObjectProps } from "../typescript/section";
+
+type AdditionalParam = {
+  title: string;
+  title_h2: string;
+  title_h3: string;
+  description: string;
+  html_code: string;
+  designation: string;
+  name: string;
+}
+
+type ObjectProps = {
+  html_code_alignment: string;
+  title: string;
+  description: string;
+  html_code: string;
+  $: AdditionalParam;
+}
 
 export default function SectionWithHtmlCode({ embedCode }: {embedCode : ObjectProps}) {
   if (embedCode.html_code_alignment === 'Left') {

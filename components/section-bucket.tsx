@@ -1,7 +1,32 @@
 import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
-import { BucketProps } from "../typescript/section";
+import { Image, Action } from "../typescript/action";
+
+type AdditionalParam = {
+  title: string;
+  title_h2: string;
+  title_h3: string;
+  description: string;
+  html_code: string;
+  designation: string;
+  name: string;
+}
+
+type Buckets = {
+  title_h3: string;
+  description: string;
+  call_to_action: Action;
+  icon: Image;
+  $: AdditionalParam;
+}
+
+export type BucketProps = {
+  title_h2: string;
+  description: string;
+  buckets: [Buckets];
+  $: AdditionalParam;
+}
 
 export default function SectionBucket({ section }: {section: BucketProps}) {
   return (

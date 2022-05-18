@@ -1,6 +1,25 @@
 import React from 'react';
 import Link from 'next/link';
-import { BannerProps } from "../typescript/banner";
+import { Image, Action } from "../typescript/action";
+
+type AdditionalParam = {
+  banner_title: string;
+  banner_description: string;
+}
+
+type Banner = {
+  bg_color: string;
+  text_color: string;
+  banner_title: string;
+  banner_description: string;
+  call_to_action: Action;
+  banner_image: Image;
+  $: AdditionalParam;
+}
+
+type BannerProps = {
+  banner: Banner;
+}
 
 export default function HeroBanner(props: BannerProps) {
 

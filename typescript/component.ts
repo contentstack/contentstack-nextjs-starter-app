@@ -1,6 +1,6 @@
 import { Action, Image } from "./action";
 
-type Object = {
+type AdditionalParam = {
   title: string;
   title_h2: string;
   title_h3: string;
@@ -18,7 +18,7 @@ type Employee = {
   image: Image;
   name: string;
   designation: string;
-  $: Object;
+  $: AdditionalParam;
 }
 
 type BucketList = [
@@ -28,7 +28,7 @@ type BucketList = [
     url: string;
     call_to_action: Action;
     icon: Image;
-    $: Object;
+    $: AdditionalParam;
   }
 ]
 
@@ -37,14 +37,14 @@ type Card = [
     title_h3: string;
     description: string;
     call_to_action: Action;
-    $: Object;
+    $: AdditionalParam;
     }
 ]
 
 type Article = {
   href: string;
   title: string;
-  $: Object;
+  $: AdditionalParam;
 }
 
 type FeaturedBlog = [
@@ -53,14 +53,14 @@ type FeaturedBlog = [
     featured_image: Image;
     body: string;
     url: string;
-    $: Object;
+    $: AdditionalParam;
   }
 ]
 
 type Widget = {
   title_h2: string;
   type?: string;
-  $: Object;
+  $: AdditionalParam;
 }
 
 export type Component = {
@@ -69,7 +69,7 @@ export type Component = {
   section_with_buckets?: SectionWithBucket;
   from_blog?: FeaturedBlogData;
   section_with_cards?: Cards;
-  section_with_html_code?: ObjectProps;
+  section_with_html_code?: AdditionalParamProps;
   our_team?: TeamProps;
   widget?: Widget;
 }
@@ -79,7 +79,7 @@ export type SectionWithBucket = {
     title_h2: string;
     buckets: BucketList;
     description: string;
-    $: Object;
+    $: AdditionalParam;
   }
 
 export type Cards = {
@@ -93,13 +93,13 @@ export type Banner = {
     call_to_action: Action;
     banner_image: Image;
     text_color: string;
-    $: Object;
+    $: AdditionalParam;
   }
   
-export type ObjectProps = {
+export type AdditionalParamProps = {
     html_code_alignment: string;
     title: string;
-    $: Object;
+    $: AdditionalParam;
     description: string;
     html_code: string;
   }
@@ -110,13 +110,13 @@ export type SectionProps = {
     call_to_action: Action;
     image: Image;
     image_alignment: string;
-    $: Object;
+    $: AdditionalParam;
   } 
   
 export type TeamProps = {
     title_h2: string;
     description: string;
-    $: Object;
+    $: AdditionalParam;
     employees: [Employee];
   }
   
@@ -124,7 +124,7 @@ export type FeaturedBlogData = {
     title_h2: string;
     view_articles: Article;
     featured_blogs: FeaturedBlog;
-    $: Object;
+    $: AdditionalParam;
 }
 
 export type RenderProps = {
