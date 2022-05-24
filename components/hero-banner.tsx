@@ -35,7 +35,7 @@ export default function HeroBanner(props: BannerProps) {
       <div
         className='home-content'
         style={{
-          color: banner?.text_color ? banner.text_color : '',
+          color: banner?.text_color ? banner.text_color : '#000',
         }}
       >
         {banner.banner_title && (
@@ -47,7 +47,7 @@ export default function HeroBanner(props: BannerProps) {
           <p
             className='hero-description '
             style={{
-              color: banner?.text_color ? banner.text_color : '',
+              color: banner?.text_color ? banner.text_color : '#000',
             }}
             {...banner.$?.banner_description}
           >
