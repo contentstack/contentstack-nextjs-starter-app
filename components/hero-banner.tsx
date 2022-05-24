@@ -47,7 +47,7 @@ export default function HeroBanner(props: BannerProps) {
           <p
             className='hero-description '
             style={{
-              color: banner?.text_color ? banner.text_color : '#000',
+              color: banner?.text_color ? banner.text_color : '#222',
             }}
             {...banner.$?.banner_description}
           >
