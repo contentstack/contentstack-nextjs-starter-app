@@ -1,8 +1,46 @@
 import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
+import { Image } from "../typescript/action";
 
-export default function BlogSection({ fromBlog }) {
+type AdditionalParam = {
+  banner_title:string;
+  banner_description: string;
+  title: {};
+  title_h2: string;
+  body: string;
+  date: string;
+}
+
+type Article = {
+  href: string;
+  title: string;
+  $: AdditionalParam;
+}
+
+type FeaturedBlog = {
+  title: string;
+  featured_image: Image;
+  body: string;
+  url: string;
+  $: AdditionalParam;
+}
+
+type FeaturedBlogData = {
+  title_h2: string;
+  view_articles: Article;
+  featured_blogs: [FeaturedBlog]
+  $: AdditionalParam;
+}
+
+type FeaturedBlogProps = {
+  fromBlog: FeaturedBlogData;
+  }
+
+export default function BlogSection(props: FeaturedBlogProps) {
+
+  const fromBlog = props.fromBlog;
+
   return (
     <div className='community-section'>
       <div className='community-head'>

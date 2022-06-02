@@ -9,16 +9,18 @@ import '../styles/third-party.css';
 import '../styles/style.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import '@contentstack/live-preview-utils/dist/main.css';
+import { Props } from "../typescript/pages";
+
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function MyApp(props) {
+function MyApp(props: Props) {
   const { Component, pageProps, header, footer, entries } = props;
   const { page, posts, archivePost, blogPost } = pageProps;
 
-  const metaData = (seo) => {
+  const metaData = (seo: any) => {
     const metaArr = [];
     for (const key in seo) {
       if (seo.enable_search_indexing) {
@@ -37,8 +39,7 @@ function MyApp(props) {
     }
     return metaArr;
   };
-
-  const blogList = posts?.concat(archivePost);
+  const blogList: any = posts?.concat(archivePost);
   return (
     <>
       <Head>
@@ -70,7 +71,7 @@ function MyApp(props) {
   );
 }
 
-MyApp.getInitialProps = async (appContext) => {
+MyApp.getInitialProps = async (appContext: any) => {
   const appProps = await App.getInitialProps(appContext);
   const header = await getHeaderRes();
   const footer = await getFooterRes();

@@ -1,6 +1,31 @@
 import React from 'react';
+import { Image } from "../typescript/action";
 
-export default function TeamSection({ ourTeam }) {
+type AdditionalParam = {
+  title: string;
+  title_h2: string;
+  title_h3: string;
+  description: string;
+  html_code: string;
+  designation: string;
+  name: string;
+}
+
+type Employee = {
+  image: Image;
+  name: string;
+  designation: string;
+  $: AdditionalParam;
+}
+
+type TeamProps = {
+  title_h2: string;
+  description: string;
+  $: AdditionalParam;
+  employees: [Employee];
+}
+
+export default function TeamSection({ ourTeam }: {ourTeam : TeamProps}) {
   return (
     <div className='about-team-section'>
       <div className='team-head-section'>

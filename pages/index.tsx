@@ -3,8 +3,10 @@ import { onEntryChange } from '../contentstack-sdk';
 import RenderComponents from '../components/render-components';
 import { getPageRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
+import { Props, Context } from "../typescript/pages";
 
-export default function Home(props) {
+export default function Home(props: Props) {
+
   const { page, entryUrl } = props;
 
   const [getEntry, setEntry] = useState(page);
@@ -35,7 +37,7 @@ export default function Home(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: Context) {
   try {
     const entryRes = await getPageRes(context.resolvedUrl);
     return {

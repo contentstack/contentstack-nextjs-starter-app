@@ -3,8 +3,9 @@ import { onEntryChange } from '../contentstack-sdk';
 import RenderComponents from '../components/render-components';
 import { getPageRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
+import { Props } from "../typescript/pages";
 
-export default function Page(props) {
+export default function Page(props: Props) {
   const { page, entryUrl } = props;
   const [getEntry, setEntry] = useState(page);
 
@@ -25,7 +26,6 @@ export default function Page(props) {
   return getEntry.page_components ? (
     <RenderComponents
       pageComponents={getEntry.page_components}
-      about
       contentTypeUid='page'
       entryUid={getEntry.uid}
       locale={getEntry.locale}
@@ -35,7 +35,7 @@ export default function Page(props) {
   );
 }
 
-export async function getServerSideProps({params}) {
+export async function getServerSideProps({params}: any) {
   try {
       const entryUrl = params.page.includes('/') ? params.page:`/${params.page}`
       const entryRes = await getPageRes(entryUrl);

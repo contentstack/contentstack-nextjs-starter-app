@@ -1,6 +1,22 @@
 import React from 'react';
 
-export default function BlogBanner({ blogBanner }) {
+type AdditionalParam = {
+  banner_title:string;
+  banner_description: string;
+  title: {};
+  title_h2: string;
+  body: string;
+  date: string;
+}
+
+type BannerProps = {
+  banner_title:string;
+  banner_description: string;
+  bg_color: string;
+  $: AdditionalParam;
+}
+
+export default function BlogBanner({ blogBanner }: {blogBanner : BannerProps}) {
   return (
     <div
       className='blog-page-banner'

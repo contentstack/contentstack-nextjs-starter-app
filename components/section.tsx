@@ -1,8 +1,28 @@
 import React from 'react';
 import Link from 'next/link';
+import { Image, Action } from "../typescript/action";
 
-export default function Section({ section }) {
-  function contentSection(key) {
+type AdditionalParam = {
+  title: string;
+  title_h2: string;
+  title_h3: string;
+  description: string;
+  html_code: string;
+  designation: string;
+  name: string;
+}
+
+type SectionProps = {
+  title_h2: String;
+  description: string;
+  call_to_action: Action;
+  image: Image;
+  image_alignment: string;
+  $: AdditionalParam;
+} 
+
+export default function Section({ section }: {section : SectionProps}) {
+  function contentSection(key: any) {
     return (
       <div className='home-content' key={key}>
         {section.title_h2 && (
@@ -27,7 +47,7 @@ export default function Section({ section }) {
     );
   }
 
-  function imageContent(key) {
+  function imageContent(key: any) {
     return (
       <img
         {...section.image.$?.url}

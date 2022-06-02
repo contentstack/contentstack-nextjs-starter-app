@@ -1,8 +1,38 @@
 import React from 'react';
 import parse from 'html-react-parser';
+import { Action,Image } from '../typescript/action';
 
-export default function AboutSectionBucket({ sectionWithBuckets }) {
-  function bucketContent(bucket, index) {
+type AdditionalParam = {
+  title_h2?: string;
+  title_h3?: string;
+  description?: string;
+}
+
+type Bucket = {
+  title_h3: string;
+  description: string;
+  icon: Image;
+  $: AdditionalParam;
+  url: string;
+}
+
+type BucketsList = {
+  title_h3: string;
+  description: string;
+  url: string;
+  call_to_action: Action;
+  icon: Image;
+  $: AdditionalParam;
+}
+
+type BucketProps = {
+  title_h2: string;
+  buckets:[BucketsList];
+  $: AdditionalParam;
+}
+
+export default function AboutSectionBucket({ sectionWithBuckets }: {sectionWithBuckets:BucketProps}) {
+  function bucketContent(bucket: Bucket, index: number) {
     return (
       <div className='mission-content-section' key={index}>
         {bucket.icon && (
