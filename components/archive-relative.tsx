@@ -2,7 +2,23 @@ import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
 
-export default function ArchiveRelative({ blogs }) {
+type AdditionalParam = {
+  title: string;
+  body: string;
+}
+
+type Blog = {
+  url: string;
+  body: string;
+  title: string;
+  $: AdditionalParam;
+}
+
+type BlogListProps = {
+  blogs: [Blog];
+}
+
+export default function ArchiveRelative({ blogs }: BlogListProps) {
   return (
     <>
       {blogs?.map((blog, idx) => (

@@ -2,9 +2,35 @@ import React from 'react';
 import moment from 'moment';
 import parse from 'html-react-parser';
 import Link from 'next/link';
+import { Image } from "../typescript/action";
 
-function BlogList({ bloglist }) {
-  let body = typeof bloglist.body === 'string' && bloglist.body.substr(0, 300);
+type AdditionalParam = {
+  banner_title:string;
+  banner_description: string;
+  title: {};
+  title_h2: string;
+  body: string;
+  date: string;
+}
+
+type Author = {
+  title: string;
+  $: AdditionalParam;
+}
+
+
+type BloglistProps = {
+  body: string;
+  url: string;
+  featured_image: Image; 
+  title: string;
+  date: string;
+  author: [Author];
+  $: AdditionalParam;
+}
+
+function BlogList({ bloglist }: { bloglist: BloglistProps }) {
+  let body: string = bloglist.body && bloglist.body.substr(0, 300);
   const stringLength = body.lastIndexOf(' ');
   body = `${body.substr(0, Math.min(body.length, stringLength))}...`;
   return (

@@ -6,8 +6,11 @@ import { getPageRes, getBlogListRes } from '../../helper';
 
 import ArchiveRelative from '../../components/archive-relative';
 import Skeleton from 'react-loading-skeleton';
+import { Page, PostPage, PageUrl, Context } from "../../typescript/pages";
 
-export default function Blog({ page, posts, archivePost, pageUrl }) {
+
+export default function Blog({ page, posts, archivePost, pageUrl }: {page: Page, posts: PostPage, archivePost: PostPage, pageUrl: PageUrl}) {
+
   const [getBanner, setBanner] = useState(page);
   async function fetchData() {
     try {
@@ -60,13 +63,13 @@ export default function Blog({ page, posts, archivePost, pageUrl }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: Context) {
   try {
     const page = await getPageRes(context.resolvedUrl);
-    const result = await getBlogListRes();
+    const result: PostPage = await getBlogListRes();
 
-    const archivePost = [];
-    const posts = [];
+    const archivePost = [] as any;
+    const posts = [] as any;
     result.forEach((blogs) => {
       if (blogs.is_archived) {
         archivePost.push(blogs);

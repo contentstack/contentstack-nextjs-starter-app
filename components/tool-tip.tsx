@@ -1,8 +1,17 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, MutableRefObject } from 'react';
 
-const Tooltip = (props) => {
-  let timeout;
-  const toolTipRef = useRef(null);
+type TooltipProps = {
+  children?: JSX.Element|JSX.Element[];
+  content: string;
+  direction: string;
+  status: number;
+  delay: number;
+  dynamic: boolean;
+}
+
+const Tooltip = (props: TooltipProps) => {
+  let timeout: any;
+  const toolTipRef = useRef() as MutableRefObject <HTMLDivElement>;
 
   const showTip = () => {
     timeout = setTimeout(() => {

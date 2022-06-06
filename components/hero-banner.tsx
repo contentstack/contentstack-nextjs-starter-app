@@ -1,7 +1,30 @@
 import React from 'react';
 import Link from 'next/link';
+import { Image, Action } from "../typescript/action";
 
-export default function HeroBanner({ banner }) {
+type AdditionalParam = {
+  banner_title: string;
+  banner_description: string;
+}
+
+type Banner = {
+  bg_color: string;
+  text_color: string;
+  banner_title: string;
+  banner_description: string;
+  call_to_action: Action;
+  banner_image: Image;
+  $: AdditionalParam;
+}
+
+type BannerProps = {
+  banner: Banner;
+}
+
+export default function HeroBanner(props: BannerProps) {
+
+  const banner = props.banner;
+
   return (
     <div
       className='hero-banner'
@@ -12,7 +35,7 @@ export default function HeroBanner({ banner }) {
       <div
         className='home-content'
         style={{
-          color: banner?.text_color ? banner.text_color : '',
+          color: banner?.text_color ? banner.text_color : '#000',
         }}
       >
         {banner.banner_title && (
@@ -24,7 +47,7 @@ export default function HeroBanner({ banner }) {
           <p
             className='hero-description '
             style={{
-              color: banner?.text_color ? banner.text_color : '',
+              color: banner?.text_color ? banner.text_color : '#222',
             }}
             {...banner.$?.banner_description}
           >

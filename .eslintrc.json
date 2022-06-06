@@ -1,10 +1,26 @@
 {
-  "extends": ["next/babel","next/core-web-vitals"],
+  "env": {
+      "browser": true,
+      "es2021": true
+  },
+  "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "extends: next/core-web-vitals"
+  ],
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+  },
+  "plugins": [
+      "react"
+  ],
   "rules": {
-    "@next/next/no-page-custom-font":"off",
-    "@next/next/no-sync-scripts":"off",
-    "@next/next/no-img-element":"off",
-    "react-hooks/exhaustive-deps":"off",
-    "import/no-anonymous-default-export":"off"
+      "react/prop-types":0,
+      "no-undef":"off",
+      "no-unused-vars": "off"
   }
 }

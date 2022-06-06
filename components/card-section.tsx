@@ -1,7 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
+import { Action } from "../typescript/action";
 
-export default function CardSection({ cards }) {
+type AdditionalParam = {
+    title_h3: string;
+    description: string;
+  }
+  
+type Card = {
+    title_h3: string;
+    description: string;
+    call_to_action: Action;
+    $: AdditionalParam;
+  }
+  
+type CardProps = {
+    cards: [Card]
+  }
+
+export default function CardSection({ cards }: CardProps) {
   return (
     <div className='demo-section'>
       {cards?.map((card, index) => (
