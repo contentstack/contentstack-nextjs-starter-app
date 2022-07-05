@@ -58,7 +58,7 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
       <div className='note-div'>
         {headerData?.notification_bar.show_announcement ? (
           typeof headerData.notification_bar.announcement_text === 'string' && (
-            <div {...headerData.notification_bar.$?.announcement_text}>
+            <div {...headerData.notification_bar.$?.announcement_text as {}}>
               {parse(headerData.notification_bar.announcement_text)}
             </div>
           )
@@ -76,7 +76,7 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
                   src={headerData.logo.url}
                   alt={headerData.title}
                   title={headerData.title}
-                  {...headerData.logo.$?.url}
+                  {...headerData.logo.$?.url as {}}
                 />
               </a>
             </Link>
@@ -98,7 +98,7 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
                   <li
                     key={list.label}
                     className='nav-li'
-                    {...list.page_reference[0].$?.url}
+                    {...list.page_reference[0].$?.url as {}}
                   >
                     <Link href={list.page_reference[0].url}>
                       <a className={className}>{list.label}</a>
