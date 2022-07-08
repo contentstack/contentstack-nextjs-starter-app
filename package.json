@@ -15,7 +15,7 @@
     "@contentstack/utils": "^1.1.2",
     "contentstack": "^3.15.2",
     "html-react-parser": "^1.4.14",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "next": "12.1.6",
     "next-pwa": "^5.5.4",
     "nprogress": "^0.2.0",
