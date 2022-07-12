@@ -26,10 +26,10 @@ export default function Section({ section }: {section : SectionProps}) {
     return (
       <div className='home-content' key={key}>
         {section.title_h2 && (
-          <h2 {...section.$?.title_h2}>{section.title_h2}</h2>
+          <h2 {...section.$?.title_h2 as {}}>{section.title_h2}</h2>
         )}
         {section.description && (
-          <p {...section.$?.description}>{section.description}</p>
+          <p {...section.$?.description as {}}>{section.description}</p>
         )}
         {section.call_to_action.title && section.call_to_action.href ? (
           <Link href={section.call_to_action.href}>
@@ -50,7 +50,7 @@ export default function Section({ section }: {section : SectionProps}) {
   function imageContent(key: any) {
     return (
       <img
-        {...section.image.$?.url}
+        {...section.image.$?.url as {}}
         src={section.image.url}
         alt={section.image.filename}
         key={key}
