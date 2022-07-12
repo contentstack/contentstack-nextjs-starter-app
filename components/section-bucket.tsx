@@ -33,10 +33,10 @@ export default function SectionBucket({ section }: {section: BucketProps}) {
     <div className='member-main-section'>
       <div className='member-head'>
         {section.title_h2 && (
-          <h2 {...section.$?.title_h2}>{section.title_h2}</h2>
+          <h2 {...section.$?.title_h2 as {}}>{section.title_h2}</h2>
         )}
         {section.description && (
-          <p {...section.$?.description}>{section.description}</p>
+          <p {...section.$?.description as {}}>{section.description}</p>
         )}
       </div>
       <div className='member-section'>
@@ -44,19 +44,19 @@ export default function SectionBucket({ section }: {section: BucketProps}) {
           <div className='content-section' key={index}>
             {bucket.icon && (
               <img
-                {...bucket.icon.$?.url}
+                {...bucket.icon.$?.url as {}}
                 src={bucket.icon.url}
                 alt='bucket icon'
               />
             )}
 
             {bucket.title_h3 ? (
-              <h3 {...bucket.$?.title_h3}>{bucket.title_h3}</h3>
+              <h3 {...bucket.$?.title_h3 as {}}>{bucket.title_h3}</h3>
             ) : (
               ''
             )}
             {typeof bucket.description === 'string' && (
-              <div {...bucket.$?.description}>{parse(bucket.description)}</div>
+              <div {...bucket.$?.description as {}}>{parse(bucket.description)}</div>
             )}
             {bucket.call_to_action.title ? (
               <Link

@@ -58,7 +58,7 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
                   src={footerData.logo.url}
                   alt={footerData.title}
                   title={footerData.title}
-                  {...footer.logo.$?.url}
+                  {...footer.logo.$?.url as {}}
                   className='logo footer-logo'
                 />
               </a>
@@ -99,7 +99,7 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
                     <img
                       src={social.icon.url}
                       alt={social.link.title}
-                      {...social.icon.$?.url}
+                      {...social.icon.$?.url as {}}
                     />
                   )}
                 </a>
@@ -111,7 +111,7 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
         </div>
       </div>
       {footerData && typeof footerData.copyright === 'string' ? (
-        <div className='copyright' {...footer.$?.copyright}>
+        <div className='copyright' {...footer.$?.copyright as {}}>
           {parse(footerData.copyright)}
         </div>
       ) : (

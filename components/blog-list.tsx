@@ -42,7 +42,7 @@ function BlogList({ bloglist }: { bloglist: BloglistProps }) {
               className='blog-list-img'
               src={bloglist.featured_image.url}
               alt='blog img'
-              {...bloglist.featured_image.$?.url}
+              {...bloglist.featured_image.$?.url as {}}
             />
           </a>
         </Link>
@@ -56,7 +56,7 @@ function BlogList({ bloglist }: { bloglist: BloglistProps }) {
           </Link>
         )}
         <p>
-          <strong {...bloglist.$?.date}>
+          <strong {...bloglist.$?.date as {}}>
             {moment(bloglist.date).format('ddd, MMM D YYYY')}
           </strong>
           ,{" "}
@@ -64,7 +64,7 @@ function BlogList({ bloglist }: { bloglist: BloglistProps }) {
             {bloglist.author[0].title}
           </strong>
         </p>
-        <div {...bloglist.$?.body}>{parse(body)}</div>
+        <div {...bloglist.$?.body as {}}>{parse(body)}</div>
         {bloglist.url ? (
           <Link href={bloglist.url}>
             <a>

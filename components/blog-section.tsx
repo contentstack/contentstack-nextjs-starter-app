@@ -45,7 +45,7 @@ export default function BlogSection(props: FeaturedBlogProps) {
     <div className='community-section'>
       <div className='community-head'>
         {fromBlog.title_h2 && (
-          <h2 {...fromBlog.$?.title_h2}>{fromBlog.title_h2}</h2>
+          <h2 {...fromBlog.$?.title_h2 as {}}>{fromBlog.title_h2}</h2>
         )}
         {fromBlog.view_articles && (
           <Link href={fromBlog.view_articles.href}>
@@ -63,7 +63,7 @@ export default function BlogSection(props: FeaturedBlogProps) {
           <div className='featured-blog' key={index}>
             {blog.featured_image && (
               <img
-                {...blog.featured_image.$?.url}
+                {...blog.featured_image.$?.url as {}}
                 src={blog.featured_image.url}
                 alt={blog.featured_image.filename}
                 className='blog-post-img'
