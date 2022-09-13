@@ -15,7 +15,7 @@ export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPos
   async function fetchData() {
     try {
       const entryRes = await getBlogPostRes(pageUrl);
-      const bannerRes = await getPageRes('/blog');
+      const bannerRes = await getPageRes('/knowledgebase');
       if (!entryRes || !bannerRes) throw new Error('Status: ' + 404);
       setPost({ banner: bannerRes, post: entryRes });
     } catch (error) {
@@ -95,13 +95,13 @@ export default function BlogPost({ blogPost, page, pageUrl }: {blogPost: BlogPos
 }
 export async function getServerSideProps({ params }: any) {
   try {
-    const page = await getPageRes('/blog');
-    const posts = await getBlogPostRes(`/blog/${params.post}`);
+    const page = await getPageRes('/knowledgebase');
+    const posts = await getBlogPostRes(`/knowledgebase/${params.post}`);
     if (!page || !posts) throw new Error('404');
 
     return {
       props: {
-        pageUrl: `/blog/${params.post}`,
+        pageUrl: `/knowledgebase/${params.post}`,
         blogPost: posts,
         page,
       },
