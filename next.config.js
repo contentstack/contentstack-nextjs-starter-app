@@ -1,4 +1,6 @@
-const withPWA = require('next-pwa');
+const withPWA = require('next-pwa')({
+  dest: 'public'
+});
 
 const config = {
   publicRuntimeConfig: {
@@ -16,12 +18,6 @@ const config = {
       process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW || 'true',
     CONTENTSTACK_LIVE_EDIT_TAGS:
       process.env.CONTENTSTACK_LIVE_EDIT_TAGS || 'false',
-  },
-  devIndicators: {
-    autoPrerender: false,
-  },
-  pwa: {
-    dest: 'public',
   },
 };
 module.exports =
