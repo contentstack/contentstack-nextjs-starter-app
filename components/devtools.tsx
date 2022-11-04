@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
 import dynamic from 'next/dynamic';
+
 import Tooltip from './tool-tip';
 
-const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
+const DynamicReactJson = dynamic(import('@microlink/react-json-view'), { ssr: false });
 
 function filterObject(inputObject: any) {
   const unWantedProps = [
