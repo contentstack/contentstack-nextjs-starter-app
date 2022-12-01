@@ -34,5 +34,8 @@
     "eslint-plugin-react": "^7.26.1",
     "prettier": "^2.4.1",
     "prettier-eslint": "^13.0.0"
+  },
+  "engines": {
+    "node": "=16.16.0"
   }
 }
