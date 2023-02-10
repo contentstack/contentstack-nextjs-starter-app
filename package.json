@@ -21,7 +21,7 @@
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-json-view": "^1.21.3",
+    "@microlink/react-json-view": "^1.22.2",
     "react-loading-skeleton": "^3.1.0"
   },
   "devDependencies": {
