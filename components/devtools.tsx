@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Tooltip from './tool-tip';
+import {JsonViewer} from "@textea/json-viewer"
 
-const DynamicReactJson = dynamic(import('react-json-view'), { ssr: false });
+// const DynamicReactJson = dynamic(import('@textea/json-viewer'), { ssr: false });
 
 function filterObject(inputObject: any) {
   const unWantedProps = [
@@ -87,11 +88,10 @@ const DevTools = ({ response }: any) => {
             {response ? (
               <pre id="jsonViewer">
                 {response && (
-                  <DynamicReactJson
-                    src={filteredJson}
-                    collapsed={1}
-                    name="response"
-                    displayDataTypes={false}
+                  <JsonViewer
+                    value={filteredJson}
+                    defaultInspectDepth={1}
+                    rootName="response"
                     enableClipboard={false}
                     style={{ color: '#C8501E' }}
                   />
