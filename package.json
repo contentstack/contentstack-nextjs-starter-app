@@ -1,7 +1,7 @@
 {
   "name": "contentstack-nextjs-starter-app",
   "description": "A starter app for Contentstack and Nextjs",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": true,
   "author": "Contentstack",
   "scripts": {
@@ -15,7 +15,7 @@
     "@contentstack/utils": "^1.2.0",
     "@textea/json-viewer": "^2.14.1",
     "contentstack": "^3.16.1",
-    "html-react-parser": "^3.0.4",
+    "html-react-parser": "^3.0.12",
     "moment": "^2.29.4",
     "next": "^12.3.1",
     "next-pwa": "^5.6.0",
