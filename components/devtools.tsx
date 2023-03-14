@@ -3,8 +3,6 @@ import dynamic from 'next/dynamic';
 import Tooltip from './tool-tip';
 import {JsonViewer} from "@textea/json-viewer"
 
-// const DynamicReactJson = dynamic(import('@textea/json-viewer'), { ssr: false });
-
 function filterObject(inputObject: any) {
   const unWantedProps = [
     '_version',
