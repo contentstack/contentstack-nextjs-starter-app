@@ -32,14 +32,14 @@ export default function Section({ section }: {section : SectionProps}) {
           <p {...section.$?.description as {}}>{section.description}</p>
         )}
         {section.call_to_action.title && section.call_to_action.href ? (
-          <Link href={section.call_to_action.href}>
-            <a
-              className='btn secondary-btn'
-              {...section.call_to_action.$?.title}
-            >
-              {section.call_to_action.title}
-            </a>
-          </Link>
+          (<Link
+            href={section.call_to_action.href}
+            className='btn secondary-btn'
+            {...section.call_to_action.$?.title}>
+
+            {section.call_to_action.title}
+
+          </Link>)
         ) : (
           ''
         )}
