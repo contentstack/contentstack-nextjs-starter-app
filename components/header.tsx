@@ -69,17 +69,17 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
       <div className='max-width header-div'>
         <div className='wrapper-logo'>
           {headerData ? (
-            <Link href='/'>
-              <a className='logo-tag' title='Contentstack'>
-                <img
-                  className='logo'
-                  src={headerData.logo.url}
-                  alt={headerData.title}
-                  title={headerData.title}
-                  {...headerData.logo.$?.url as {}}
-                />
-              </a>
-            </Link>
+            (<Link href='/' className='logo-tag' title='Contentstack'>
+
+              <img
+                className='logo'
+                src={headerData.logo.url}
+                alt={headerData.title}
+                title={headerData.title}
+                {...headerData.logo.$?.url as {}}
+              />
+
+            </Link>)
           ) : (
             <Skeleton width={150} />
           )}
@@ -100,8 +100,8 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
                     className='nav-li'
                     {...list.page_reference[0].$?.url as {}}
                   >
-                    <Link href={list.page_reference[0].url}>
-                      <a className={className}>{list.label}</a>
+                    <Link href={list.page_reference[0].url} className={className}>
+                      {list.label}
                     </Link>
                   </li>
                 );
