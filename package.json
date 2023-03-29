@@ -13,15 +13,15 @@
   "dependencies": {
     "@contentstack/live-preview-utils": "^1.2.1",
     "@contentstack/utils": "^1.1.2",
+    "@textea/json-viewer": "^2.16.1",
     "contentstack": "^3.15.3",
-    "html-react-parser": "^3.0.4",
+    "html-react-parser": "^3.0.15",
     "moment": "^2.29.4",
     "next": "^13.2.4",
     "next-pwa": "^5.6.0",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-json-view": "^1.21.3",
     "react-loading-skeleton": "^3.1.0"
   },
   "devDependencies": {
