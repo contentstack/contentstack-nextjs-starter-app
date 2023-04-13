@@ -63,7 +63,7 @@ export default function SectionBucket({ section }: {section: BucketProps}) {
                 href={
                   bucket.call_to_action.href ? bucket.call_to_action.href : '#'
                 }
-              >
+                legacyBehavior>
                 {`${bucket.call_to_action.title} -->`}
               </Link>
             ) : (

@@ -52,17 +52,17 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
       <div className='max-width footer-div'>
         <div className='col-quarter'>
           {footerData && footerData.logo ? (
-            <Link href='/'>
-              <a className='logo-tag'>
-                <img
-                  src={footerData.logo.url}
-                  alt={footerData.title}
-                  title={footerData.title}
-                  {...footer.logo.$?.url as {}}
-                  className='logo footer-logo'
-                />
-              </a>
-            </Link>
+            (<Link href='/' className='logo-tag'>
+
+              <img
+                src={footerData.logo.url}
+                alt={footerData.title}
+                title={footerData.title}
+                {...footer.logo.$?.url as {}}
+                className='logo footer-logo'
+              />
+
+            </Link>)
           ) : (
             <Skeleton width={150} />
           )}
@@ -77,7 +77,7 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
                     key={menu.title}
                     {...menu.$?.title}
                   >
-                    <Link href={menu.href}>{menu.title}</Link>
+                    <Link href={menu.href} legacyBehavior>{menu.title}</Link>
                   </li>
                 ))
               ) : (
