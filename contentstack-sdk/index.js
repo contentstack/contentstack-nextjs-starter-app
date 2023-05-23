@@ -3,11 +3,15 @@ import * as Utils from '@contentstack/utils';
 
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
 import getConfig from 'next/config';
+import{customHostUrl, isValidCustomHostUrl} from "./utils"
 
 const { publicRuntimeConfig } = getConfig();
 const envConfig = process.env.CONTENTSTACK_API_KEY
   ? process.env
   : publicRuntimeConfig;
+  
+const customHostBseUrl = customHostUrl(envConfig.CONTENTSTACK_API_HOST)
+
 
 const Stack = contentstack.Stack({
   api_key: envConfig.CONTENTSTACK_API_KEY
@@ -24,8 +28,9 @@ const Stack = contentstack.Stack({
   },
 });
 
-if (envConfig.CONTENTSTACK_API_HOST) {
-  Stack.setHost(envConfig.CONTENTSTACK_API_HOST);
+// set host url only for custom host or non prod base url's
+if (isValidCustomHostUrl(customHostBseUrl)) {
+  Stack.setHost(customHostBseUrl);
 }
 
 ContentstackLivePreview.init({
