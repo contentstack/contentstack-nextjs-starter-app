@@ -66,7 +66,7 @@ export default function Blog({ page, posts, archivePost, pageUrl }: {page: Page,
 export async function getServerSideProps(context: Context) {
   try {
     const page = await getPageRes(context.resolvedUrl);
-    const result: PostPage = await getBlogListRes();
+    const result = await getBlogListRes();
 
     const archivePost = [] as any;
     const posts = [] as any;
