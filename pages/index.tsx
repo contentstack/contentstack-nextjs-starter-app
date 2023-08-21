@@ -27,7 +27,7 @@ export default function Home(props: Props) {
 
   return getEntry ? (
     <RenderComponents
-      pageComponents={getEntry.page_components}
+      pageComponents={getEntry.components}
       contentTypeUid='page'
       entryUid={getEntry.uid}
       locale={getEntry.locale}

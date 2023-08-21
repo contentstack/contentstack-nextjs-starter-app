@@ -62,12 +62,10 @@ export type Props = {
   Component: any;
   entries: Entry;
   pageProps: PageProps;
-  header: HeaderProps;
-  footer: FooterProps;
 }
 
 export type Page ={
-  page_components: Component[];
+  components: Component[];
   uid: string;
   locale: string;
   url: string;

@@ -23,9 +23,9 @@ export default function Page(props: Props) {
     onEntryChange(() => fetchData());
   }, [page]);
 
-  return getEntry.page_components ? (
+  return getEntry.components ? (
     <RenderComponents
-      pageComponents={getEntry.page_components}
+      pageComponents={getEntry.components}
       contentTypeUid='page'
       entryUid={getEntry.uid}
       locale={getEntry.locale}

@@ -17,7 +17,9 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp(props: Props) {
-  const { Component, pageProps, header, footer, entries } = props;
+  const { Component, pageProps, entries } = props;
+  const header = props.entries[0].header[0];
+  const footer = props.entries[0].footer[0];
   const { page, posts, archivePost, blogPost } = pageProps;
 
   const metaData = (seo: any) => {

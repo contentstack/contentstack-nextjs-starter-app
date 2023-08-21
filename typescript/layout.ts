@@ -13,6 +13,8 @@ type EntryData = {
   title: string;
   url: string;
   $: AdditionalParam;
+  header: HeaderProps[];
+  footer: FooterProps[];
 }
 
 type Announcement = {
@@ -104,7 +106,7 @@ export type Links = {
 
 export type PageProps = {
   locale: string;
-  page_components: Component[];
+  components: Component[];
   uid: string;
   url: string;
   title: string;
