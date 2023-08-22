@@ -1,28 +1,41 @@
 {
-  "env": {
-      "browser": true,
-      "es2021": true
-  },
   "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "next/core-web-vitals"
+    "next",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": true
-      },
-      "ecmaVersion": 12,
-      "sourceType": "module"
+    "files": ["*.ts", "*.tsx"],
+    "project": "./tsconfig.json"
   },
-  "plugins": [
-      "react"
-  ],
+  "parser": "@typescript-eslint/parser",
   "rules": {
-      "react/prop-types":0,
-      "no-undef":"off",
-      "no-unused-vars": "off",
-      "react-hooks/exhaustive-deps":"off",
-      "@next/next/no-img-element":"off"
+    "react/jsx-props-no-spreading": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-underscore-dangle": 0,
+    "no-param-reassign": 1,
+    "max-len": 0,
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

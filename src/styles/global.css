@@ -1,0 +1,8 @@
+/* ./styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  letter-spacing: -0.025em;
+}

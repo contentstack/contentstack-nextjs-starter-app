@@ -1,32 +1,66 @@
-[![Contentstack Logo](/public/contentstack-readme-logo.png)](https://www.contentstack.com/)
+# Contentstack + Next.js + Tailwind CSS
 
+Example project using Next.js with the [Contentstack Delivery API](https://www.contentstack.com/docs/developers/apis/content-delivery-api/), deployed to [Vercel](https://vercel.com).
 
-# Build a Starter Website with Next.js and Contentstack
+![web](./public/web.png)
 
-About Contentstack: Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
+_Live Example: https://contentstack-nextjs-tailwind.vercel.app/_
 
-About this project: Next.js is a minimalistic framework for server-rendered React applications.This guide will help you create a starter website built on top of Next.js with minimal steps.
+_Live Example: https://contentstack-nextjs-tailwind.vercel.app/test_
 
+## Developing
 
+### Env variables
 
-![Contentstack-Nextjs-starter-app](/public/starter-app.png)
+Remember to set up a `.env` file with your contentstack keys.
 
-## Live Demo
+```env
+CONTENTSTACK_STACK_API_KEY=''
+CONTENTSTACK_ENVIRONMENT=''
+CONTENTSTACK_DELIVERY_TOKEN=''
+CONTENTSTACK_REGION='NA'
+NEXT_USE_SSR=1
+```
 
-You can check the [live demo](https://contentstack-nextjs-starter-app.vercel.app) to get first-hand experience of the website.
+If you want to enable SSG please set `NEXT_USE_SSR=0`
 
+<p>
+Once you've created a project and installed dependencies with `yarn`, start a development server:
 
-## Tutorial
+```bash
+yarn dev
 
-We have created an in-depth tutorial on how you can create a Next.js starter website using Contentstack's Node.js SDK and its fetch content from Contentstack.
+# or start the server and open the app in a new browser tab
+yarn dev -- --open
+```
 
-[Build Website using Next.js and Contentstack](https://www.contentstack.com/docs/developers/sample-apps/build-a-starter-website-using-next-js-and-contentstack/)
+## Building
 
+```bash
+yarn build
+```
 
-**More Resources**
+## Content types
 
-Read Contentstack [docs](https://www.contentstack.com/docs/)
+This starter kit relies on the following content models.
 
-Region support [docs](https://www.contentstack.com/docs/developers/selecting-region-in-contentstack-starter-apps)
+### Page
 
-Learn about [Next.js](https://learnnextjs.com/)
+![Page content model](./public/page.png)
+
+- Title, short text.
+- Slug, short text
+- Components, References - many.
+
+### Hero
+
+![Hero content model](./public/hero.png)
+
+- Title, short text.
+- Description, short text
+- CTA Text, short text
+- URL, short text
+
+## Lighthouse score
+
+![Lighthouse score](./public/lighthouse.gif)
