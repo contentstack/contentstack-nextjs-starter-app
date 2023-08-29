@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { HeroComponentProps } from '../HeroTypes';
 import { HeroButton } from '../molucules/HeroButton';
 
-export default function HeroComponent(props: HeroComponentProps): JSX.Element {
+export function HeroComponent(props: HeroComponentProps): JSX.Element {
   const { title, description, url, cta_text } = props
 
   return (

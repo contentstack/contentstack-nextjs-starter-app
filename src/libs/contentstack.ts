@@ -19,10 +19,11 @@ export const getPageBySlug = async (slug: string): Promise<PageFields> => {
     .Query()
     .includeCount()
     .includeContentType()
+    .includeReference(['header'])
+    .includeReference(['footer'])
     .includeReference(['components'])
     .addParam('include_dimension', 'true')
     .toJSON()
-  console.log(1111111111111, query)
   const result = await query.where('slug', slug).findOne()
 
   return result
@@ -34,6 +35,8 @@ export const getPages = async (): Promise<PageFields[]> => {
     .Query()
     .includeCount()
     .includeContentType()
+    .includeReference(['header'])
+    .includeReference(['footer'])
     .includeReference(['components'])
     .addParam('include_dimension', 'true')
     .toJSON()
