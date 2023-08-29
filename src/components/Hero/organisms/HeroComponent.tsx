@@ -16,11 +16,6 @@ export default function HeroComponent(props: HeroComponentProps): JSX.Element {
           <div className="f-f-r text-xl lg:text-3xl pb-20 sm:pb-0 pt-10 xl:pt-20">
             <h2>{description}</h2>
           </div>
-          <a href={url} target="_blank" rel="noreferrer">
-            <button className="hover:opacity-90 text-xl w-full xl:text-3xl xl:w-11/12 mt-4 xl:mt-11 f-f-r py-6 bg-indigo-700 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700">
-              {cta_text}
-            </button>
-          </a>
         </div>
         <Image
           src="https://i.ibb.co/9GMTkW3/desktop.png"
@@ -30,7 +25,7 @@ export default function HeroComponent(props: HeroComponentProps): JSX.Element {
           height="674"
           width="901"
         />
-        <HeroButton />
+        {props.url && <HeroButton url={url} cta_text={cta_text} />}
       </div>
     </div>
   )

@@ -2,15 +2,13 @@ import { CMSHeroProps, HeroComponentProps } from "./HeroTypes";
 
 export class HeroModel {
   static getProps(props: CMSHeroProps): HeroComponentProps {
-    const { title } = props;
+    const { heading, description, url, cta_text } = props;
 
     return {
-      title: title || 'asdasd',
-      flag: this.getFlag()
+      title: heading || 'default title',
+      description,
+      url,
+      cta_text
     }
-  }
-
-  static getFlag() {
-    return true
   }
 }
