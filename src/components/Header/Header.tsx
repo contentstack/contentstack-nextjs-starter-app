@@ -1,9 +1,11 @@
 import React from 'react';
 
+import HeaderComponent from './organisms/HeaderComponent';
+import { HeaderComponentCMSProps } from './HeaderTypes';
+import { HeaderModel } from './HeaderModel';
 
-export function Header(props: any): JSX.Element {
-  console.log('header props', props)
+export function Header(props: HeaderComponentCMSProps): JSX.Element {
   return (
-    <>Header here</>
+    <HeaderComponent {...HeaderModel.getProps(props)} />
   )
 }
