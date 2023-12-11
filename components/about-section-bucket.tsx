@@ -38,7 +38,7 @@ export default function AboutSectionBucket({ sectionWithBuckets }: {sectionWithB
         {bucket.icon && (
           <img
             className='mission-icon'
-            {...bucket.icon.$?.url}
+            {...bucket.icon.$?.url as {}}
             src={bucket.icon.url}
             alt='art work'
           />
@@ -46,10 +46,10 @@ export default function AboutSectionBucket({ sectionWithBuckets }: {sectionWithB
 
         <div className='mission-section-content'>
           {bucket.title_h3 && (
-            <h3 {...bucket.$?.title_h3}>{bucket.title_h3}</h3>
+            <h3 {...bucket.$?.title_h3 as {}}>{bucket.title_h3}</h3>
           )}
           {typeof bucket.description === 'string' && (
-            <div {...bucket.$?.description}> {parse(bucket.description)}</div>
+            <div {...bucket.$?.description as {}}> {parse(bucket.description)}</div>
           )}
         </div>
       </div>
@@ -60,7 +60,7 @@ export default function AboutSectionBucket({ sectionWithBuckets }: {sectionWithB
     <div className='member-main-section'>
       <div className='member-head'>
         {sectionWithBuckets.title_h2 && (
-          <h2 {...sectionWithBuckets.$?.title_h2}>
+          <h2 {...sectionWithBuckets.$?.title_h2 as {}}>
             {sectionWithBuckets.title_h2}
           </h2>
         )}

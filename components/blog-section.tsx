@@ -45,17 +45,17 @@ export default function BlogSection(props: FeaturedBlogProps) {
     <div className='community-section'>
       <div className='community-head'>
         {fromBlog.title_h2 && (
-          <h2 {...fromBlog.$?.title_h2}>{fromBlog.title_h2}</h2>
+          <h2 {...fromBlog.$?.title_h2 as {}}>{fromBlog.title_h2}</h2>
         )}
         {fromBlog.view_articles && (
-          <Link href={fromBlog.view_articles.href}>
-            <a
-              className='btn secondary-btn article-btn'
-              {...fromBlog.view_articles.$?.title}
-            >
-              {fromBlog.view_articles.title}
-            </a>
-          </Link>
+          (<Link
+            href={fromBlog.view_articles.href}
+            className='btn secondary-btn article-btn'
+            {...fromBlog.view_articles.$?.title}>
+
+            {fromBlog.view_articles.title}
+
+          </Link>)
         )}
       </div>
       <div className='home-featured-blogs'>
@@ -63,7 +63,7 @@ export default function BlogSection(props: FeaturedBlogProps) {
           <div className='featured-blog' key={index}>
             {blog.featured_image && (
               <img
-                {...blog.featured_image.$?.url}
+                {...blog.featured_image.$?.url as {}}
                 src={blog.featured_image.url}
                 alt={blog.featured_image.filename}
                 className='blog-post-img'
@@ -75,8 +75,8 @@ export default function BlogSection(props: FeaturedBlogProps) {
                 <div>{parse(blog.body.slice(0, 300))}</div>
               )}
               {blog.url && (
-                <Link href={blog.url} passHref>
-                  <a className='blogpost-readmore'>{'Read More -->'}</a>
+                <Link href={blog.url} passHref className='blogpost-readmore'>
+                  {'Read More -->'}
                 </Link>
               )}
             </div>

@@ -9,8 +9,8 @@ export const getServerSideProps = async ({ res }: {res: Context}) => {
 
   const baseUrl = process.env.NEXT_PUBLIC_HOSTED_URL || 'http://localhost:3000';
 
-  let pages: Pages = await getAllEntries();
-  let posts: PostPage = await getBlogListRes();
+  let pages = await getAllEntries();
+  let posts = await getBlogListRes();
 
   const allPages = pages.map((page) => `${baseUrl}${page.url}`);
   const allPosts = posts.map((post) => `${baseUrl}${post.url}`);

@@ -30,10 +30,10 @@ export default function TeamSection({ ourTeam }: {ourTeam : TeamProps}) {
     <div className='about-team-section'>
       <div className='team-head-section'>
         {ourTeam.title_h2 && (
-          <h2 {...ourTeam.$?.title_h2}>{ourTeam.title_h2}</h2>
+          <h2 {...ourTeam.$?.title_h2 as {}}>{ourTeam.title_h2}</h2>
         )}
         {ourTeam.description ? (
-          <p {...ourTeam.$?.description}>{ourTeam.description}</p>
+          <p {...ourTeam.$?.description as {}}>{ourTeam.description}</p>
         ) : (
           ''
         )}
@@ -45,13 +45,13 @@ export default function TeamSection({ ourTeam }: {ourTeam : TeamProps}) {
               <img
                 alt={employee.image.filename}
                 src={employee.image.url}
-                {...employee.image.$?.url}
+                {...employee.image.$?.url as {}}
               />
             )}
             <div className='team-details'>
-              {employee.name && <h3 {...employee.$?.name}>{employee.name}</h3>}
+              {employee.name && <h3 {...employee.$?.name as {}}>{employee.name}</h3>}
               {employee.designation && (
-                <p {...employee.$?.designation}>{employee.designation}</p>
+                <p {...employee.$?.designation as {}}>{employee.designation}</p>
               )}
             </div>
           </div>
