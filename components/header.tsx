@@ -58,7 +58,7 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
       <div className='note-div'>
         {headerData?.notification_bar.show_announcement ? (
           typeof headerData.notification_bar.announcement_text === 'string' && (
-            <div {...headerData.notification_bar.$?.announcement_text}>
+            <div {...headerData.notification_bar.$?.announcement_text as {}}>
               {parse(headerData.notification_bar.announcement_text)}
             </div>
           )
@@ -69,17 +69,17 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
       <div className='max-width header-div'>
         <div className='wrapper-logo'>
           {headerData ? (
-            <Link href='/'>
-              <a className='logo-tag' title='Contentstack'>
-                <img
-                  className='logo'
-                  src={headerData.logo.url}
-                  alt={headerData.title}
-                  title={headerData.title}
-                  {...headerData.logo.$?.url}
-                />
-              </a>
-            </Link>
+            (<Link href='/' className='logo-tag' title='Contentstack'>
+
+              <img
+                className='logo'
+                src={headerData.logo.url}
+                alt={headerData.title}
+                title={headerData.title}
+                {...headerData.logo.$?.url as {}}
+              />
+
+            </Link>)
           ) : (
             <Skeleton width={150} />
           )}
@@ -98,10 +98,10 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
                   <li
                     key={list.label}
                     className='nav-li'
-                    {...list.page_reference[0].$?.url}
+                    {...list.page_reference[0].$?.url as {}}
                   >
-                    <Link href={list.page_reference[0].url}>
-                      <a className={className}>{list.label}</a>
+                    <Link href={list.page_reference[0].url} className={className}>
+                      {list.label}
                     </Link>
                   </li>
                 );

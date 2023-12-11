@@ -14,6 +14,7 @@ type AdditionalParam = {
   html_code: string;
   body: string;
   date: string;
+  uid:string;
   related_post: [];
   copyright: string;
   announcement_text: string;
@@ -58,7 +59,7 @@ type Blog = {
 export type Props = {
   page: Page;
   entryUrl: string;
-  Component: Function;
+  Component: any;
   entries: Entry;
   pageProps: PageProps;
   header: HeaderProps;
@@ -89,9 +90,7 @@ export type PostPage = [
   post: Post
 ]
 
-export type PageUrl = {
-  pageUrl: string;
-}
+export type PageUrl = string;
 
 export type BlogPosts = {
   title: string;
@@ -103,6 +102,7 @@ export type BlogPosts = {
   featured_image: Image;
   is_archived: boolean;
   seo: Seo;
+  uid:string;
   url: string;
   _owner: string;
   $: AdditionalParam;

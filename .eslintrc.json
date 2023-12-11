@@ -6,7 +6,7 @@
   "extends": [
       "eslint:recommended",
       "plugin:react/recommended",
-      "extends: next/core-web-vitals"
+      "next/core-web-vitals"
   ],
   "parserOptions": {
       "ecmaFeatures": {
@@ -21,6 +21,8 @@
   "rules": {
       "react/prop-types":0,
       "no-undef":"off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "react-hooks/exhaustive-deps":"off",
+      "@next/next/no-img-element":"off"
   }
 }
