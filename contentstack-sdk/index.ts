@@ -26,13 +26,14 @@ const envConfig = process.env.CONTENTSTACK_API_KEY
   : publicRuntimeConfig;
 
 let customHostBaseUrl = envConfig.CONTENTSTACK_API_HOST as string;
-customHostBaseUrl = customHostUrl(customHostBaseUrl);
+
+customHostBaseUrl = customHostBaseUrl? customHostUrl(customHostBaseUrl): '';
 
 // SDK initialization
 const Stack = initializeContentStackSdk();
 
 // set host url only for custom host or non prod base url's
-if (isValidCustomHostUrl(customHostBaseUrl)) {
+if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
   Stack.setHost(customHostBaseUrl);
 }
 
@@ -40,15 +41,7 @@ if (isValidCustomHostUrl(customHostBaseUrl)) {
 ContentstackLivePreview.init({
   //@ts-ignore
   stackSdk: Stack,
-  clientUrlParams: {
-    host: envConfig.CONTENTSTACK_APP_HOST,
-  },
-  stackDetails: {
-    apiKey: envConfig.CONTENTSTACK_API_KEY,
-    environment: envConfig.CONTENTSTACK_ENVIRONMENT,
-  },
-  enable: envConfig.CONTENTSTACK_LIVE_PREVIEW === "true",
-  ssr: false,
+  ssr:false,
 })?.catch((err) => console.error(err));
 
 export const { onEntryChange } = ContentstackLivePreview;
