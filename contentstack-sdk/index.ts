@@ -41,6 +41,9 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 ContentstackLivePreview.init({
   //@ts-ignore
   stackSdk: Stack,
+  clientUrlParams:{
+    host: envConfig.CONTENTSTACK_APP_HOST,
+  },
   ssr:false,
 })?.catch((err) => console.error(err));
 
