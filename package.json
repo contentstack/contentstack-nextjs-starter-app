@@ -1,7 +1,7 @@
 {
   "name": "contentstack-nextjs-starter-app",
   "description": "A starter app for Contentstack and Nextjs",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "private": true,
   "author": "Contentstack",
   "scripts": {
@@ -17,7 +17,7 @@
     "contentstack": "^3.19.0",
     "html-react-parser": "^3.0.16",
     "moment": "^2.30.1",
-    "next": "^14.0.4",
+    "next": "^13.5.6",
     "next-pwa": "^5.6.0",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
