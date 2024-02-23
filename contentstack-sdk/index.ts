@@ -39,8 +39,12 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 
 // Setting LP if enabled
 ContentstackLivePreview.init({
-  //@ts-ignore
-  stackSdk: Stack,
+  stackSdk:{...Stack, headers:{
+    api_key: envConfig.CONTENTSTACK_API_KEY
+  }},
+  clientUrlParams:{
+    host: envConfig.CONTENTSTACK_APP_HOST,
+  },
   ssr:false,
 })?.catch((err) => console.error(err));
 
