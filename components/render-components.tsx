@@ -19,6 +19,7 @@ export default function RenderComponents(props: RenderProps) {
       data-contenttype={contentTypeUid}
       data-locale={locale}
     >
+      Hello!
       {pageComponents?.map((component, key: number) => {
         if (component.hero_banner) {
           return blogPost ? (
