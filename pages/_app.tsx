@@ -54,7 +54,7 @@ function MyApp(props: Props) {
           content='width=device-width,initial-scale=1,minimum-scale=1'
         />
         <meta name='theme-color' content='#317EFB' />
-        <title>Contentstack-Nextjs-Starter-App</title>
+        <title>Cheerios</title>
         {page?.seo && page.seo.enable_search_indexing && metaData(page.seo)}
       </Head>
       <Layout
