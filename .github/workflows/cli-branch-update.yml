@@ -1,0 +1,23 @@
+name: Create a pull request for updating the cli-use branch
+on:
+  push:
+    branches:
+      - master
+jobs:
+  cliUsePromotion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cli-use
+      - name: Reset promotion branch
+        run: |
+          git fetch origin master:master
+          git reset --hard master
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: cli-use-promotion
+          title: 'Update CLI Usage: Merging Changes from master to cli-use'
+          body: This pull request includes various updates and changes from the `master` branch to the `cli-use` branch. Review and merge as needed.
+          reviewers: antonyagustine, netrajpatel, shafeeqd959, surajcontentstack, Amitkanswal, abhishek305
