@@ -1,11 +1,13 @@
 import * as Utils from "@contentstack/utils";
 import ContentstackLivePreview from "@contentstack/live-preview-utils";
-import getConfig from "next/config";
+
 import {
   customHostUrl,
   initializeContentStackSdk,
   isValidCustomHostUrl,
 } from "./utils";
+import getConfig from 'next/config';
+import { runtimeConfig } from './config';
 
 type GetEntry = {
   contentTypeUid: string;
@@ -20,32 +22,23 @@ type GetEntryByUrl = {
   jsonRtePath: string[] | undefined;
 };
 
-const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
-  ? process.env
-  : publicRuntimeConfig;
+const envConfig = !process.env ? getConfig() : process.env;
 
 let customHostBaseUrl = envConfig.CONTENTSTACK_API_HOST as string;
 
 customHostBaseUrl = customHostBaseUrl? customHostUrl(customHostBaseUrl): '';
 
 // SDK initialization
-const Stack = initializeContentStackSdk();
+export const Stack = initializeContentStackSdk(runtimeConfig);
 
 // set host url only for custom host or non prod base url's
 if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
+  console.log("Custom host url", customHostBaseUrl);
+  
   Stack.setHost(customHostBaseUrl);
 }
-
 // Setting LP if enabled
-ContentstackLivePreview.init({
-  //@ts-ignore
-  stackSdk: Stack,
-  clientUrlParams:{
-    host: envConfig.CONTENTSTACK_APP_HOST,
-  },
-  ssr:false,
-})?.catch((err) => console.error(err));
+// 
 
 export const { onEntryChange } = ContentstackLivePreview;
 
