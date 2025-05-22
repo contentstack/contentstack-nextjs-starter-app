@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
@@ -62,8 +64,7 @@ export default function SectionBucket({ section }: {section: BucketProps}) {
               <Link
                 href={
                   bucket.call_to_action.href ? bucket.call_to_action.href : '#'
-                }
-                legacyBehavior>
+                }>
                 {`${bucket.call_to_action.title} -->`}
               </Link>
             ) : (

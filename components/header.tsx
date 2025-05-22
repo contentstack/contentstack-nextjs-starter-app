@@ -1,85 +1,45 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import parse from 'html-react-parser';
 import Tooltip from './tool-tip';
-import { onEntryChange } from '../contentstack-sdk';
-import { getHeaderRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
-import { HeaderProps, Entry, NavLinks } from "../typescript/layout";
+import { HeaderProps } from "../typescript/layout";
+import { Page } from '@/typescript/pages';
+import { initializeLivePreview } from '@/helper/live-preview';
 
-export default function Header({ header, entries }: {header: HeaderProps, entries: Entry}) {
-
-  const router = useRouter();
-  const [getHeader, setHeader] = useState(header);
-
-  function buildNavigation(ent: Entry, hd: HeaderProps) {
-    let newHeader={...hd};
-    if (ent.length!== newHeader.navigation_menu.length) {
-          ent.forEach((entry) => {
-            const hFound = newHeader?.navigation_menu.find(
-              (navLink: NavLinks) => navLink.label === entry.title
-            );
-            if (!hFound) {
-              newHeader.navigation_menu?.push({
-                label: entry.title,
-                page_reference: [
-                  { title: entry.title, url: entry.url, $: entry.$ },
-                ],
-                $:{}
-              });
-            }
-          });
-    }
-    return newHeader
-  }
-
-  async function fetchData() {
-    try {
-      if (header && entries) {
-      const headerRes = await getHeaderRes();
-      const newHeader = buildNavigation(entries,headerRes)
-      setHeader(newHeader);
-    }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    if (header && entries) {
-      onEntryChange(() => fetchData());
-    }
-  }, [header]);
-  const headerData = getHeader ? getHeader : undefined;
-  
+export default async function Header({ header, entries }: { header: HeaderProps, entries: Page[] }) {
+  const pathname = usePathname();
+  await initializeLivePreview();
   return (
     <header className='header'>
       <div className='note-div'>
-        {headerData?.notification_bar.show_announcement ? (
-          typeof headerData.notification_bar.announcement_text === 'string' && (
-            <div {...headerData.notification_bar.$?.announcement_text as {}}>
-              {parse(headerData.notification_bar.announcement_text)}
+        {header?.notification_bar?.show_announcement ? (
+          typeof header.notification_bar.announcement_text === 'string' && (
+            <div {...header.notification_bar.$?.announcement_text as {}}>
+              {parse(header.notification_bar.announcement_text)}
             </div>
           )
         ) : (
-          <Skeleton />
+          <div style={{ backgroundColor: '#f5f3fe', padding: '10px 0', textAlign: 'center', fontSize: '14px' }}>
+            <Skeleton width={300} height={14} />
+          </div>
         )}
       </div>
       <div className='max-width header-div'>
         <div className='wrapper-logo'>
-          {headerData ? (
-            (<Link href='/' className='logo-tag' title='Contentstack'>
-
+          {header?.logo ? (
+            <Link href='/' className='logo-tag' title='Contentstack'>
               <img
                 className='logo'
-                src={headerData.logo.url}
-                alt={headerData.title}
-                title={headerData.title}
-                {...headerData.logo.$?.url as {}}
+                src={header.logo.url}
+                alt={header.title}
+                title={header.title}
+                {...header.logo.$?.url as {}}
               />
-
-            </Link>)
+            </Link>
           ) : (
             <Skeleton width={150} />
           )}
@@ -90,13 +50,14 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
         </label>
         <nav className='menu'>
           <ul className='nav-ul header-ul'>
-            {headerData ? (
-              headerData.navigation_menu.map((list) => {
-                const className =
-                  router.asPath === list.page_reference[0].url ? 'active' : '';
+            {header?.navigation_menu ? (
+              header.navigation_menu.map((list) => {
+                if (!list?.page_reference?.[0]?.url) return null;
+
+                const className = pathname === list.page_reference[0].url ? 'active' : '';
                 return (
                   <li
-                    key={list.label}
+                    key={list.label || `nav-item-${list.page_reference[0].url}`}
                     className='nav-li'
                     {...list.page_reference[0].$?.url as {}}
                   >
@@ -107,7 +68,19 @@ export default function Header({ header, entries }: {header: HeaderProps, entrie
                 );
               })
             ) : (
-              <Skeleton width={300} />
+              <div style={{
+                display: 'flex', justifyContent: 'space-between',
+                alignItems: 'center', padding: '15px 40px', backgroundColor: '#fff',
+                borderBottom: '1px solid #eee'
+              }}>
+                <Skeleton width={100} height={30} />
+                <div style={{ display: 'flex', gap: '30px' }}>
+                  {[...Array(4)].map((_, i) => (
+                    <Skeleton key={i} width={60} height={20} />
+                  ))}
+                </div>
+                <Skeleton circle width={24} height={24} />
+              </div>
             )}
           </ul>
         </nav>

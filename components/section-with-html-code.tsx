@@ -1,3 +1,5 @@
+'use client';
+
 import parse from 'html-react-parser';
 
 type AdditionalParam = {

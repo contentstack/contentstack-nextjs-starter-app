@@ -1,68 +1,29 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
-import { onEntryChange } from '../contentstack-sdk';
-import { getFooterRes } from '../helper';
 import Skeleton from 'react-loading-skeleton';
-import { FooterProps, Entry, Links } from "../typescript/layout";
+import { FooterProps } from "../typescript/layout";
+import { Page } from '@/typescript/pages';
+import { initializeLivePreview } from '@/helper/live-preview';
 
-export default function Footer({ footer, entries }: {footer: FooterProps, entries: Entry}) {
-
-  const [getFooter, setFooter] = useState(footer);
-  
-  function buildNavigation(ent: Entry, ft: FooterProps) {
-    let newFooter = { ...ft };
-    if (ent.length !== newFooter.navigation.link.length) {
-      ent.forEach((entry) => {
-        const fFound = newFooter?.navigation.link.find(
-          (nlink: Links) => nlink.title === entry.title
-        );
-        if (!fFound) {
-          newFooter.navigation.link?.push({
-            title: entry.title,
-            href: entry.url,
-            $: entry.$,
-          });
-        }
-      });
-    }
-    return newFooter;
-  }
-
-  async function fetchData() {
-    try {
-      if (footer && entries) {
-        const footerRes = await getFooterRes();
-        const newfooter = buildNavigation(entries, footerRes);
-        setFooter(newfooter);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    onEntryChange(() => fetchData());
-  }, [footer]);
-
-  const footerData = getFooter ? getFooter : undefined;
-
+export default async function Footer({ footer }: {footer: FooterProps}) {
+  await initializeLivePreview();
   return (
     <footer>
       <div className='max-width footer-div'>
         <div className='col-quarter'>
-          {footerData && footerData.logo ? (
-            (<Link href='/' className='logo-tag'>
-
+          {footer?.logo ? (
+            <Link href='/' className='logo-tag'>
               <img
-                src={footerData.logo.url}
-                alt={footerData.title}
-                title={footerData.title}
+                src={footer.logo.url}
+                alt={footer.title}
+                title={footer.title}
                 {...footer.logo.$?.url as {}}
                 className='logo footer-logo'
               />
-
-            </Link>)
+            </Link>
           ) : (
             <Skeleton width={150} />
           )}
@@ -70,14 +31,14 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
         <div className='col-half'>
           <nav>
             <ul className='nav-ul'>
-              {footerData ? (
-                footerData.navigation.link.map((menu) => (
+              {footer?.navigation?.link ? (
+                footer.navigation.link.map((menu) => (
                   <li
                     className='footer-nav-li'
-                    key={menu.title}
+                    key={menu.title || `menu-item-${menu.href}`}
                     {...menu.$?.title}
                   >
-                    <Link href={menu.href} legacyBehavior>{menu.title}</Link>
+                    <Link href={menu.href || '#'}>{menu.title}</Link>
                   </li>
                 ))
               ) : (
@@ -88,12 +49,14 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
         </div>
         <div className='col-quarter social-link'>
           <div className='social-nav'>
-            {footerData ? (
-              footerData.social?.social_share.map((social) => (
+            {footer?.social?.social_share ? (
+              footer.social.social_share.map((social, index) => (
                 <a
                   href={social.link.href}
                   title={social.link.title}
-                  key={social.link.title}
+                  key={social.link.title || `social-${index}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {social.icon && (
                     <img
@@ -110,9 +73,9 @@ export default function Footer({ footer, entries }: {footer: FooterProps, entrie
           </div>
         </div>
       </div>
-      {footerData && typeof footerData.copyright === 'string' ? (
+      {footer && typeof footer.copyright === 'string' ? (
         <div className='copyright' {...footer.$?.copyright as {}}>
-          {parse(footerData.copyright)}
+          {parse(footer.copyright)}
         </div>
       ) : (
         <div className='copyright'>

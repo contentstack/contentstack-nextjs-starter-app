@@ -1,0 +1,13 @@
+export const runtimeConfig = {
+  apiKey: process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY || process.env.CONTENTSTACK_API_KEY,
+  deliveryToken: process.env.NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN,
+  environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || process.env.CONTENTSTACK_ENVIRONMENT,
+  appHost: process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST || process.env.CONTENTSTACK_APP_HOST,
+  apiHost: process.env.NEXT_PUBLIC_CONTENTSTACK_API_HOST,
+  previewHost: process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW_HOST,
+  region: process.env.NEXT_PUBLIC_CONTENTSTACK_REGION,
+  livePreview: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW || process.env.CONTENTSTACK_LIVE_PREVIEW,
+  branch: process.env.NEXT_PUBLIC_CONTENTSTACK_BRANCH,
+  previewToken: process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW_TOKEN,
+  liveEdit: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_EDIT_TAGS,
+};

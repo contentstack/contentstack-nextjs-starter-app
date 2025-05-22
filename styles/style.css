@@ -1,5 +1,6 @@
 @import "./json-preview.css";
 @import "./tool-tip.css";
+@import "./Home.css";
 
 body {
   font-family: Inter, sans-serif;
@@ -223,13 +224,13 @@ footer a {
 }
 
 .tertiary-btn {
-  background: #ffffff;
-  color: #715cdd;
-  font-weight: bold;
+  background: #ffffff !important;
+  color: #715cdd !important;
+  font-weight: bold !important;
 }
 
 .tertiary-btn:hover {
-  color: #5c49be;
+  color: #5c49be !important;
 }
 
 .btn-close {
