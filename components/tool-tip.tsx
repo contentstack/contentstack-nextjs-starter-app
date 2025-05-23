@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef, useEffect, MutableRefObject } from 'react';
 
 type TooltipProps = {

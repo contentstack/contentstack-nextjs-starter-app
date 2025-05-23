@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import moment from 'moment';
 import parse from 'html-react-parser';
