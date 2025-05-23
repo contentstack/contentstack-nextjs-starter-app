@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import moment from 'moment';
 import parse from 'html-react-parser';
+import sanitizeHtml from 'sanitize-html';
 import { getPageRes, getBlogPostRes } from '../../../helper';
 import { initializeLivePreview } from '@/helper/live-preview';
 import RenderComponents from '../../../components/render-components';
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: BlogPostProps): Promise<Metad
     
     return {
       title: post?.title || `${resolvedParams.post} - Blog`,
-      description: post?.body?.substring(0, 160).replace(/<[^>]*>?/gm, '') || ''
+      description: post?.body ? sanitizeHtml(post.body.substring(0, 160), { allowedTags: [], allowedAttributes: {} }) : ''
     };
   } catch (error) {
     console.error('Error generating metadata:', error);
