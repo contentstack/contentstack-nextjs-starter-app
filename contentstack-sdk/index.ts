@@ -7,7 +7,7 @@ import {
   isValidCustomHostUrl,
 } from "./utils";
 import getConfig from 'next/config';
-import { runtimeConfig } from './config';
+import { publicConfig } from './config';
 
 type GetEntry = {
   contentTypeUid: string;
@@ -28,17 +28,11 @@ let customHostBaseUrl = envConfig.CONTENTSTACK_API_HOST as string;
 
 customHostBaseUrl = customHostBaseUrl? customHostUrl(customHostBaseUrl): '';
 
-// SDK initialization
-export const Stack = initializeContentStackSdk(runtimeConfig);
+export const Stack = initializeContentStackSdk(publicConfig);
 
-// set host url only for custom host or non prod base url's
 if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
-  console.log("Custom host url", customHostBaseUrl);
-  
   Stack.setHost(customHostBaseUrl);
 }
-// Setting LP if enabled
-// 
 
 export const { onEntryChange } = ContentstackLivePreview;
 

@@ -19,13 +19,9 @@ export default function ClientHomeWrapper({
   locale,
   searchParams
 }: ClientHomeWrapperProps) {
-  // Now we can safely use the context hook in a client component
   const livePreviewContext = useLivePreviewCtx();
-  
-  console.log("Live Preview Context:", livePreviewContext);
   useEffect(() => {
     if (searchParams?.live_preview) {
-      console.log("Live Preview active with params:", searchParams);
       livePreviewContext.stack?.livePreviewQuery({
         live_preview: searchParams.live_preview,
         content_type_uid: contentTypeUid,
@@ -33,7 +29,6 @@ export default function ClientHomeWrapper({
         release_id: searchParams.release_id,
       })
     }
-    console.log("Live Preview Context:", livePreviewContext);
   }, [searchParams, livePreviewContext]);
 
   return (

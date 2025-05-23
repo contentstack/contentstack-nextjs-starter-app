@@ -6,7 +6,6 @@ import { cache } from "react";
 
 const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
-// Apply React's cache function to eliminate duplicate requests
 export const getHeaderRes = cache(async (): Promise<HeaderProps> => {
   try {
     const response = (await getEntry({
@@ -23,7 +22,6 @@ export const getHeaderRes = cache(async (): Promise<HeaderProps> => {
     return response[0][0];
   } catch (error) {
     console.error("Error fetching header data:", error);
-    // Return a minimal header object to prevent crashes
     return {} as HeaderProps;
   }
 });
@@ -71,7 +69,6 @@ export const getAllEntries = cache(async (): Promise<Page[]> => {
 
 export const getPageRes = cache(async (entryUrl: string): Promise<Page> => {
   try {
-    // Don't proceed with invalid URLs
     if (!entryUrl) {
       throw new Error("Invalid entry URL");
     }
@@ -95,7 +92,7 @@ export const getPageRes = cache(async (entryUrl: string): Promise<Page> => {
     return response[0];
   } catch (error) {
     console.error(`Error fetching page for URL ${entryUrl}:`, error);
-    throw error; // Let the calling component handle this error for proper 404 handling
+    throw error;
   }
 });
 
@@ -122,7 +119,6 @@ export const getBlogListRes = cache(async (): Promise<BlogPosts[]> => {
 
 export const getBlogPostRes = cache(async (entryUrl: string): Promise<BlogPosts> => {
   try {
-    // Don't proceed with invalid URLs
     if (!entryUrl) {
       throw new Error("Invalid blog entry URL");
     }
@@ -142,6 +138,33 @@ export const getBlogPostRes = cache(async (entryUrl: string): Promise<BlogPosts>
     return response[0];
   } catch (error) {
     console.error(`Error fetching blog post for URL ${entryUrl}:`, error);
-    throw error; // Let the calling component handle this error for proper 404 handling
+    throw error;
   }
 });
+
+
+export const isEqual = (obj1: any, obj2: any): boolean => {
+  if (obj1 === obj2) return true;
+  
+  if (!obj1 || !obj2 || typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    return false;
+  }
+  
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  
+  if (keys1.length !== keys2.length) return false;
+  
+  return keys1.every(key => {
+    if (!keys2.includes(key)) return false;
+    
+    const val1 = obj1[key];
+    const val2 = obj2[key];
+    
+    if (typeof val1 === 'object' && typeof val2 === 'object') {
+      return isEqual(val1, val2);
+    }
+    
+    return val1 === val2;
+  });
+};
