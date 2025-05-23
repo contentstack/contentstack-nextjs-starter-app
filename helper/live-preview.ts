@@ -10,9 +10,7 @@ export async function initializeLivePreview(searchParams?: Record<string, string
   let livePreviewParams: Record<string, string> = {};
   let hasLivePreview = false;
   
-  // First, check if we were passed searchParams directly (for Pages Router)
   if (searchParams) {
-    // Convert searchParams to a simple record for consistency
     Object.entries(searchParams).forEach(([key, value]) => {
       if (typeof value === 'string') {
         livePreviewParams[key] = value;
@@ -21,24 +19,19 @@ export async function initializeLivePreview(searchParams?: Record<string, string
       }
     });
     
-    // Check if any Live Preview parameters exist
     hasLivePreview = Object.keys(livePreviewParams).some(key => 
       ['live_preview', 'preview_token', 'content_type_uid', 'entry_uid'].includes(key)
     );
   } 
-  // For App Router, try to use headers (will fail in Pages Router)
   else {
     try {
-      // Dynamically import headers to avoid static imports that would break in Pages Router
       const { headers } = await import('next/headers');
       const headersList = headers();
       
-      // Check if Live Preview is enabled for this request (set by middleware)
-      hasLivePreview = headersList.get('x-contentstack-live-preview') === 'true';
+      hasLivePreview = (await headersList).get('x-contentstack-live-preview') === 'true';
       
       if (hasLivePreview) {
-        // Collect all LivePreview parameters from headers
-        headersList.forEach((value, key) => {
+        (await headersList).forEach((value, key) => {
           if (key.startsWith('x-contentstack-param-')) {
             const paramName = key.replace('x-contentstack-param-', '');
             livePreviewParams[paramName] = value;
@@ -46,19 +39,15 @@ export async function initializeLivePreview(searchParams?: Record<string, string
         });
       }
     } catch (error) {
-      // We're probably in the Pages Router - headers import will fail, but that's expected
-      console.log('Headers API not available (non-App Router context)');
+      console.error('Headers API not available (non-App Router context)');
     }
   }
 
   if (hasLivePreview && Object.keys(livePreviewParams).length > 0) {
     try {
-      console.log('Initializing Live Preview with params:', livePreviewParams);
       
-      // Apply Live Preview query parameters to the Stack SDK
       if (Stack && typeof Stack.livePreviewQuery === 'function') {
-        await Stack.livePreviewQuery(livePreviewParams as LivePreviewQuery);
-        console.log('Live Preview successfully initialized');
+        Stack.livePreviewQuery(livePreviewParams as unknown as LivePreviewQuery);
         return true;
       } else {
         console.warn('Stack SDK does not support livePreviewQuery');

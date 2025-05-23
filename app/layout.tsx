@@ -7,16 +7,10 @@ import { headers } from 'next/headers';
 import 'react-loading-skeleton/dist/skeleton.css';
 import '../styles/third-party.css';
 import '../styles/style.css';
+import { publicConfig } from '@/contentstack-sdk/config';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
 
-// Get environment variables for client components
-const runtimeConfig = {
-  apiKey: process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY || process.env.CONTENTSTACK_API_KEY,
-  environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || process.env.CONTENTSTACK_ENVIRONMENT,
-  appHost: process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST || process.env.CONTENTSTACK_APP_HOST,
-  livePreview: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW || process.env.CONTENTSTACK_LIVE_PREVIEW,
-};
 
 export const metadata: Metadata = {
   title: 'Contentstack-Nextjs-Starter-App',
@@ -29,7 +23,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Check if Live Preview is enabled for this request
   const headersList = headers();
   const hasLivePreview = (await headersList).get('x-contentstack-live-preview') === 'true';
 
@@ -59,7 +52,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <LivePreviewProvider config={runtimeConfig}>
+        <LivePreviewProvider config={publicConfig}>
           <AppLayout hasLivePreview={hasLivePreview}>
             {children}
           </AppLayout>

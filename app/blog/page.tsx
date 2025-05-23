@@ -1,10 +1,18 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getPageRes } from '../../helper';
+import { getBlogListRes, getPageRes } from '../../helper';
 import { initializeLivePreview } from '@/helper/live-preview';
 import RenderComponents from '../../components/render-components';
+import BlogList from '@/components/blog-list';
+import Skeleton from 'react-loading-skeleton';
+import ArchiveRelative from '@/components/archive-relative';
+import { DevToolsClient } from '@/components/devToolClient';
 
-// Generate dynamic metadata for the page
+interface BlogPageProps {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+}
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const page = await getPageRes('/blog');
@@ -18,6 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
           const value = (page.seo as Record<string, unknown>)[key];
           if (typeof value === 'string') {
             seoData[metaKey] = value;
+          } else if (value !== null && value !== undefined) {
+            seoData[metaKey] = String(value);
           }
         }
       }
@@ -40,25 +50,64 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Blog() {
+export default async function Blog({ searchParams }: BlogPageProps) {
   try {
-    // Initialize LivePreview if applicable
-    await initializeLivePreview();
-    
-    // Fetch page data with LivePreview applied if necessary
+    const resolvedSearchParams = await searchParams;
+    const filteredSearchParams = Object.fromEntries(
+      Object.entries(resolvedSearchParams).filter(([_, value]) => value !== undefined)
+    ) as Record<string, string | string[]>;
+  
+    await initializeLivePreview(filteredSearchParams);
     const page = await getPageRes('/blog');
+    const blogList = await getBlogListRes();
+    const archivePost = [] as any;
+    interface Blog {
+      title: string;
+      is_archived: boolean;
+    }
     
+    const posts: Blog[] = [];
+    blogList.forEach((blogs) => {
+      if (blogs.is_archived) {
+        archivePost.push(blogs);
+      } else {
+        posts.push(blogs);
+      }
+    });
     if (!page) {
       notFound();
     }
     
     return (
+    <DevToolsClient page={{page, blogList}} requiredField={['page','blogList']}>
       <RenderComponents
         pageComponents={page.page_components}
         contentTypeUid="page"
+        blogPost={true}
         entryUid={page.uid}
         locale={page.locale}
       />
+        <div className='blog-container'>
+        <div className='blog-column-left'>
+          {posts ? (
+            posts.map((blogList, index) => (
+              //@ts-ignore
+              <BlogList bloglist={blogList} key={index} />
+            ))
+          ) :null}
+        </div>
+        <div className='blog-column-right'>
+          {page && page.page_components[1].widget && (
+            <h2>{page.page_components[1].widget.title_h2}</h2>
+          )}
+          {archivePost ? (
+            <ArchiveRelative blogs={archivePost} />
+          ) : (
+            <Skeleton height={600} width={300} />
+          )}
+        </div>
+      </div>
+    </DevToolsClient>
     );
   } catch (error) {
     console.error('Error in Blog page:', error);

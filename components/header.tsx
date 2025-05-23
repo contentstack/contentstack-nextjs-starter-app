@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -7,12 +6,10 @@ import parse from 'html-react-parser';
 import Tooltip from './tool-tip';
 import Skeleton from 'react-loading-skeleton';
 import { HeaderProps } from "../typescript/layout";
-import { Page } from '@/typescript/pages';
-import { initializeLivePreview } from '@/helper/live-preview';
 
-export default async function Header({ header, entries }: { header: HeaderProps, entries: Page[] }) {
+export default function Header({ header }: { header: HeaderProps}) {
   const pathname = usePathname();
-  await initializeLivePreview();
+  
   return (
     <header className='header'>
       <div className='note-div'>

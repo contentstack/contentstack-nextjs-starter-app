@@ -7,6 +7,7 @@ import { HeaderProps, FooterProps } from "../typescript/layout";
 import { Page } from '@/typescript/pages';
 import { unstable_cache } from 'next/cache';
 import { initializeLivePreview } from '@/helper/live-preview';
+import { DeveloperToolsProvider } from '@/provider/developer-tools-provider';
 
 const getCachedNavigation = unstable_cache(
   async (entries: Page[], header: HeaderProps, footer: FooterProps) => {
@@ -14,14 +15,12 @@ const getCachedNavigation = unstable_cache(
   },
   ['navigation-data'],
 );
-// dynamically update header and footer page links
 const dynamicHeadersAndFooter = (entries: Page[], header: HeaderProps, footer: FooterProps): [HeaderProps, FooterProps] => {
   const newHeader = { ...header };
   const newFooter = { ...footer };
 
   if (entries.length > 0 && newHeader.navigation_menu) {
     entries.forEach((entry) => {
-      // Only process entries with valid title and URL
       if (!entry.title || !entry.url) return;
 
       const hFound = newHeader.navigation_menu.find(
@@ -65,11 +64,9 @@ export default async function AppLayout({
   hasLivePreview?: boolean;
 }) {
   try {
-    // Initialize LivePreview if the middleware detected LivePreview parameters
     if (hasLivePreview) {
       await initializeLivePreview();
     }
-    
     const [headerData, footerData, entriesData] = await Promise.all([
       getHeaderRes(),
       getFooterRes(),
@@ -80,18 +77,20 @@ export default async function AppLayout({
 
     const JSON_DATA = {
       header: dynamicHeader,
-      footer: dynamicFooter
-    };
+      footer: dynamicFooter,
+    }
 
     return (
-      <>
-        {dynamicHeader && <Header header={dynamicHeader} entries={entriesData} />}
+
+      <DeveloperToolsProvider>
+        {dynamicHeader && <Header header={dynamicHeader} />}
         <main className="mainClass">
           {children}
           <DevTools response={JSON_DATA} />
         </main>
-        {dynamicFooter && <Footer footer={dynamicFooter} entries={entriesData} />}
-      </>
+        {dynamicFooter && <Footer footer={dynamicFooter} />}
+      </DeveloperToolsProvider>
+
     );
   } catch (error) {
     console.error('Error in AppLayout:', error);

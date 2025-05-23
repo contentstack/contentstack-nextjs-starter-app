@@ -10,7 +10,6 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error('Unhandled error:', error);
   }, [error]);
 
@@ -21,7 +20,6 @@ export default function Error({
       <button
         className="btn primary-btn"
         onClick={
-          // Attempt to recover by trying to re-render the segment
           () => reset()
         }
       >

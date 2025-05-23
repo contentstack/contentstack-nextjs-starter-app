@@ -1,11 +1,11 @@
 
 import { Config, Region, Stack } from 'contentstack';
-import {runtimeConfig} from './config';
-// set region
+import {publicConfig} from './config';
+
 const setRegion = (): Region => {
   let region = 'US' as keyof typeof Region;
-  if (!!runtimeConfig.region && runtimeConfig.region !== 'us') {
-    region = runtimeConfig.region.toLocaleUpperCase().replace(
+  if (!!publicConfig.region && publicConfig.region !== 'us') {
+    region = publicConfig.region.toLocaleUpperCase().replace(
       '-',
       '_'
     ) as keyof typeof Region;
@@ -13,7 +13,6 @@ const setRegion = (): Region => {
   return Region[region];
 };
 
-// contentstack sdk initialization
 export const initializeContentStackSdk = (config:any): Stack => {
   const stackConfig: Config = {
     api_key: config.apiKey as string,
@@ -30,11 +29,9 @@ export const initializeContentStackSdk = (config:any): Stack => {
   };
   return Stack(stackConfig);
 };
-// api host url
 export const customHostUrl = (baseUrl: string): string => {
   return baseUrl.replace('api', 'cdn');
 };
-// generate prod api urls
 export const generateUrlBasedOnRegion = (): string[] => {
   return Object.keys(Region).map((region) => {
     if (region === 'US') {
@@ -43,7 +40,6 @@ export const generateUrlBasedOnRegion = (): string[] => {
     return `${region}-cdn.contentstack.com`;
   });
 };
-// prod url validation for custom host
 export const isValidCustomHostUrl = (url = ''): boolean => {
   return url ? !generateUrlBasedOnRegion().includes(url) : false;
 };

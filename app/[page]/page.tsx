@@ -3,18 +3,21 @@ import { notFound } from 'next/navigation';
 import { getPageRes } from '../../helper';
 import { initializeLivePreview } from '@/helper/live-preview';
 import RenderComponents from '@/components/render-components';
+import { DevToolsClient } from '@/components/devToolClient';
 
-interface PageParams {
-  params: {
+interface PageProps {
+  params: Promise<{
     page: string;
-  };
+  }>;
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
-// Generate dynamic metadata for the page
-export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    // Await the params object before accessing its properties
-    const pageParam = await params.page;
+    const resolvedParams = await params;
+    const pageParam = resolvedParams.page;
     const entryUrl = pageParam.includes('/') ? pageParam : `/${pageParam}`;
     const page = await getPageRes(entryUrl);
     
@@ -24,8 +27,12 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
       for (const key in page.seo) {
         if (key !== 'enable_search_indexing') {
           const metaKey = key.includes('meta_') ? key.split('meta_')[1] : key;
-          //@ts-ignore
-          seoData[metaKey] = page.seo[key].toString();
+          const value = (page.seo as Record<string, unknown>)[key];
+          if (typeof value === 'string') {
+            seoData[metaKey] = value;
+          } else if (value !== null && value !== undefined) {
+            seoData[metaKey] = String(value);
+          }
         }
       }
       
@@ -47,13 +54,19 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
   }
 }
 
-export default async function DynamicPage({ params }: PageParams) {
+export default async function DynamicPage({ params, searchParams }: PageProps) {
   try {
-    // Initialize LivePreview if applicable (handled by middleware + utility function)
-    await initializeLivePreview();
+    const [resolvedParams, resolvedSearchParams] = await Promise.all([
+      params,
+      searchParams
+    ]);
     
-    // Await the params object before accessing its properties
-    const pageParam = await params.page;
+    const filteredSearchParams = Object.fromEntries(
+      Object.entries(resolvedSearchParams).filter(([_, value]) => value !== undefined)
+    ) as Record<string, string | string[]>;
+    
+    await initializeLivePreview(filteredSearchParams);
+    const pageParam = resolvedParams.page;
     const entryUrl = pageParam.includes('/') ? pageParam : `/${pageParam}`;
     const page = await getPageRes(entryUrl);
     
@@ -62,12 +75,14 @@ export default async function DynamicPage({ params }: PageParams) {
     }
     
     return (
+      <DevToolsClient page={{page:page}} requiredField={['page']}>
       <RenderComponents
         pageComponents={page.page_components}
         contentTypeUid="page"
         entryUid={page.uid}
         locale={page.locale}
       />
+      </DevToolsClient>
     );
   } catch (error) {
     console.error('Error in dynamic page:', error);

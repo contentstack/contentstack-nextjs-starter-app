@@ -10,7 +10,6 @@ export default function NavigationProgress() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Configure NProgress options
     NProgress.configure({ 
       showSpinner: false,
       minimum: 0.1,
@@ -19,19 +18,17 @@ export default function NavigationProgress() {
       speed: 300
     });
     
-    // Start progress bar immediately
     NProgress.start();
 
-    // Complete the progress bar with a slight delay for better UX
     const timer = setTimeout(() => {
-      NProgress.done(true); // Force complete to avoid hanging progress bars
+      NProgress.done(true);
     }, 300);
 
     return () => {
       clearTimeout(timer);
-      NProgress.remove(); // Clean up on unmount
+      NProgress.remove(); 
     };
   }, [pathname, searchParams]);
 
-  return null; // This component doesn't render anything visible
+  return null;
 }

@@ -2,8 +2,14 @@ import { Metadata } from 'next';
 import { getPageRes } from '../helper';
 import { initializeLivePreview } from '@/helper/live-preview';
 import RenderComponents from '@/components/render-components';
+import { DevToolsClient } from '@/components/devToolClient';
 
-// Generate dynamic metadata for the page
+interface HomePageProps {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const page = await getPageRes('/');
@@ -17,6 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
           const value = (page.seo as Record<string, unknown>)[key];
           if (typeof value === 'string') {
             seoData[metaKey] = value;
+          } else if (value !== null && value !== undefined) {
+            seoData[metaKey] = String(value);
           }
         }
       }
@@ -35,27 +43,29 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Home({ searchParams }: {
-  searchParams: { [key: string]: string }
-}) {
+export default async function Home({ searchParams }: HomePageProps) {
   try {
-    // Initialize LivePreview if applicable (handled by middleware + utility function)
-    await initializeLivePreview();
+    const resolvedSearchParams = await searchParams;
+    const filteredSearchParams = Object.fromEntries(
+      Object.entries(resolvedSearchParams).filter(([_, value]) => value !== undefined)
+    ) as Record<string, string | string[]>;
     
-    // Fetch page data (LivePreview settings are automatically applied to the Stack instance)
+    await initializeLivePreview(filteredSearchParams);
     const page = await getPageRes('/');
-    
+
     if (!page) {
       throw new Error('Failed to fetch page data');
     }
 
     return (
+      <DevToolsClient page={{page:page}} requiredField={['page']}>
       <RenderComponents
         pageComponents={page.page_components}
         contentTypeUid="page"
         entryUid={page.uid}
         locale={page.locale}
       />
+      </DevToolsClient>
     );
   } catch (error) {
     console.error('Error in Home page:', error);

@@ -3,10 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Tooltip from './tool-tip';
+import { useDeveloperTools } from '@/hooks/useDevTools';
 
 const DynamicJsonViewer = dynamic(() => import('@textea/json-viewer').then((module) => ({ default: module.JsonViewer })), { ssr: false });
 
 function filterObject(inputObject: any) {
+  if (!inputObject) return {};
+  
+  const copyObj = JSON.parse(JSON.stringify(inputObject));
+  
   const unWantedProps = [
     '_version',
     'ACL',
@@ -18,20 +23,35 @@ function filterObject(inputObject: any) {
     'updated_by',
     'publish_details',
   ];
-  for (const key in inputObject) {
-    unWantedProps.includes(key) && delete inputObject[key];
-    if (typeof inputObject[key] !== 'object') {
-      continue;
+  
+  for (const key in copyObj) {
+    unWantedProps.includes(key) && delete copyObj[key];
+    if (typeof copyObj[key] === 'object' && copyObj[key] !== null) {
+      copyObj[key] = filterObject(copyObj[key]);
     }
-    inputObject[key] = filterObject(inputObject[key]);
   }
-  return inputObject;
+  return copyObj;
 }
 
-const DevTools = ({ response }: any) => {
-  const filteredJson = filterObject(response);
-  const [forceUpdate, setForceUpdate] = useState(0);
+interface DevToolsProps {
+  response?: any;
+}
 
+const DevTools = ({ response }: DevToolsProps) => {
+  const [forceUpdate, setForceUpdate] = useState(0);
+  const { state,setState } = useDeveloperTools();
+
+  useEffect(()=>{
+    if (Object.keys(response).length > 0) {
+      setState(response);
+    }
+  },[response])
+  
+  let dataToShow = state;
+  
+  
+  const filteredJson = filterObject(dataToShow);
+  
   function copyObject(object: any) {
     navigator.clipboard.writeText(object);
     setForceUpdate(1);
@@ -55,7 +75,7 @@ const DevTools = ({ response }: any) => {
       role="dialog"
     >
       <div
-        className="modal-dialog .modal-lg modal-dialog-centered modal-dialog-scrollable"
+        className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
         role="document"
       >
         <div className="modal-content">
@@ -65,7 +85,7 @@ const DevTools = ({ response }: any) => {
             </h2>
             <span
               className="json-copy"
-              onClick={(e) => copyObject(JSON.stringify(filteredJson))}
+              onClick={() => copyObject(JSON.stringify(filteredJson))}
               aria-hidden="true"
             >
               <Tooltip
@@ -86,21 +106,19 @@ const DevTools = ({ response }: any) => {
             />
           </div>
           <div className="modal-body">
-            {response ? (
+            {dataToShow ? (
               <pre id="jsonViewer">
-                {response && (
-                  <DynamicJsonViewer
-                    value={filteredJson}
-                    defaultInspectDepth={1}
-                    rootName="response"
-                    displayDataTypes={false}
-                    enableClipboard={false}
-                    style={{ color: '#C8501E' }}
-                  />
-                )}
+                <DynamicJsonViewer
+                  value={filteredJson}
+                  defaultInspectDepth={1}
+                  rootName={'response'}
+                  displayDataTypes={false}
+                  enableClipboard={false}
+                  style={{ color: '#C8501E' }}
+                />
               </pre>
             ) : (
-              ''
+              <div className="no-data">No data available for this view</div>
             )}
           </div>
           <div className="modal-footer">
@@ -117,4 +135,5 @@ const DevTools = ({ response }: any) => {
     </div>
   );
 };
+
 export default DevTools;

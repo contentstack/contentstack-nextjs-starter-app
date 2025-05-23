@@ -1,15 +1,12 @@
-'use client';
-
+'use client'
 import React from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
 import Skeleton from 'react-loading-skeleton';
 import { FooterProps } from "../typescript/layout";
-import { Page } from '@/typescript/pages';
-import { initializeLivePreview } from '@/helper/live-preview';
 
-export default async function Footer({ footer }: {footer: FooterProps}) {
-  await initializeLivePreview();
+export default function Footer({ footer }: {footer: FooterProps}) {
+  
   return (
     <footer>
       <div className='max-width footer-div'>
