@@ -2,9 +2,9 @@ const withPWA = require("next-pwa")({
   dest: "public",
 });
 
+/** Inlined for server + client (same role as former publicRuntimeConfig). */
 const config = {
-  publicRuntimeConfig: {
-    // Will be available on both server and client
+  env: {
     CONTENTSTACK_API_KEY: process.env.CONTENTSTACK_API_KEY,
     CONTENTSTACK_DELIVERY_TOKEN: process.env.CONTENTSTACK_DELIVERY_TOKEN,
     CONTENTSTACK_BRANCH: process.env.CONTENTSTACK_BRANCH || "main",

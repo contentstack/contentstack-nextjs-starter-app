@@ -1,9 +1,5 @@
 import { Config, Region, LivePreview, Stack } from "contentstack";
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
-  ? process.env
-  : publicRuntimeConfig;
+
 const {
   CONTENTSTACK_API_KEY,
   CONTENTSTACK_DELIVERY_TOKEN,
@@ -14,7 +10,7 @@ const {
   CONTENTSTACK_PREVIEW_HOST,
   CONTENTSTACK_APP_HOST,
   CONTENTSTACK_LIVE_PREVIEW,
-} = envConfig;
+} = process.env;
 
 // basic env validation
 export const isBasicConfigValid = () => {
