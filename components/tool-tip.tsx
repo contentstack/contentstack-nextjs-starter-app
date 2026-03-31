@@ -10,28 +10,37 @@ type TooltipProps = {
 }
 
 const Tooltip = (props: TooltipProps) => {
-  let timeout: any;
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const toolTipRef = useRef() as MutableRefObject <HTMLDivElement>;
 
   const showTip = () => {
-    timeout = setTimeout(() => {
+    hideTimeoutRef.current = setTimeout(() => {
       toolTipRef.current.style.display = "block";
     }, props.delay || 400);
   };
 
   const hideTip = () => {
-    clearInterval(timeout);
+    if (hideTimeoutRef.current !== null) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
     toolTipRef.current.style.display = "none";
   };
 
   useEffect(() => {
     if (props.dynamic) {
       props.status !== 0 && (toolTipRef.current.style.display = "block");
-      timeout = setTimeout(() => {
+      hideTimeoutRef.current = setTimeout(() => {
         toolTipRef.current.style.display = "none";
       }, props.delay || 400);
     }
-  }, [props.content]);
+    return () => {
+      if (hideTimeoutRef.current !== null) {
+        clearTimeout(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+    };
+  }, [props.content, props.delay, props.dynamic, props.status]);
 
   return (
     <div
