@@ -3,7 +3,8 @@ import { Page, BlogPosts } from "../typescript/pages";
 import { FooterProps, HeaderProps } from "../typescript/layout";
 import { getEntry, getEntryByUrl } from "../contentstack-sdk";
 
-const liveEdit = process.env.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
+const liveEdit =
+  process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
 export const getHeaderRes = async (): Promise<HeaderProps> => {
   const response = (await getEntry({
