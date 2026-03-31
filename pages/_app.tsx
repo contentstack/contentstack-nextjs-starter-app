@@ -8,7 +8,6 @@ import 'nprogress/nprogress.css';
 import '../styles/third-party.css';
 import '../styles/style.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import '@contentstack/live-preview-utils/dist/main.css';
 import { Props } from "../typescript/pages";
 
 

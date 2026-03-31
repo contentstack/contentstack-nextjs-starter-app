@@ -1,6 +1,5 @@
 import * as Utils from "@contentstack/utils";
 import ContentstackLivePreview from "@contentstack/live-preview-utils";
-import getConfig from "next/config";
 import {
   customHostUrl,
   initializeContentStackSdk,
@@ -20,14 +19,12 @@ type GetEntryByUrl = {
   jsonRtePath: string[] | undefined;
 };
 
-const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
-  ? process.env
-  : publicRuntimeConfig;
+let customHostBaseUrl = process.env
+  .NEXT_PUBLIC_CONTENTSTACK_API_HOST as string;
 
-let customHostBaseUrl = envConfig.CONTENTSTACK_API_HOST as string;
-
-customHostBaseUrl = customHostBaseUrl? customHostUrl(customHostBaseUrl): '';
+customHostBaseUrl = customHostBaseUrl
+  ? customHostUrl(customHostBaseUrl)
+  : "";
 
 // SDK initialization
 const Stack = initializeContentStackSdk();
@@ -41,10 +38,10 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 ContentstackLivePreview.init({
   //@ts-ignore
   stackSdk: Stack,
-  clientUrlParams:{
-    host: envConfig.CONTENTSTACK_APP_HOST,
+  clientUrlParams: {
+    host: process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST,
   },
-  ssr:false,
+  ssr: false,
 })?.catch((err) => console.error(err));
 
 export const { onEntryChange } = ContentstackLivePreview;
