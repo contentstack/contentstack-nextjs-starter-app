@@ -19,9 +19,12 @@ type GetEntryByUrl = {
   jsonRtePath: string[] | undefined;
 };
 
-let customHostBaseUrl = process.env.CONTENTSTACK_API_HOST as string;
+let customHostBaseUrl = process.env
+  .NEXT_PUBLIC_CONTENTSTACK_API_HOST as string;
 
-customHostBaseUrl = customHostBaseUrl? customHostUrl(customHostBaseUrl): '';
+customHostBaseUrl = customHostBaseUrl
+  ? customHostUrl(customHostBaseUrl)
+  : "";
 
 // SDK initialization
 const Stack = initializeContentStackSdk();
@@ -35,10 +38,10 @@ if (!!customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
 ContentstackLivePreview.init({
   //@ts-ignore
   stackSdk: Stack,
-  clientUrlParams:{
-    host: process.env.CONTENTSTACK_APP_HOST,
+  clientUrlParams: {
+    host: process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST,
   },
-  ssr:false,
+  ssr: false,
 })?.catch((err) => console.error(err));
 
 export const { onEntryChange } = ContentstackLivePreview;
