@@ -1,79 +1,80 @@
 import { Config, Region, LivePreview, Stack } from "contentstack";
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
-  ? process.env
-  : publicRuntimeConfig;
-const {
-  CONTENTSTACK_API_KEY,
-  CONTENTSTACK_DELIVERY_TOKEN,
-  CONTENTSTACK_ENVIRONMENT,
-  CONTENTSTACK_BRANCH,
-  CONTENTSTACK_REGION,
-  CONTENTSTACK_PREVIEW_TOKEN,
-  CONTENTSTACK_PREVIEW_HOST,
-  CONTENTSTACK_APP_HOST,
-  CONTENTSTACK_LIVE_PREVIEW,
-} = envConfig;
+
+/** All Contentstack config uses NEXT_PUBLIC_* (see .env.local.sample and next.config.js). */
+const apiKey = () => process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY;
+const deliveryToken = () => process.env.NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN;
+const environment = () => process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT;
+const branch = () => process.env.NEXT_PUBLIC_CONTENTSTACK_BRANCH;
+const regionEnv = () => process.env.NEXT_PUBLIC_CONTENTSTACK_REGION;
+const previewToken = () => process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW_TOKEN;
+const previewHost = () => process.env.NEXT_PUBLIC_CONTENTSTACK_PREVIEW_HOST;
+const appHost = () => process.env.NEXT_PUBLIC_CONTENTSTACK_APP_HOST;
+const livePreviewFlag = () => process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW;
+
+const livePreviewEnabled = () => livePreviewFlag() === "true";
 
 // basic env validation
 export const isBasicConfigValid = () => {
-  return (
-    !!CONTENTSTACK_API_KEY &&
-    !!CONTENTSTACK_DELIVERY_TOKEN &&
-    !!CONTENTSTACK_ENVIRONMENT
-  );
+  return !!(apiKey() && deliveryToken() && environment());
 };
+
 // Live preview config validation
 export const isLpConfigValid = () => {
   return (
-    !!CONTENTSTACK_LIVE_PREVIEW &&
-    !!CONTENTSTACK_PREVIEW_TOKEN &&
-    !!CONTENTSTACK_PREVIEW_HOST &&
-    !!CONTENTSTACK_APP_HOST
+    livePreviewEnabled() &&
+    !!previewToken() &&
+    !!previewHost() &&
+    !!appHost()
   );
 };
+
 // set region
 const setRegion = (): Region => {
   let region = "US" as keyof typeof Region;
-  if (!!CONTENTSTACK_REGION && CONTENTSTACK_REGION !== "us") {
-    region = CONTENTSTACK_REGION.toLocaleUpperCase().replace(
-      "-",
-      "_"
-    ) as keyof typeof Region;
+  const r = regionEnv();
+  if (!!r && r.toLowerCase() !== "us") {
+    region = r.toUpperCase().replace(/-/g, "_") as keyof typeof Region;
   }
   return Region[region];
 };
+
 // set LivePreview config
 const setLivePreviewConfig = (): LivePreview => {
   if (!isLpConfigValid())
-    throw new Error("Your LP config is set to true. Please make you have set all required LP config in .env");
+    throw new Error(
+      "Live preview is enabled but required variables are missing. Set NEXT_PUBLIC_CONTENTSTACK_PREVIEW_TOKEN, PREVIEW_HOST, and APP_HOST in .env."
+    );
   return {
-    preview_token: CONTENTSTACK_PREVIEW_TOKEN as string,
-    enable: CONTENTSTACK_LIVE_PREVIEW === "true",
-    host: CONTENTSTACK_PREVIEW_HOST as string,
+    preview_token: previewToken() as string,
+    enable: true,
+    host: previewHost() as string,
   } as LivePreview;
 };
+
 // contentstack sdk initialization
 export const initializeContentStackSdk = (): Stack => {
   if (!isBasicConfigValid())
-    throw new Error("Please set you .env file before running starter app");
+    throw new Error(
+      "Set NEXT_PUBLIC_CONTENTSTACK_API_KEY, DELIVERY_TOKEN, and ENVIRONMENT in .env"
+    );
   const stackConfig: Config = {
-    api_key: CONTENTSTACK_API_KEY as string,
-    delivery_token: CONTENTSTACK_DELIVERY_TOKEN as string,
-    environment: CONTENTSTACK_ENVIRONMENT as string,
+    api_key: apiKey() as string,
+    delivery_token: deliveryToken() as string,
+    environment: environment() as string,
     region: setRegion(),
-    branch: CONTENTSTACK_BRANCH || "main",
+    branch: (branch() as string) || "main"
   };
-  if (CONTENTSTACK_LIVE_PREVIEW === "true") {
+  if (livePreviewEnabled()) {
     stackConfig.live_preview = setLivePreviewConfig();
   }
   return Stack(stackConfig);
 };
+
 // api host url
 export const customHostUrl = (baseUrl: string): string => {
   return baseUrl.replace("api", "cdn");
 };
+
 // generate prod api urls
 export const generateUrlBasedOnRegion = (): string[] => {
   return Object.keys(Region).map((region) => {
@@ -83,7 +84,8 @@ export const generateUrlBasedOnRegion = (): string[] => {
     return `${region}-cdn.contentstack.com`;
   });
 };
+
 // prod url validation for custom host
-export const isValidCustomHostUrl = (url=''): boolean => {
+export const isValidCustomHostUrl = (url = ""): boolean => {
   return url ? !generateUrlBasedOnRegion().includes(url) : false;
 };
