@@ -40,10 +40,11 @@ export default function Home(props: Props) {
 export async function getServerSideProps(context: Context) {
   try {
     const entryRes = await getPageRes(context.resolvedUrl);
+    
     return {
       props: {
         entryUrl: context.resolvedUrl,
-        page: entryRes,
+        page: entryRes || null,
       },
     };
   } catch (error) {

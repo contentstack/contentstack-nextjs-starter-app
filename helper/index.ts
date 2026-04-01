@@ -1,15 +1,10 @@
 import { addEditableTags } from "@contentstack/utils";
 import { Page, BlogPosts } from "../typescript/pages";
-import getConfig from "next/config";
 import { FooterProps, HeaderProps } from "../typescript/layout";
 import { getEntry, getEntryByUrl } from "../contentstack-sdk";
 
-const { publicRuntimeConfig } = getConfig();
-const envConfig = process.env.CONTENTSTACK_API_KEY
-  ? process.env
-  : publicRuntimeConfig;
-
-const liveEdit = envConfig.CONTENTSTACK_LIVE_EDIT_TAGS === "true";
+const liveEdit =
+  process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_EDIT_TAGS === "true";
 
 export const getHeaderRes = async (): Promise<HeaderProps> => {
   const response = (await getEntry({
