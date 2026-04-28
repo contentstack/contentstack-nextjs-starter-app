@@ -13,7 +13,7 @@
   "dependencies": {
     "@contentstack/live-preview-utils": "^4.3.0",
     "@contentstack/utils": "^1.9.0",
-    "@textea/json-viewer": "^3.3.0",
+    "@textea/json-viewer": "^4.0.1",
     "contentstack": "^3.19.0",
     "html-react-parser": "^3.0.16",
     "moment": "^2.30.1",
