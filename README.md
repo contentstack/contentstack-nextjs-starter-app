@@ -1,3 +1,6 @@
+> [!WARNING]
+> **This repo is deprecated and no longer maintained. Security updates are not supported. We recommend avoiding its use.**
+
 [![Contentstack Logo](/public/contentstack-readme-logo.png)](https://www.contentstack.com/)
 
 
