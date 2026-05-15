@@ -1,5 +1,7 @@
 > [!WARNING]
 > **This repo is deprecated and no longer maintained. Security updates are not supported. We recommend avoiding its use.**
+>
+> For new projects, use [Contentstack Kickstarts](https://www.contentstack.com/docs/developers/kickstarts).
 
 [![Contentstack Logo](/public/contentstack-readme-logo.png)](https://www.contentstack.com/)
 
