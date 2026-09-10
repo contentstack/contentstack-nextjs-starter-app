@@ -35,7 +35,7 @@
   },
   "overrides": {
     "postcss": "^8.5.10",
-    "brace-expansion": "^2.1.0",
+    "brace-expansion": "^2.1.4",
     "braces": "^3.0.3",
     "ejs": "^3.1.10",
     "eslint-config-next": {
